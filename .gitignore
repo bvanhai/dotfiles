@@ -79,3 +79,5 @@ bookmarks
 linux/boot/grub/grub.cfg
 linux/etc/hosts
 linux/etc/modules-load.d
+
+.config/sublime-text-2.symlink/Packages/User
