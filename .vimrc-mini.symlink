@@ -1,0 +1,413 @@
+"===============================================================================
+" https://github.com/tungel/dotfiles
+"
+" Mini .vimrc setting for Vim
+"
+" The purpose of this file is to provide some basic functionalities to edit text
+" with Vim without any plugin dependent. This is best suited for light-editing
+" works.
+"
+" This file can also be used as a stand-alone .vimrc file
+"===============================================================================
+
+
+" Read essential configuration from the mini file
+source ~/.vimrc-minimal
+
+" use system clipboard for normal yank/paste
+" set clipboard=unnamedplus
+
+
+" Set number of color for the terminal emulator
+set t_Co=256
+
+
+" treat all numerals as decimal, regardless whether they are padded with zeros
+" for use with <C-a> and <C-x>
+set nrformats=
+
+" display relative line number with the current line
+" to turn off: set norelativenumber
+" Comment it out because it seems slow
+" set relativenumber
+
+" ==============================================================================
+" Save stroke when saving file with Ctrl+s
+" http://vim.wikia.com/wiki/Map_Ctrl-S_to_save_current_or_new_files
+" If the current buffer has never been saved, it will have no name,
+" call the file browser to save it, otherwise just save it.
+command! -nargs=0 -bar Update if &modified
+                           \|    if empty(bufname('%'))
+                           \|        browse confirm write
+                           \|    else
+                           \|        confirm write
+                           \|    endif
+                           \|endif
+nnoremap <silent> <C-S> :<C-u>Update<CR>
+" 'gv' preserves the previous selection
+vnoremap <C-s> <esc>:Update<CR>gv
+inoremap <c-s> <c-o>:Update<CR>
+" ==============================================================================
+
+" Move a line of text using ALT+[jk] or Comamnd+[jk] on mac
+" Commented out 2015-04-12 to use this for resizing window instead
+" nmap <M-j> mz:m+<cr>`z
+" nmap <M-k> mz:m-2<cr>`z
+" vmap <M-j> :m'>+<cr>`<my`>mzgv`yo`z
+" vmap <M-k> :m'<-2<cr>`>my`<mzgv`yo`z
+
+
+" write file with super user permission
+cmap w!! w !sudo tee %
+
+set tabstop=4 expandtab
+set softtabstop=4
+set shiftwidth=4
+set shiftround
+
+" community friendly format for Ruby and Clojure code indentation
+autocmd FileType vim,lua,json,yml,yaml,scss,ruby,lisp,eruby,clj,html,mkd,md,markdown,txt setlocal shiftwidth=2 tabstop=2 softtabstop=2
+
+autocmd FileType ruby,eruby let g:rubycomplete_buffer_loading = 1
+autocmd FileType ruby,eruby let g:rubycomplete_classes_in_global = 1
+autocmd FileType ruby,eruby let g:rubycomplete_rails = 1
+
+" Use Alt+number to go to a specific tab number
+nnoremap <A-1> 1gt
+nnoremap <A-2> 2gt
+nnoremap <A-3> 3gt
+nnoremap <A-4> 4gt
+nnoremap <A-5> 5gt
+nnoremap <A-6> 6gt
+nnoremap <A-7> 7gt
+nnoremap <A-8> 8gt
+nnoremap <A-9> 9gt
+nnoremap <A-0> 10gt
+
+" move cursor by display lines when wrapping
+nnoremap j gj
+nnoremap k gk
+vnoremap j gj
+vnoremap k gk
+
+" Use <leader>x to open quickfix window and move it to the far right hand side
+nnoremap <leader>x :Copen<CR>:wincmd L<CR>
+
+" use Shift+q to format a paragraph to do wrapping at 80 chars
+" commented out on 2015-04-02 to make it automatically join short lines
+" together: " set formatoptions+=w
+set tw=80
+set colorcolumn=+1 "set color for column at 81
+nnoremap Q gqip
+
+
+"match the tab, so it will make the cursorline doesn't change the color of
+"specialkey foreground color when the cursor goes to that line (this happens
+"when highligh tab and trailing space is enabled
+match NonText '^\s\+' "
+
+" reload the updated .vimrc profile
+nmap <Leader>rr :source $MYVIMRC
+
+" quickly open to edit .vimrc file
+" nmap <Leader>v :tabe $MYVIMRC
+
+
+" quickly comment out block of code
+map ,- :s/^/--/<CR>
+map ,# :s/^/#/<CR>
+map ,% :s/^/%/<CR>
+map ,/ :s/^/\/\//<CR>
+
+"cancel the comment
+" comment out 2015-04-02 because of parsing error when vim is starting
+" map ,c :s/^\/\/\\|^--\\|^> \\|^[#"%!;]//<CR>
+
+
+" use single z to move the current line to the center view.
+" by doing this mapping, the zt and zb doesn't work. But I don't use zt and zb
+" anyway, so this is not a big deal!
+" nnoremap z zz
+
+
+" Use Ctrl+Backspace to change the current directory globaly to the current file
+" To change localy use :lcd %:p:h
+" In these commands, % gives the name of the current file, %:p gives its full
+" path, and %:p:h gives its directory (the "head" of the full path)
+" nnoremap <c-d> :cd %:p:h<CR>
+" nnoremap <c-BS> :cd %:p:h<CR>
+nnoremap <leader>D :call ChangeDirToCurrentBuffer()<CR>
+
+" change current directory to the root of git repo if possible, otherwise just
+" change dir to where the current buffer locates at
+function! CDToGitRoot()
+  call ChangeDirToCurrentBuffer()
+  let gitDir = finddir('.git', ';')
+  if gitDir == ''
+    echo "Not a git repo: " . getcwd()
+  else
+    echo "Found .git dir at: " . gitDir
+    " remove the substring `/.git` in `gitDir`
+    let gitDir = substitute(gitDir, '/*.git$', '', 'g')
+
+    " if we aren't currently at the git's root yet
+    if gitDir != ''
+      exec 'cd '.gitDir
+    endif
+  endif
+endfunction
+nnoremap <leader>d :call CDToGitRoot()<CR>
+
+" Uncomment the following to have Vim jump to the last position when
+" reopening a file
+if has("autocmd")
+   au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
+endif
+
+
+" map F5 to quickly ROT13 the whole buffer, juz for fun
+" map <F5> ggg?G``
+
+" auto unfold everything when open a file
+autocmd BufWinEnter * silent! :%foldopen!
+
+" Setting Cut/Copy/Paste with "standard" hotkeys (paste only works in Visual
+" and insert mode)
+vmap <C-c> "+yi
+vmap <C-x> "+c
+vmap <C-v> c<ESC>"+p
+imap <C-v> <C-r><C-o>+
+
+" allowing auto remove trailing white space characters
+fun! <SID>StripTrailingWhitespaces()
+    let l = line(".")
+    let c = col(".")
+    %s/\s\+$//e
+    call cursor(l, c)
+endfun
+
+" remove trailing whitespace upon save
+"autocmd FileType c,cpp,java,php,ruby,python autocmd BufWritePre <buffer> :call <SID>StripTrailingWhitespaces()
+" autocmd BufWritePre * :call <SID>StripTrailingWhitespaces()
+
+" alias command to manually remove trailing space
+command TS %s/\s\+$//e
+
+" Using Alt+h/j/k/l to resize current buffer by +/- 5
+nnoremap <M-h> :vertical resize -5<cr>
+nnoremap <M-j> :resize +5<cr>
+nnoremap <M-k> :resize -5<cr>
+nnoremap <M-l> :vertical resize +5<cr>
+
+" map shortcut key for spelling
+noremap <F6> :setlocal spell! spelllang=en_us<CR>
+
+" set folding method for C code
+" :setlocal foldmethod=syntax
+" autocmd FileType c,java,cpp,python,ruby,json setlocal foldmethod=syntax
+autocmd FileType vim,sh setlocal foldmethod=marker
+
+nmap <silent> <RIGHT> :cnext<CR>
+nmap <silent> <RIGHT><RIGHT> :cnfile<CR><C-G>
+nmap <silent> <LEFT> :cprev<CR>
+nmap <silent> <LEFT><LEFT> :cpfile<CR><C-G>
+
+
+" bind Ctrl + <movement> keys to move around the windows
+" commented out because some Ctrl+<movement> keybinding are already in used
+" map <c-j> <c-w>j
+" map <c-k> <c-w>k
+" map <c-l> <c-w>l
+" map <c-h> <c-w>h
+
+" map sort function to a key
+vnoremap <Leader>z :sort<CR>
+
+
+" {{{ Focus to left tab after tabclose
+function! CloseSomething()
+  if winnr("$") == 1 && tabpagenr("$") > 1 && tabpagenr() > 1 && tabpagenr() < tabpagenr("$")
+    q | tabprev
+  else
+    q
+  endif
+
+  " try to move the cursor back to Unite candidate window
+  " This normally happens when I use Unite grep, then open a candidate in a new
+  " tab, analyze it and then close it. Then go back to analyze next candidate...
+  let uniteWindow = bufwinnr("unite")
+  if uniteWindow > 0
+    execute uniteWindow "wincmd w"
+  endif
+endfunction
+" cnoremap q<CR> :call CloseSomething()<CR>
+
+" Use <leader>c to quickly close the current buffer
+" 2 <CR> to auto close the git commit window
+" nnoremap <leader>c :q<CR><CR>
+nnoremap <leader>c :call CloseSomething()<CR><CR>
+" }}}
+
+" {{{ Switch to last active tab
+" http://stackoverflow.com/questions/2119754/switch-to-last-active-tab-in-vim
+let g:lasttab = 1
+" nmap <Leader>tl :exe "tabn ".g:lasttab<CR>
+nmap <Leader><Tab> :exe "tabn ".g:lasttab<CR>
+au TabLeave * let g:lasttab = tabpagenr()
+" }}}
+
+" ==============================================================================
+" run the current buffer python code
+" nnoremap <buffer> <F9> :exec '!python' shellescape(@%, 1)<cr>
+" nnoremap <F9> :exec '!python' shellescape(@%, 1)<cr>
+
+" Use F8 to compile and run C program
+" map <F8> :exec ':!gcc -std=c99 % -o  a.cout && ./a.cout'<cr>
+
+" Use F7 to compile and run Cpp program
+" map <F7> :exec ':!g++ % -o a.cout && ./a.cout'<cr>
+
+function! ChangeDirToCurrentBuffer()
+    " first change dir to the place where the current file is located
+    " let curDir = system('pwd') " the result has @ at the end
+    let curDir = getcwd() " get current working directory
+    let targetDir = expand('%:p:h') " get the dir contains the current buffer
+    " echom "curDir = " . curDir
+    if (curDir != targetDir)
+        " echom "Changing dir to " . targetDir
+        exec 'cd %:p:h'
+    else
+        " echom "Already at the " . curDir
+    endif
+endfunction
+
+function! CompileCode()
+    " echom '-------'
+
+    call ChangeDirToCurrentBuffer()
+
+    if (&filetype == 'cpp')
+        exec ':!g++ % -o a.cout && ./a.cout'
+    elseif (&filetype == 'c')
+        exec ':!gcc -std=c99 % -o  a.cout && ./a.cout'
+    elseif (&filetype == 'python')
+        exec '!python' shellescape(@%, 1)
+    elseif (&filetype == 'java')
+        exec ':!javac % && java -cp %:p:h %:t:r'
+    elseif (&filetype == 'rust')
+        exec ':!rustc % && ./%:t:r'
+    elseif (&ft == 'html')
+        exec '!firefox % &'
+    elseif (&ft == 'lisp')
+        LisperEvalBuffer
+    elseif (&ft == 'clojure')
+        exec '%Eval'
+    endif
+endfunction
+
+" Use F9 to compile and run the code in the current buffer
+" Update 2015-04-18: Use F9 for vim-dispatch
+nmap <F3> :call CompileCode()<CR>
+" ==============================================================================
+
+" Space to toggle folds.
+nnoremap <Space> za
+vnoremap <Space> za
+
+" ==============================================================================
+" http://vim.wikia.com/wiki/Move_current_window_between_tabs
+function! MoveToPrevTab()
+  "there is only one window
+  if tabpagenr('$') == 1 && winnr('$') == 1
+    return
+  endif
+  "preparing new window
+  let l:tab_nr = tabpagenr('$')
+  let l:cur_buf = bufnr('%')
+  if tabpagenr() != 1
+    close!
+    if l:tab_nr == tabpagenr('$')
+      tabprev
+    endif
+    sp
+  else
+    close!
+    exe "0tabnew"
+  endif
+  "opening current buffer in new window
+  exe "b".l:cur_buf
+endfunc
+
+function! MoveToNextTab()
+  "there is only one window
+  if tabpagenr('$') == 1 && winnr('$') == 1
+    return
+  endif
+  "preparing new window
+  let l:tab_nr = tabpagenr('$')
+  let l:cur_buf = bufnr('%')
+  if tabpagenr() < tab_nr
+    close!
+    if l:tab_nr == tabpagenr('$')
+      tabnext
+    endif
+    sp
+  else
+    close!
+    tabnew
+  endif
+  "opening current buffer in new window
+  exe "b".l:cur_buf
+endfunc
+" ==============================================================================
+
+" So that we can scroll up/down when the screen is filled up by command output
+" For example `:Source for` command in vim-fireplace
+set more
+
+" ==============================================================================
+"---begin make Alt key work on both  vim
+" http://stackoverflow.com/questions/6778961/alt-key-shortcuts-not-working-on-gnome-terminal-with-vim
+" let c='0'
+" while c <= '9'
+"   exec "set <A-".c.">=\e".c
+"   " should it be nmap instead?
+"   exec "imap \e".c." <A-".c.">"
+"   let c = nr2char(1+char2nr(c))
+" endw
+
+" let c='a'
+" while c <= 'z'
+"   exec "set <A-".c.">=\e".c
+"   exec "imap \e".c." <A-".c.">"
+"   let c = nr2char(1+char2nr(c))
+" endw
+
+" set timeout ttimeoutlen=50
+"---end make Alt key work on vim
+" ==============================================================================
+
+
+" ==============================================================================
+"---begin handling cursorline highlight
+" Comment it out as it's a bit annoying
+
+" set updatetime=100
+
+" au CursorHold * :call EnableCursorLine()
+" let g:ltt_highlighted = 0 " 0: not highlighted yet; 1: highlighted
+" fun! EnableCursorLine()
+"     " echom  g:ltt_highlighted
+"     let g:ltt_highlighted = 1
+"     set cul
+" endf
+
+" au CursorMoved * :call DisableCursorLine()
+" fun! DisableCursorLine()
+"     if (g:ltt_highlighted == 1)
+"         set nocul
+"         let g:ltt_highlighted = 0
+"     endif
+" endf
+"---end handling cursorline highlight
+" ==============================================================================

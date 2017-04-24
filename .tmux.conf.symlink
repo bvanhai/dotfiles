@@ -1,0 +1,156 @@
+#
+# ~/.tmux.conf
+# https://github.com/bvanhai/dotfiles
+#
+
+# Fix problem with vim colorscheme in tmux
+#set -g default-terminal "screen-256color"
+set -g default-terminal "tmux-256color"
+
+set-option -g default-shell /bin/zsh
+set-option -g default-command /bin/zsh
+set-option -g status-keys vi
+set-window-option -g mode-keys vi
+
+# Change prefix to Ctrl+a
+set -g prefix C-a
+bind C-a send-prefix
+unbind C-b
+
+# address vim mode switching delay (http://superuser.com/a/252717/65504)
+# https://github.com/tmux-plugins/tmux-sensible
+set -s escape-time 0
+
+# Increase scrollback buffer size
+set -g history-limit 50000
+
+# Tmux messages are displayed for 3 seconds
+set -g display-time 3000
+
+# Refresh 'status-left' and 'status-right' more often
+set -g status-interval 10
+
+# Focus events enabled for terminals that support them
+set -g focus-events on
+
+# Super useful when using "grouped sessions" and multi-monitor setup
+setw -g aggressive-resize on
+
+# y and p as in vim
+bind Escape copy-mode
+unbind p
+bind p paste-buffer
+bind -t vi-copy 'v' begin-selection
+# bind -t vi-copy 'y' copy-selection -x
+
+# Copy selection to system clipboard (make sure xclip is installed)
+# It seems xclip does not close STDOUT after it has read from tmux's buffer. As
+# such, tmux doesn't know that the copy task has completed, and continues to
+# /await xclip's termination, thereby rendering the window manager unresponsive.
+# So we redirect STDOUT of xclip to /dev/null, or you can use an
+# alternative command like xsel (https://wiki.archlinux.org/index.php/Tmux)
+bind-key -t vi-copy y copy-pipe 'xclip -in -selection clipboard >/dev/null'
+bind -t vi-copy 'Space' halfpage-down
+bind -t vi-copy 'Bspace' halfpage-up
+
+
+# ==============================================================================
+#---Begin Window and Pane shortcut keys
+# easy-to-remember split pane commands
+
+# Start windows and panes at 1, not 0, to match with vim and bspwm
+set -g base-index 1
+set -g pane-base-index 1
+
+# Split/create new pane with current directory
+bind | split-window -h -c "#{pane_current_path}"
+bind - split-window -v -c "#{pane_current_path}"
+unbind '"'
+unbind %
+
+# moving between panes with vim movement keys
+bind h select-pane -L
+bind j select-pane -D
+bind k select-pane -U
+bind l select-pane -R
+
+# Make the current window the first window
+#bind T swap-window -t 1
+
+# Move the current pane TO become a new window
+bind T break-pane
+# Move the current window BACK to a window to join as a pane
+bind B command-prompt -p "Send pane BACK to: " "join-pane -h -t '%%'"
+
+# Swapping:
+bind-key J swap-pane -D
+bind-key K swap-pane -U
+bind-key H swap-pane -U
+bind-key L swap-pane -D
+
+# Rotate layout with `C-r`
+bind -r C-r next-layout
+
+# Use F10 to toggle zoom the current pane
+bind-key -n F10 resize-pane -Z
+
+# Moving between windows with vim movement keys
+# Press the prefix (Ctrl+a) then hold Ctrl key and press h or l to cycle through
+bind -r C-h select-window -t :-
+bind -r C-l select-window -t :+
+
+# Use Ctrl+[0..9] to select window in tmux
+bind -n C-0 select-window -t :10
+bind -n C-1 select-window -t :1
+bind -n C-2 select-window -t :2
+bind -n C-3 select-window -t :3
+bind -n C-4 select-window -t :4
+bind -n C-5 select-window -t :5
+bind -n C-6 select-window -t :6
+bind -n C-7 select-window -t :7
+bind -n C-8 select-window -t :8
+bind -n C-9 select-window -t :9
+bind -n C-Tab last-window
+
+# Resize panes with similar key binding with my vim settings
+bind -r M-h resize-pane -L 5
+bind -r M-j resize-pane -D 5
+bind -r M-k resize-pane -U 5
+bind -r M-l resize-pane -R 5
+#---End Window and Pane shortcut keys
+# ==============================================================================
+
+# Mouse on
+set -g mouse on
+
+# Window title:
+set-option -g set-titles on
+set-option -g set-titles-string '[#S:#I] #W'
+set-window-option -g automatic-rename on
+
+# Set window notifications
+set -g monitor-activity off
+set -g visual-activity off
+
+# Split pane border style
+set -g pane-border-fg default
+set -g pane-active-border-fg blue
+set -g pane-active-border-bg default
+
+# http://man.cx/tmux
+# http://man.cx/strftime%283%29
+set -g status-left ""
+#  Temp: #(sensors | grep -i 'Physical' | awk '{print $4+0}')°C'
+set -g status-right "#[fg=colour176,bold,bg=colour236,bold] #(whoami) #[fg=default] #[fg=colour234,bold,bg=colour12,bold] %R "
+set -g status-right-length 100
+set -g status-bg default
+# #P: the pane number
+setw -g window-status-format "#[fg=colour176,bg=colour236] #I #[fg=colour176,bg=colour236] #W:#P "
+setw -g window-status-current-format "#[fg=colour176,bold,bg=colour236,bold] #I #[fg=colour234,bold,bg=colour12,bold] #W:#P "
+
+# Faster Command Sequences, fix neovim switching to command mode problem?
+set -g escape-time 10
+
+# Allow Neovim in tmux to change cursor shape to vertical bar in insert mode
+# previously it worked fine, but after neovim commit 0e546d8 we need the below
+set -ga terminal-overrides ',*:Ss=\E[%p1%d q:Se=\E[2 q'
