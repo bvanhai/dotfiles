@@ -39,9 +39,6 @@ alias socks="ssh -D 8080 -f -C -q -N 200"
 # Query the systemd journal:
 alias jncl='journalctl -xrb'
 
-# cd
-alias cddl='cd ~/Downloads'
-
 # Empty backup
 alias backupr='rm -rf /home/Data/backup && mkdir -p /home/Data/backup'
 alias backupsr='sudo rm -rf /home/Data/backup && mkdir -p /home/Data/backup'
@@ -78,9 +75,11 @@ alias pbpaste='xclip -selection clipboard -o'   # paste from clipboard, ctrl+v, 
 alias pbselect='xclip -selection primary -o'    # paste from highlight, middle click, shift+insert
 
 # Directories
+alias cddl='cd ~/Downloads'
 alias cddf="cd ~/dotfiles/"
 alias cddd="cd ~/dotfiles-d/"
 alias cdv="cd ~/.vim/"
+
 # For git:
 alias ga="git add"
 alias gc="git commit -m"
@@ -95,6 +94,9 @@ alias gitprb="git stash && git pull && git rebase && git stash apply && git stas
 alias gits="git status -sb"
 alias gitco="git checkout "
 alias gitcom="git checkout master"
+
+alias gitundo="git reset HEAD~1 && git push origin -f"
+alias githundo="git reset --hard HEAD~1 && git push origin -f"
 
 # For Google Drive:
 alias cdgd="cd ~/gdrive"
