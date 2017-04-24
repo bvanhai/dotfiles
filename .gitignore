@@ -48,6 +48,7 @@ Thumbs.db
 
 # Temporary file
 tmp
+*.tmp
 
 # Other
 
