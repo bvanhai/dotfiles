@@ -1,0 +1,1312 @@
+#
+# My Arch Linux cheat-sheet
+# https://github.com/bvanhai/dotfiles
+#
+
+* ABOUT
+
+- I have kind of short term memory so I like to take note of what I've done.
+  This cheat-sheet log some of the things I've done to my Arch Linux machine.
+  Lots of these stuffs are based on my personal preference and may not be
+  applicable to you. Also take note that: I'm not responsible if you break your
+  machine by following any of the steps in this file. So before making any
+  changes to your system, please make sure you know what you are doing. This
+  note very messy and is written for my personal reference in mind. I just put
+  it here as some YouTube users would like to see it.
+
+- This file based on
+  "My Arch Linux cheat-sheet" <https://gist.github.com/tungel/5948860>
+  of [Tung Le] <https://github.com/tungel>. Thanks for sharing!
+
+
+
+
+* INSTALLING ARCH
+
+
+
+
+**** PACKAGE MANAGERS
+- Installing yaourt (enable AUR support for Arch Linux) directly from source
+  (recommended):
+    Run:
+      git clone https://aur.archlinux.org/package-query.git
+      cd package-query
+      makepkg -cis
+      cd ..
+      git clone https://aur.archlinux.org/yaourt.git
+      cd yaourt
+      makepkg -cis
+      cd ..
+- Installing yaourt via Archlinux.fr repository:
+  1) Edit pacman.conf file:
+       sudo nano /etc/pacman.conf
+  2) First enable/uncomment:
+       [
+         [multilib]
+         Include = /etc/pacman.d/mirrorlist
+       ]
+  3) Add repo:
+       [
+         [archlinuxfr]
+         SigLevel = Never
+         Server = http://repo.archlinux.fr/$arch
+       ]
+  4) Install:
+       sudo pacman -Syu yaourt
+- Update system including AUR packages:
+    yaourt -Syua
+- Cannot find the fakeroot binary required for building as non-root user:
+  1) Install:
+       sudo pacman -S base-devel
+  2) Then can make package like so:
+       makepkg -cis
+- Fix "Pacman is currently in use, please wait":
+    sudo rm /var/lib/pacman/db.lck
+- Fix "error: failed to prepare transaction (could not satisfy dependencies)
+  :: package-query: requires pacman<4.3":
+    yaourt -S package-query
+- Pacman log file:
+    /var/log/pacman.log
+- Downgrading package:
+    cd /var/cache/pacman/pkg
+    sudo pacman -U linux-lts-4.4.35-1-x86_64.pkg.tar.xz
+- Creating a Local Repo for AUR pakcages:
+  1) Add local source in your pacman.conf file:
+       [
+         [local]
+         SigLevel = Never
+         Server = file:///home/bvanhai/work/local
+       ]
+  2) Create Local Directory /home/bvanhai/work/local
+      a) Download AUR Tarballs and build the packages in this directory.
+      b) Then Open Terminal and CD into this directory and execute this
+         following command to make it a database.
+           repo-add local.db.tar.gz *xz
+      c) Then in your Packages list in your Build Directory add a list of the
+         AUR packages you wish to install from the Local Repo.
+- Update/Fix Mirrors and Keys:
+  + Get an up to date Mirrorlist here:
+      https://www.archlinux.org/mirrorlist
+  + Add New Mirror list, remember to uncomment all relevant lines:
+      sudo nano /etc/pacman.d/mirrorlist
+  + Arrange Mirrors by speed (run as root with SU command):
+      cd /etc/pacman.d
+      for repo in *; do
+      echo "Processing $repo..."
+      mv $repo $repo.b4.rankmirrors
+      rankmirrors -v $repo.b4.rankmirrors > $repo
+      done
+      exit
+  + Obtain and refresh new Authentication keys:
+      sudo rm -r /etc/pacman.d/gnupg
+      sudo pacman-key --init
+      sudo pacman-key --populate archlinux
+      sudo pacman-key --refresh-keys
+      sudo pacman -S archlinux-keyring
+      sudo pacman -S seahorse
+      sudo pacman -Syyu
+- GUI frontends for Pacman:
+  + A Gtk3 frontend for libalpm:
+      yaourt -S pamac-aur
+  + A powerful Pacman frontend using Qt5 libs:
+      yaourt -S octopi
+- Stand-alone Update Notifications Applet (Optional):
+    yaourt -S kalu
+
+
+
+
+**** Rename or change user name
+  killall -u old
+  id old
+    usermod -l new old
+    groupmod -n new old
+    usermod -d /home/new -m new
+    usermod -c “New Real Name” new
+  id new
+
+
+
+
+**** WINDOW MANAGERS - BSPWM
+- Installing bspwm:
+  1) Install:
+       sudo pacman -S bspwm
+  2) Add the following command to end line of file "~/.xinitrc" and deactivate
+     any "exec" line:
+       exec bspwm
+- X hotkey:
+    sudo pacman -S sxhkd
+- Panel:
+    sudo pacman -S dzen2    # panel clickable
+    yaourt -S acpi xtitle lm_sensors bind-tools dunst bc wireless_tools
+      acpi              # battery
+      xtitle-git        # window title
+      lm_sensors        # cpu temp
+      bind-tools        # network external ip
+      dunst             # notification-daemon
+      bc                # various math
+      wireless_tools    # network essid
+- Systray:
+    sudo pacman -S trayer
+- Menu:
+    sudo pacman -S dmenu
+- For script auto suspend:
+    sudo pacman -S xautolock
+- Simple screen locker utility for X:
+    yaourt -S sxlock-git
+      sudo systemctl enable suspend@user.service
+- Clipboard Manager:
+    sudo pacman -S xclip
+- Command-line X11 automation tool:
+    sudo pacman -S xdotool
+- Running X apps as root:
+    sudo pacman -S gksu
+
+
+
+
+**** WINDOW MANAGERS - OPENBOX
+- Installing Openbox:
+  1) Install:
+       sudo pacman -S openbox
+  2) Add the following command to end line of file "~/.xinitrc" and deactivate
+     any "exec" line:
+       exec openbox-session
+- Config autostart file:
+    nano ~/.config/openbox/autostart
+- Reconfigure or restart openbox:
+    openbox --reconfigure
+    openbox --restart
+- Openbox menu editor:
+    sudo pacman -S obmenu
+- Openbox logout script:
+    sudo pacman -S oblogout
+- Rescan all the installed application and overwrite the existing "menu.xml"
+  file:
+    sudo pacman -S menumaker
+    mmaker -vf OpenBox3
+- Theme configuration:
+    sudo pacman -S obconf
+- Disable scrollwheel switches Desktop:
+  Edit ~/.config/openbox/lubuntu-rc.xml and remove these lines:
+    [
+     <mousebind button="Up" action="Click">
+      <action name="GoToDesktop">
+       <to>previous</to>
+      </action>
+     </mousebind>
+     <mousebind button="Down" action="Click">
+      <action name="GoToDesktop">
+       <to>next</to>
+      </action>
+     </mousebind>
+    ]
+- Enable auto login for LXDM:
+    1) Uncomment and set autologin username to enable:
+         sudo nano /etc/lxdm/lxdm.conf
+    2) Example:
+      change this:
+         [
+           [base]
+           ## uncomment and set autologin username to enable autologin
+           # autologin=dgod
+         ]
+      to this:
+         [
+           [base]
+           ## uncomment and set autologin username to enable autologin
+           autologin=ma
+         ]
+
+
+
+**** DESKTOP ENVIRONMENTS - KDE
+- Installing KDE (with WM is openbox):
+  1) Install:
+       sudo pacman -S plasma openbox kdebase gwenview
+  2) Add the following command to end line of file "~/.xinitrc" and deactivate
+     any "exec" line:
+       exec openbox-kde-session
+- Fix process "baloo_file_extractor" using high CPU:
+    balooctl disable
+
+
+
+
+**** DESKTOP ENVIRONMENTS - XFCE
+- Installing XFCE:
+  1) Install:
+       sudo pacman -S xfce
+  2) Add the following command to end line of file "~/.xinitrc" and deactivate
+     any "exec" line:
+       exec startxfce4
+- Install all XFCE extras:
+    sudo pacman -S xfce4-goodies
+- Fix XFCE unable to start properly:
+  + Run:
+      rm -R .gconf .gnome2 .config/xfce4 .config/xfce4-session .cache
+  + Delete file /etc/profile.d/locale.sh
+  + Run:
+      pacman -Syu
+- Enable thumbnail view in thunar file manager:
+  + Install:
+      sudo pacman -S tumbler ffmpegthumbnailer gstreamer0.10 poppler-glib libgsf libopenraw
+      sudo rm -rf ~/.thumbnails/
+      mv ~/.config/Thunar ~/.config/Thunar.bak
+      sudo update-mime-database /usr/share/mime
+  + Then logout and back in or Reboot.
+- To get volume settings and audio controls working on XFCE:
+  1) Install:
+       sudo pacman -S pavucontrol pulseaudio-alsa
+  2) To enable keyboard Volume Buttons install Volumed daemon (a reboot is
+     required):
+       yaourt -S xfce4-volumed
+  3) Once isntalled. Add the XFCE audio mixer to your XFCE panel by right
+     clicking on panel and selecting add new items.
+  4) Then right click on the Applet and select properties.
+  5) Change Sound Card to Playback: Built-in Audio.
+  6) Right click again and select Run Audio Mixer. Change the sound card
+     here to Playback: Built-in Audio. Just like before.
+  7) Now your Audio and Volume controls should all function normally.
+  8) It is also recomended that you add pulse audio volume control or
+     pavucontrol to your panel for quick accsess to device settings.
+- Enable Notifications for XFCE Mail-Watcher Extention:
+  + Run on click:
+      thunderbird
+  + Run on New Messages:
+      notify-send "New mail" "You have new messages in your inbox" -i xfce-newmail
+
+
+
+
+**** SHELLS
+- The GNU Bourne Again shell:
+    sudo pacman -S bash
+- Advanced and programmable command interpreter (shell), including some
+  features of bash, ksh, and tcsh:
+    sudo pacman -S zsh
+    yaourt -S oh-my-zsh-git
+- Changing your default shell:
+  + To list all installed shells, run:
+      chsh -l
+  + To set one as default for your user do:
+      chsh -s /bin/zsh
+
+
+
+
+**** THEME
+- Allows us to change gtk application theme:
+    sudo pacman -S lxappearance gdk-pixbuf2 glib2
+- Fix Gtk-WARNING **: Unable to locate theme engine in module_path: "murrine":
+    sudo pacman -S gtk-engines gtk-engine-murrine
+- Composite Window-effects manager:
+    sudo pacman -S xcompmgr
+- For Qt:
+  + Choose GTK+ theme for Qt by: /usr/bin/qtconfig-qt4
+- Colorscheme designer tool for GNOME
+    sudo pacman -S agave
+- Font:
+  + Install Optional Fonts (needed for Some Websites):
+      sudo pacman -S opendesktop-fonts
+      yaourt -S fontconfig-ttf-ms-fonts
+      yaourt -S ttf-google-fonts-git
+      sudo pacman -S ttf-dejavu
+  + Manually install TTF fonts:
+    1) Copy fonts (Consolas font) to ~/.fonts
+    2) Run:
+         fc-cache -fv
+  + Fine tuning font:
+      yaourt -S fontconfig-infinality freetype2-infinality
+  + Merge multi file font to one:
+    1) Install:
+         sudo pacman -S fontforge
+    2) First, you want to open the font with the missing glyphs and select
+       Element -> Merge Fonts. In this example, the glyphs for E and F are the
+       ones missing. 
+    3) Select the font from which you want to pull glyphs. You will be asked
+       whether you want to keep the existing kerning; you most likely want to
+       select No here, but if you get strange results close fontforge and try
+       again with Yes.
+    4) The missing glyphs should be added in a few moments.
+    5) Finally, do File -> Generate Fonts and export your font to a desired
+       location.
+  + View font
+      sudo pacman -S gucharmap
+      sudo pacman -S gnome-font-viewer
+      sudo pacman -S gnome-characters
+- Pannel/bar
+  + sudo pacman -S tint2
+    . GUI configure tint:
+        tint2conf
+    . Config file:
+        nano ~/.config/tint2/tint2rc
+  + GTK calendar:
+      sudo pacman -S gsimplecal
+- Docky
+  + sudo pacman -S plank
+  + sudo pacman -S docky
+    Show or hide:
+      gconftool-2 --type Boolean --set /apps/docky-2/Docky/Items/DockyItem/ShowDockyItem False
+      gconftool-2 --type Boolean --set /apps/docky-2/Docky/Items/DockyItem/ShowDockyItem True
+
+
+
+
+**** FILE MANAGERS
+- Pcmanfm:
+  + Install:
+      sudo pacman -S pcmanfm
+  + Show desktop icon:
+      pcmanfm --desktop-pref
+- Ranger:
+  + Install:
+      sudo pacman -S ranger python-chardet libcaca highlight atool w3m lynx elinks poppler transmission-cli mediainfo perl-image-exiftool
+        python-chardet: in case of encoding detection problems
+        libcaca: for ASCII-art image previews
+        highlight: for syntax highlighting of code
+        atool: for previews of archives
+        w3m: for previews of images and html pages
+        lynx: for previews of html pages
+        elinks: for previews of html pages
+        poppler: for pdf previews
+        transmission-cli: for viewing bittorrent information
+        mediainfo: for viewing information about media files
+        perl-image-exiftool: for viewing information about media files
+  + Copy default config files when first install:
+      ranger --copy-config=all
+  + Map delete key to delete files to trash, enable delete file from CLI to
+    trash:
+      yaourt -S trash-cli
+      nano ~/.config/ranger/rc.conf
+        [
+          map <DELETE>  shell trash-put %s
+        ]
+- Archive Managers:
+  + Method:
+      sudo pacman -S bzip2 cdrkit cpio gzip lha lrzip lz4 lzop p7zip pixz tar unace unace unrar unzip xz zip zlib zziplib
+  + for the XFCE desktop use:
+      sudo pacman -S
+      yaourt -S engrampa-thunar
+  + for the cinnamon desktop use:
+      sudo pacman -S nemo-fileroller
+  + for Gnome Desktop:
+      sudo pacman -S file-roller 
+- A directory listing program displaying a depth indented list of files:
+    sudo pacman -S tree
+
+
+
+
+**** PICTURES
+- Viewers:
+    sudo pacman -S sxiv
+    sudo pacman -S gpicview
+- Desktop wallpaper:
+    sudo pacman -S feh
+    feh --bg-center /home/Data/Wallpapers/A
+- Support more file formats:
+    sudo pacman -S imagemagick
+- Editors:
+    sudo pacman -S gimp
+- Screenshot:
+    sudo pacman -S scrot
+
+
+
+
+**** DOCUMENT
+- Fully-featured word processor:
+    sudo pacman -S abiword
+- GNOME Spreadsheet Program:
+    sudo pacman -S gnumeric
+- Wiki Arch Linux offline:
+    sudo pacman -S arch-wiki-docs
+- Stickies-like notes program:
+    sudo pacman -S xpad
+- PDF Readers:
+  + sudo pacman -S zathura
+  + sudo pacman -S evince
+- Ebook Readers:
+    sudo pacman -S fbreader
+- RSS Readers:
+    sudo pacman -S newsbeuter
+- Dictionary:
+    sudo pacman -S stardict
+
+
+
+
+**** MEDIA PLAYERS
+- Sound is muted by default, so need to unmuted it:
+    sudo pacman -S alsa-utils
+    amixer sset Master unmute
+- Control volume
+    + sudo pacman -S pulseaudio pulseaudio-alsa
+    + sudo pacman -S pavucontrol
+- Video:
+    sudo pacman -S mpv
+- Music:
+    sudo pacman -S mpd ncmpcpp
+- Install other Multimedia Codecs:
+    sudo pacman -S a52dec faac faad2 flac jasper lame libdca libdv libmad libmpeg2 libtheora libvorbis libxv wavpack x264 xvidcore libdvdcss libdvdread libdvdnav gecko-mediaplayer dvd+rw-tools dvdauthor dvgrab cdrdao
+
+
+
+
+**** TERMINAL EMULATORS
+- A unicode enabled rxvt-clone terminal emulator (urxvt):
+    + Install:
+        sudo pacman -S rxvt-unicode
+    + For copy/paste:
+        sudo pacman -S urxvt-perls
+    + Fix color when run "ls":
+        + dircolors -p > ~/.dircolors
+        + eval $(dircolors ~/.dircolors)
+    + To use the urxvt-tabbe:
+        sudo pacman -S gtk2-perl
+- urxvt with patches to support 256 Xresource colors and fixes for line/font
+  spacing
+    yaourt -S rxvt-unicode-256xresources
+- VTE-based terminal emulator (part of LXDE)
+    sudo pacman -S lxterminal
+- A terminal multiplexer:
+    sudo pacman -S tmux
+
+
+
+
+**** TEXT EDITORS
+- Vim:
+  + Install:
+      sudo pacman -S vim
+  + Write to root permission file in vim
+    1) Add to .vimrc file:
+         cmap w!! w !sudo tee %
+    2) Run: 
+         vim /path/to/file
+    3) Then when we want to save, just issue:
+         w!!
+  + Change system wide editor to vim:
+    1) Add this to .bashrc:
+         # Change system-wide editor
+         export VISUAL="/usr/bin/vim -p -X"
+         export EDITOR=vim
+    2) Press l
+  + Manage your 'runtimepath' with ease. In practical terms, pathogen.vim makes
+    it super easy to install plugins and runtime files in their own private
+    directories.
+    https://github.com/tpope/vim-pathogen
+      mkdir -p ~/.vim/autoload ~/.vim/bundle && \
+      curl -LSso ~/.vim/autoload/pathogen.vim https://tpo.pe/pathogen.vim
+- Neovim:
+  + Install:
+      sudo pacman -S neovim
+      yaourt -S ruby-neovim
+  + To use your vim configuration in neovim execute the following commands
+    which will create the appropriate symlinks:
+      mkdir -p ~/.config
+      ln -s ~/.vim ~/.config/nvim
+      ln -s ~/.vimrc ~/.config/nvim/init.vim
+  + Python plugin support:
+      sudo pacman -S python python2-neovim python-neovim
+- Sublime text:
+    yaourt -S sublime-text
+- Leafpad:
+    sudo pacman -S leafpad
+
+
+
+
+**** INTERNET
+- Web Browsers:
+  + Chromium:
+      sudo pacman -S chromium
+      ttf-liberation: fix fonts for some PDFs
+  + Google Chrome:
+      yaourt -S google-chrome
+  + Firefox:
+      sudo pacman -S firefox
+      sudo pacman -S flashplugin    # Adobe Flash Player
+      sudo pacman -S gnash-gtk    # GNU flash
+      sudo pacman -S gstreamer0.10-plugins    # required for GNU flash to play video
+- Download tool:
+  + Torrent:
+      sudo pacman -S transmission-gtk
+  + Aria2c;
+      sudo pacman -S aria2
+  + Jdownload:
+      sudo pacman -S jdownload
+      sudo pacman -S jre
+        export _JAVA_OPTIONS="-Dawt.useSystemAAFontSettings=on -Dswing.aatext=true -Dawt.useSystemAAFontSettings=gasp -Dsun.java2d.xrender=true"
+          To jre.sh in /etc/profile.d
+  + Wget:
+      sudo pacman -S wget
+        wget --limit-rate=1200k --no-clobber --convert-links --random-wait -r -p -E -e robots=off -U mozilla https://vozforums.com/showthread.php?t=1766995
+- Instant Messengers:
+    sudo pacman -S pidgin
+- Teamviewer:
+  + Install:
+      yaourt -S teamviewer
+  + Enable multilib:
+      nano /etc/pacman.conf
+        [
+          #[multilib]
+          Include = /etc/pacman.d/mirrorlist
+        ]
+  + Enable Teamviewer Daemon:
+      sudo systemctl start teamviewerd
+      sudo systemctl enable teamviewerd
+      sudo systemctl --system daemon-reload    # if it needs to be restarted
+- Dropbox:
+  1) Install:
+     yaourt -S dropbox nautilus-dropbox
+  2) IMPORTANT:never never edit any file in the Dropbox folder before the newly
+     installed Dropbox has finished indexing the files; or else it will create
+     file conflict!!!!
+  3) Delete all conflicted files in Dropbox:
+       find . -name "**conflict**" -exec rm -rfv {} +
+- Google Drive
+  + Home: https://github.com/odeke-em/drive
+  + Install:
+      yaourt -S  drive
+  + Create home folder:
+      mkdir -p ~/gdrive
+  + Before you can use drive, you'll need to mount your Google Drive directory
+    on your local file system:
+      drive init ~/gdrive
+      cd ~/gdrive
+  + Usage:
+      drive pull <target>
+      drive push <target>
+
+
+**** NETWORK MANAGERS
+- The wireless here is "wlo1":
+    sudo ip link set wlo1 up
+    sudo wpa_supplicant -i wlo1 -c /etc/wpa_supplicant.conf &
+    sudo dhcpcd wlo1
+- GUI config tool (optinal):
+    sudo pacman -S wpa_supplicant_gui
+- Connect WEP:
+    sudo iwconfig wlo1 essid "NAAEC" key 0050263557
+      (if using ASCII key: sudo iwconfig wlo1 essid "MyWiFiID" key s:asciikey)
+    sudo dhcpcd wlo1
+- Network configuration and profile scripts:
+    sudo pacman -S netcfg
+- Discover IP hosts on the local network:
+  + sudo pacman -S nmap
+  + sudo nmap -sP 192.168.1.0/24
+      sudo pacman -S arp-scan
+- Fix issue can't start wpa_supplicant:
+  + Add no password require for user bvanhai when he runs
+    wpa_supplicant to /etc/sudoers
+- Tool to check ethernet (LAN cable)
+    sudo pacman -S ethtool
+    sudo ethtool enp3s0 | grep MDI-X
+    sudo ethtool enp3s0
+- Tool Network manager
+  + To input password:
+      sudo pacman -S gksu    # A graphical frontend for su
+  + Disable:
+      systemctl disable Networkmanager
+      systemctl stop Networkmanager
+- Enable profile WIFI:
+    sudo netctl start wlo1-hongphong
+    sudo netctl enable wlo1-hongphong
+    sudo netctl reenable wlo1-hongphong
+
+
+
+
+**** DISK
+- Mount NTFS:
+    sudo pacman -S ntfs-3g
+    sudo mkdir -p /home/Data2
+    sudo mount -t ntfs-3g /dev/sda2 /home/OS
+    mount -t ntfs-3g /dev/<device> /mnt/<folder>
+- Automount removable media:
+  1) Install:
+      sudo pacman -S udevil
+  2) Add the following command to your startup applications:
+      devmon &
+- Mount USB flash drive, thumbdrive:
+    yaourt -S pmount-safe-removal
+    pmount /dev/sdc1
+- CD/DVD-ROM device emulator daemon:
+  + Install:
+      yaourt -S gcdemu
+  + GNOME panel applet controlling cdemu-daemon
+      sudo pacman -S cdemu-daemon
+- Creating and Formatting Live USB images with DD:
+  + To View a list of available Drives use fdisk:
+      sudo fdisk -l
+  + To unmount a drive use umount:
+      umount /dev/sdx1
+  + Creating a bootable USB (Drive Needs to be unmounted):
+      sudo dd bs=4M if=/path/to/file.iso of=/dev/sdx && sync
+  + Formatting USB Drive back to factory state (Drive Needs to be unmounted):
+      sudo mkfs.vfat /dev/sdx -I
+  + To copy a CD/DVD to a .iso:
+      cd /dev; ls -ld sr* cdr* dvd*
+      dd if=/dev/cdrom of=~/dvdcopy.iso
+- Tool to format USB flash:
+    sudo pacman -S dosfstools
+- Mount iso file:
+    fuseiso -p testimage.iso testimagemountpoint
+- Unmount iso file:
+    fusermount -u <mountpoint>
+- Mount NTFS partition:
+  1) View UUID:
+       sudo blkid
+  2) Create folder to mount:
+       sudo mkdir /home/disk_x
+  3) Edit file fstab:
+       nano /etc/fstab:
+         [
+           # /dev/sda23
+           UUID=B2003C30003BF9C5 /home/OS/  ntfs-3g defaults,locale=en_US.utf8 0 0
+         ]
+- Mount Android phone:
+  + Install:
+      sudo pacman -S gvfs-mtp
+  + Reload the udev interface:
+      sudo udevadm control --reload
+  + Detect the mtp device:
+      mtp-detect
+- Hide Windows Partitions on DualBoot:
+  + Create a new file /etc/udev/rules.d/99-hide-partitions.rules and add one
+    line per partition you want to hide like so (change "sda*" to match the
+    partition you wish to hide):
+      [
+        KERNEL=="sda1",ENV{UDISKS_IGNORE}="1"
+        KERNEL=="sda2",ENV{UDISKS_IGNORE}="1"
+      ]
+  + You should be able to dynamically activate it as root:
+      udevadm trigger --verbose
+- Format USB
+  + Insert USB and Identify Volume:
+      df -h
+  + Format USB Drive:
+      sudo umount /dev/sdc1
+        1) Format with vFat FileSystem:
+             sudo mkfs.vfat /dev/sdc1
+        2) Format with NTFS FileSystem:
+             sudo mkfs.ntfs /dev/sdc1
+        3) Format with EXT4 FileSystem:
+             udo mkfs.ext4 /dev/sdc1
+  + Modify partition labels / Change disk name:
+      sudo e2label /dev/sda1 Webserver
+
+
+**** TRUECRYPT
+- Install:
+    sudo pacman -S truecrypt
+- Fixed truecrypt failed to set up a loop device:
+    lsmod | grep loop
+    sudo modprobe loop
+    sudo tee /etc/modules-load.d/truecrypt.conf <<< "loop"
+- Fix truecrypt Dropbox volume mount as read only:
+  1) See log file:
+       jounrnalctl -xn
+  2) The error is:
+       Unable to monitor entire Dropbox folder hierarchy. Please run "echo
+       100000 | sudo tee /proc/sys/fs/inotify/max_user_watches" and restart
+       Dropbox to correct the problem.
+  3) Fix:
+       a) Run:
+            sudo nano /etc/sysctl.conf
+       b) Add this line at the end:
+            fs.inotify.max_user_watches = 100000
+       c) Save the file and reboot. That's it.
+
+
+
+
+**** SYSTEM INFO
+- Conky:
+    yaourt -S conky-lua    # conky curl
+- Conky manager:
+    sudo pacman -S conky-manager
+- Temp:
+    sudo pacman -S lm_sensors
+    sudo pacman -S smartmontools
+      sudo chmod 4755 /usr/sbin/smartctl
+      smartctl -A /dev/sdx
+- Task manager:
+    sudo pacman -S htop
+    sudo pacman -S lxtask
+- Terminal hack (display beautiful Arch Linux logo on terminal):
+    sudo pacman -S perl-data-dump alsi
+    sudo pacman -S i-nex
+    sudo pacman -S tlp
+    sudo pacman -S acpi
+      acpi -t
+    sudo pacman -S dmidecode
+
+
+
+
+**** VIRTUALBOX
+- Install:
+    sudo pacman -S virtualbox qt4 virtualbox-host-dkms
+      vde2: Virtual Distributed Ethernet support
+      virtualbox-guest-iso: Guest Additions CD image
+      virtualbox-ext-vnc: VNC server support
+      virtualbox-sdk: Developer kit
+      virtualbox-host-dkms: Build kernel modules with DKMS
+      net-tools: Host-only or bridged networking support
+- Oracle VM VirtualBox Extension Pack:
+    yaourt -S virtualbox-ext-oracle
+- Kernel driver not installed (rc=-1908) - VirtualBox Error
+  + Run:
+      sudo modprobe vboxdr
+  + To give yourself permissions so virtualbox can access Shared folders and
+    USB devices use this command
+      sudo gpasswd -a $USER vboxusers
+  + To load the VirtualBox module at boot time, refer to Kernel_modules.
+    Loading and create a *.conf with the line (in location
+    /etc/modules-load.d/virtualbox.conf):
+      vboxdrv
+- Config qt:
+    qtconfig-qt4
+- Disable menu in Virtualbox:
+    VBoxManage setextradata global GUI/Customizations noMenuBar,noStatusBar
+- Enable shared folder in VirtualBox:
+  + Run this command in the guest:
+      sudo mount -t vboxsf
+- Don't copy file with this attribute:
+    prw-r--r-- 1 bvanhai users  0 May 5 12:30 nicklistfifo
+    it will hang!
+- (mount -t vboxsf [-o OPTIONS] sharename mountpoint
+    (Notes: sharename is optional or same as selected in the VirtualBox-Dialog,
+    mountpoint of the shared directory in the hosts filesystem))
+- For VirtualBox guest running Arch:
+  1) If the file ~/.xinitrc has:
+       sudo VBoxClient-all &
+       sudo systemctl start vboxservice.service
+  2) then need to make sure that we don't need sudo password for
+       VBoxClient-all and systemctl 
+  3) Or else, we will receive error EnterVT failed for screen 0). Solving by
+     doing this:
+       sudo nano /etc/sudoers
+     add:
+       [
+         ## Allow sudo for user bvanhai and let him run VboxClient-all without
+            requiring a password
+         bvanhai ALL = PASSWD: ALL, NOPASSWD: /usr/bin/VBoxClient-all, /usr/sbin/ip, /usr/sbin/wpa_supplicant, /usr/sbin/dhcpcd, /usr/bin/truecrypt, /usr/bin/systemctl
+       ]
+
+
+
+
+**** VMWARE
+- Install the correct dependencies:
+    yaourt -S fuse gtkmm linux-headers ncurses5-compat-libs
+- Start the installation:
+    sh VMware-edition-version.release.architecture.bundle
+
+
+
+
+**** SUSPEND: pm-suspend
+- Install:
+    sudo pacman -S pm-utils
+- Locking the screen saver on hibernate or suspend: 
+  1)create file:
+     nano /etc/pm/sleep.d/00screensaver-lock
+       [
+         #!/bin/sh
+         #
+         # lock workstation on hibernate or suspend
+
+         username=bvanhai    # add username here; i.e.: username=foobar
+         userhome=/home/$username
+         export XAUTHORITY="$userhome/.Xauthority"
+         export DISPLAY=":0"
+
+         case "$1" in
+           hibernate|suspend)
+             su $username -c "/usr/bin/slock" &    # or any other such as /usr/bin/xscreensaver-command -lock
+             ;;
+           thaw|resume)
+             ;;
+           **) exit $NA
+             ;;
+         esac
+       ]
+    2) chmod to 755, and make sure it owns by root:root
+- Arch IRC members say don't use pm-**crap:
+    1) Use this instead:
+         systemctl suspend
+    2) How to lock screen when suspend using the above command: create file
+       slock.service and put it in /etc/systemd/system/
+         [Unit]
+         Description=Lock X session using slock - Tung
+
+         [Service]
+         User=bvanhai
+         Environment=DISPLAY=:0
+         ExecStart=/usr/bin/slock
+
+         [Install]
+         WantedBy=sleep.target
+    3) Then run:
+         sudo systemctl enable slock.service
+    4) Then everytime we suspend by using:
+         systemctl suspend
+       it will lock the screen as well.
+    5) List systemctl service: systemctl -t service -a | grep slock
+
+
+
+
+**** IRC CLIENTS
+- Install:
+    sudo pacman -S irssi
+- Config:
+  1) Run:
+       nano ~/.irssi/config
+     There are loads of irssi scripts which do this, but the truth is irssi
+     actually supports these things very well out of the box. Here's how.
+  2) Start up irssi, then:
+       /connect irc.freenode.net
+       /nick MyIRCNick
+       /SERVER ADD -auto -network freenode irc.freenode.net 6667 <password>
+     (You may have to shutdown and restart irssi at this point for it to
+     recognize the network name "freenode" in the next step)
+       /CHANNEL ADD -auto    #ubuntu freenode
+  3) Another method of auto-identifying is seen below. The above is generally
+     preferred.
+       /NETWORK ADD -autosendcmd "/^msg NickServ IDENTIFY password;wait 2000" freenode
+     Ignore join, part, quit message: add the following to config file:
+       [
+          ignores = (
+         {
+          level = "JOINS PARTS QUITS";
+          channels = ( "#archlinux", "#vim", "#python" );
+          network = "FreeNode";
+           },
+
+           {
+            level = "MODES";
+            channels = ( "&amp;bitlbee" );
+            network = "BitlBee";
+           }
+          );
+       ]
+- Next-generation distributed IRC client - client only:
+    sudo pacman -S quassel-client
+- A GTK+ based IRC client:
+    sudo pacman -S xchat
+
+
+
+
+**** VNC:
+- Install tightvnc:
+    sudo pacman -S tightvnc
+- First time setup, run:
+    vncserver
+- Edit xstartup file (which functions like an .xinitrc file):
+    nano ~/.vnc/xstartup
+- Start a VNC server:
+    vncserver -geometry 1440x900 -alwaysshared -dpi 96 :1
+- Shutdown a vncserver:
+    vncserver -kill :1
+- Connect to a vnc server:
+    vncviewer 192.168.0.150:1
+
+
+
+
+**** Could not open a connection to your authentication agent.
+1) Install openssh:
+     sudo pacman -S openssh
+2) This error happen when issue command:
+     ssh-add
+3) To fix this, run:
+     eval `ssh-agent`
+     ssh-add without problem
+4) To make it autostart for OpenBox, put below code to file:
+      nano ~/.config/openbox/environment
+      [
+        SSHAGENT="/usr/bin/ssh-agent"
+        SSHAGENTARGS="-s"
+        if [ -z "$SSH_AUTH_SOCK" -a -x "$SSHAGENT" ]; then
+            eval `$SSHAGENT $SSHAGENTARGS`
+            trap "kill $SSH_AGENT_PID" 0
+        fi
+      ]
+
+
+
+
+**** OTHER SOFTWARES
+- Calculator:
+    sudo pacman -S galculator
+- Notification:
+    sudo pacman -S xfce4-notifyd
+- Java Development Kit:
+    sudo pacman -S jdk7-openjdk
+- Simple lock screen:
+    sudo pacman -S slock
+- LaTex:
+    sudo pacman -S texlive-most
+- Screen recording:
+    sudo pacman -S gtk-recordmydesktop
+- Disk usage analyzer with an ncurses interface:
+    sudo pacman -S ncdu
+- Run Android applications on a standard Linux desktop:
+    yaourt -S shashlik-bin
+
+
+
+**** Timing issue:
+- Change hardware clock to use UTC time:
+    sudo timedatectl set-local-rtc 0
+- View Current status:
+    timedatectl status
+- List Timezones:
+    timedatectl list-timezones
+- Set timezone to Asia/Ho_Chi_Minh:
+    sudo timedatectl set-timezone Asia/Ho_Chi_Minh
+- Install Network Time Protocol:
+    sudo pacman -S ntp
+- Enable NTP:
+    sudo timedatectl set-ntp true
+- Synchornize the system clock:
+    sudo ntpd -qg
+- After updating the system clock, store the time to the hardware clock so that
+  it is preserved when rebooting:
+    sudo hwclock -w
+- Manually set system Time:
+    sudo timedatectl set-time "2013-08-11 23:56:16"
+- Fix Clock errors when dual booting:
+    sudo timedatectl set-timezone UTC
+
+
+
+
+**** SOME USEFUL COMMANDS:
+- See which driver X org is using:
+    lspci -nnk | grep -i vga -A3 | grep 'in use'
+- Generate a list of installed packages:
+    pacman -Q > pacman.txt
+    pacman -Qqe > pacman.txt
+    sudo pacman -Qs gnome (search for keyword "gnome" in the installed package)
+- Add new user:
+    sudo useradd -m -g [initial_group] -G [additional_groups] -s [login_shell] [username]
+    example: sudo useradd -m -g users -s /bin/bash newuser
+- Specify user password:
+    sudo passwd [username]
+- Add group bvanhai:
+    sudo groupadd bvanhai
+- Add user bvanhai to group bvanhai:
+    sudo gpasswd -a bvanhai bvanhai
+- List file in tar:
+    tar -tvf em-4.0.15-lt.tar.gz | more
+- List file in .rar:
+    unrar l file.rar
+- List file in .zip:
+    unzip -l file.zip
+- Get IP address:
+    ip addr
+- SSH service:
+  + Start manually:
+      sudo systemctl start sshd
+  + Auto start at startup:
+      sudo systemctl enable sshd.service
+  + Enable SSH Deamon socket so the deamon is started on the first incoming
+    connection:
+      sudo systemctl enable sshd.socket
+  + Transfer file via SSH:
+      scp /path/to/my.file me@serverB:/path/to/destination/my.file
+- Copy default config file:
+    /etc/skel/
+- Copy all content inside a directory including sub-directories:
+    cp -R ** destination_path
+- Check laptop battery status:
+  + Install:
+      sudo pacman -S acpi
+  + Check battery state:
+      acpi
+  + Check temperature:
+      acpi -t
+  + Check AC power status:
+      acpi -a
+  + Check alltogether:
+      acpi -V
+- Delete all ".tmp" files in the current directory:
+    find . -name "**.tmp" -exec rm -rfv {} +
+- Add to ignore list in SVN:
+    svn propedit svn:ignore .
+- Ignore .git directory in SVN repo:
+    svn propset svn:ignore .git .
+- Global ignore SVN:
+    nano ~/.subversion/config
+    [
+      global-ignores = **.o **.lo **.la **.al .libs **.so **.so.[0-9]** **.a **.pyc **.pyo ** .stripped
+    ]
+- Create symlimk
+    ln -s linkname newlink
+    ln -s /location/to/link2 newlink
+    mv newlink linkname
+- View target/service:
+    ls -l /etc/systemd/system/multi-user.target.wants
+- Check error X:
+    + Run:
+        cat /var/log/Xorg.0.log | grep EE
+    + If cannot start X, delete this file! - this evil file:
+        /etc/X11/xorg.conf
+- Disable beep sound:
+  + Run:
+      sudo rmmod pcspkr
+  + Black list to prevent loading at boot:
+      sudo echo "blacklist pcspkr" > /etc/modprobe.d/nobeep.conf
+- To display System Checks during The Bootup proscess. Edit yourGrub.conf file
+  with this line of text:
+    GRUB_CMDLINE_LINUX_DEFAULT="text"
+- Set keymap:
+    nano /etc/vconsole.conf
+    [
+      KEYMAP=de-latin1
+      FONT=lat9w-16
+    ]
+
+
+
+
+**** RASPBERRYPI
+- Resize root partition:
+    1) Source:
+         http://raspberrypi.stackexchange.com/questions/499/how-can-i-resize-my-root-partition
+- WIFI issue:
+    https://github.com/xbianonpi/xbian/issues/217
+    http://raspberrypi.stackexchange.com/questions/1384/how-do-i-disable-suspend-mode/4518#4518
+      while true ; do ./wireless-cron-job.sh ; sleep 15; done
+- Backup:
+    sudo dd if=/dev/sdc of=~/raspberrypi_backup_20130514.img
+- Set IP address:
+    sudo ifconfig eth0 192.168.0.137
+- Connect Android to Raspberry Pi
+  1) Source:
+       http://www.raspberrypi.org/phpBB3/viewtopic.php?t=18916&p=331361
+  2) Create a file usb0 in /etc/network.d/
+       [
+         CONNECTION="ethernet"
+         DESCRIPTION="IP over USB"
+
+         INTERFACE="usb0"
+
+         IP="static"
+         IFOPTS="192.168.42.42 netmask 255.255.255.0 network 192.168.42.0 broadcast 192.168.42.255"
+
+         TIMEOUT=10
+
+         #PRE_UP=
+         #POST_UP="iptables -t nat -A POSTROUTING -o eth0 -s 192.168.
+       ]
+  2) Enable:
+       sudo systemctl enable dhcpcd@usb0
+       sudo systemctl enable netcfg@usb0
+  3) Then when the Pi is just turn on and booting, quickly enable USB tethering
+     on the android, done!
+  4) Android IP: 192.168.42.129
+     Raspberry IP: 192.168.42.30
+  5) Enable access internet to the Pi:
+       route add default gw 192.168.42.129 usb0
+- Fix /lib/i386-linux-gnu/libpthread.so.0: could not read symbols: Invalid
+  operation when compiling raspi camera:
+  + Add -lX11 -lpthread to the linker script.
+
+
+
+
+**** DRIVER:
+- Printer/Scanner support in Arch Linux:
+  + Install:
+      sudo pacman -S libcups cups ghostscript gsfonts system-config-printer simple-scan
+  + Start Deamon:
+      sudo systemctl enable org.cups.cupsd.service
+      sudo systemctl enable cups-browsed.service
+      sudo systemctl start org.cups.cupsd.service
+      sudo systemctl start cups-browsed.service
+  + Software for HP DeskJet, OfficeJet, inkjet, and Photosmart Printers:
+      sudo pacman -S hplip
+  + To Fix CUPS Server errors in Manjaro/Antergos:
+      sudo pacman -Rdd foomatic-db foomatic-db-nonfree
+- Bluetooth Support Arch Linux:
+  + Install:
+      sudo pacman -S bluez bluez-cups bluez-utils
+  + Enable Driver:
+      sudo modprobe btusb
+      sudo systemctl start bluetooth
+      sudo systemctl enable bluetooth
+  + Install Bluetooth Manager:
+      yaourt -S blueman
+- Manually Override and enable Trackpad palmcheck:
+  + Add the following command to your startup applications:
+      syndaemon -k -i 2 &
+        . -i 2 sets the idle time to 2 seconds. The idle time specifies how many
+        seconds to wait after the last key-press before enabling the touchpad
+        again.
+
+
+
+
+**** GRAPHIC DRIVER:
+- Bumblebee (for HP laptop):
+  1) Wiki:
+       https://wiki.archlinux.org/index.php/Bumblebee
+  2) Install:
+       sudo pacman -S intel-dri xf86-video-intel bumblebee nvidia
+  3) Add user to bumblebee group:
+       gpasswd -a bvanhai bumblebee
+  4) Start bumblebee automatically at startup:
+       systemctl enable bumblebeed
+  5) Reboot
+  6) By doing those previous steps, it fix the error: "EnterVT failed for
+     screen 0",  that means: every time a computer is suspended or press
+     Ctrl+Alt+F2 then the X server is terminated and all other applications
+     are killed.
+  6) The url link also provides a troubleshooting: "Fatal IO error 11 (Resource
+     temporarily unavailable) on X server":
+       Change KeepUnusedXServer in
+         /etc/bumblebee/bumblebee.conf
+       from
+         false
+       to
+         true
+- Testing:
+    + Wiki:
+        https://aur.archlinux.org/packages/nvidia-173xx-utils/
+        https://aur.archlinux.org/packages/nvidia-173xx/
+    + Install:
+        pacman -S intel-dri xf86-video-intel bumblebee nvidia
+        gpasswd -a $USER bumblebee
+        systemctl enable bumblebeed
+
+
+
+
+**** CUSTOMIZE COMPILE AND INSTALL THE LINUX KERNEL
+- Download kernel:
+    https://www.kernel.org
+- Wiki:
+    https://wiki.archlinux.org/index.php/Kernels/Compilation/Traditional
+- Fetching source:
+    cd Downloads
+    tar -xvJf linux-4.4.36.tar.xz
+    cd linux-4.4.36
+    make mrproper    # Prepare for compilation by running
+- Configure your kernel:
+    zcat /proc/config.gz > .config    # Copy the .config file from the running kernel
+    make nconfig    # Traditional menuconfig
+      lspci -k
+      /sbin/lspci
+      cat /proc/cpuinfo
+- Compilation and installation:
+    make    # Compile
+    sudo make modules_install    # Install modules
+    sudo cp -v arch/x86/boot/bzImage /boot/vmlinuz-4.4.36-lts
+    sudo mkinitcpio -k 4.4.36-lts -c /etc/mkinitcpio.conf -g /boot/initramfs-4.4.36-lts.img    # Make initial RAM disk
+    sudo cp System.map /boot/System.map-4.4.36-lts
+    sudo ln -sf /boot/System.map-4.4.36-lts /boot/System.map
+- Bootloader configuration:
+    sudo grub-mkconfig -o /boot/grub/grub.cfg
+- Keeps track of EVERY kernel module ever used - useful for those of us who
+  make localmodconfig:
+    + Install:
+        yaourt -S modprobed-db
+    + Run:
+        sudo modprobed-db store
+        sudo modprobed-db restore
+        make localmodconfig
+        make nconfig
+
+
+
+
+**** GITHUB
+- Install:
+    sudo pacman -S git mercurial
+    git config --global user.name "Hai Bui"
+    git config --global user.email "buivnhai@gmail.com"
+    git config --list
+- Clone remote repository:
+    git clone https://github.com/bvanhai/dotfiles
+- Git submodule:
+  + Add:
+      git submodule add https://github.com/bvanhai/dotfiles.git bvanhai
+      git submodule update --remote --merge
+  + Remove:
+      git submodule deinit -f dotfiles/Dubbled-dotfiles
+      git rm -rf dotfiles/Dubbled-dotfiles
+      rm -rf .git/modules/dotfiles/Dubbled-dotfiles
+- Create local repository:
+    git init dotfiles
+- Use:
+    cd ~/dotfiles
+    git add --all
+    git commit -a -m "Update"
+    git remote add origin https://github.com/bvanhai/dotfiles.git
+    git push -u origin master
+- If it is asking you for a username and password, your origin remote is
+  pointing at the https url rather than the ssh url:
+  1) Run.
+       git remote set-url origin git@github.com:bvanhai/dotfiles.git
+       sudo pacman -S openssh
+  2) Test SSH key on your conputer:
+       ls -a ~/.ssh
+  3) Create SSH key:
+       ssh-keygen
+  4) Copy SSH key:
+       pbcopy < ~/.ssh/id_rsa.pub
+  5) Go to:
+       https://github.com/settings/ssh
+       Add SSH key and paste.
+- Fix "Could not open file .git/rebase-merge/done for reading: No such file or
+  directory":
+       git rebase --abort
+       git pull
+- git subtree add
+  git subtree add --prefix=zzz --squash https://github.com/yyy/zzz.git master
+
+
+
+
+
+
+
+
+**** PACMAN
+sudo pacman -Sy               # synchronize repository databases if neccessary
+sudo pacman -Syu              # synchronize with repositories and then upgrade packages that are out of date on the local system.
+sudo pacman -Syy              # force synchronization of repository databases
+
+sudo pacman -Sw xyz           # download package xyz as .tar.xz ball
+sudo pacman -U xyz.tart.xz    # install package xyz.tart.xz not from the repositories but from a file
+
+sudo pacman -S xyz            # install package xyz
+sudo pacman -Sy xyz           # synchronize repo and install xyz
+sudo pacman -Syy xyz          # really synchronize repo and install xyz
+
+sudo pacman -R xyz            # remove package xyz but keep its dependencies installed
+sudo pacman -Rs xyz           # remove package xyz and all its dependencies (if they are not required by any other package)
+sudo pacman -Rsc xyz          # remove package xyz, all its dependencies and packages that depend on the target package
+sudo pacman -Rns xyz          # remove package xyz, all its dependencies and prevent the creation of these backup files
+sudo pacman -Rdd xyz          # remove package xyz, which is required by another package, without removing the dependent package
+sudo pacman -Rscn xyz         # remove package xyz, all its dependencies, packages that depend on the target package and prevent the creation of these backup files
+
+sudo pacman -Si               # display information about a given package in the repositories
+sudo pacman -Ss               # search repository database for packages for xyz
+sudo pacman -Q                # display package in the local database
+sudo pacman -Qi               # display information about a given package in the local database
+sudo pacman -Qs               # search for package(s) in the local database
+sudo pacman -Ql xyz           # show all files installed by the package xyz
+sudo pacman -Qo /path         # find the package which installed the file at /pat
+
+sudo pacman -Scc              # clean cache - delete all the package files in the cache

@@ -1,0 +1,85 @@
+#
+# My Arch Linux Install
+# https://github.com/bvanhai/dotfiles
+# 
+
+# https://wiki.archlinux.org/index.php/installation_guide
+
+lsblk
+cfdisk
+mkfs.ext4 /dev/sdaX
+mkswap /dev/sdaX
+swapon /dev/sdaX
+mount /dev/sdaX /mnt
+mkdir -p /mnt/boot
+mount /dev/sdaX /mnt/boot
+mkdir -p /mnt/home
+mount /dev/sdaX /mnt/home
+
+
+nano /etc/pacman.d/mirrorlist
+wifi-menu
+ping -c 3 google.com
+
+
+pacstrap -i /mnt base base-devel
+genfstab -U /mnt > /mnt/etc/fstab
+
+
+
+
+arch-chroot /mnt /bin/bash
+nano /etc/locale.gen
+    en_US.UTF-8 UTF-8
+locale-gen
+echo LANG=en_US.UTF-8 > /etc/locale.conf
+
+
+    #tzselect
+ln -sf /usr/share/zoneinfo/Asia/Ho_Chi_Minh /etc/localtime
+hwclock --systohc --utc
+    #timedatectl set-ntp true
+
+
+pacman -S grub os-prober
+grub-install --target=i386-pc --recheck /dev/sda
+grub-mkconfig -o /boot/grub/grub.cfg
+
+
+echo arch > /etc/hostname
+nano /etc/hosts
+    arch
+
+
+pacman -S iw wpa_supplicant dialog
+passwd
+exit
+umount -R /mnt
+reboot
+(login root)
+
+
+
+
+useradd -m -G wheel -s /bin/bash bvanhai
+passwd bvanhai
+nano /etc/sudoers
+    bvanhai ALL = (All) ALL
+exit 
+(login new user)
+
+
+
+
+sudo wifi-menu
+    #ip addr
+    #systemctl start dhcpcd@enp0s25.service
+    #systemctl enable dhcpcd@enp0s25.service
+sudo pacman -S xorg
+sudo pacman -S xorg-drivers
+sudo pacman -S xorg-xinit xterm
+sudo pacman -S bspwm sxhkd
+nano ~/.xinitrc
+    sxhkd &
+    exec bspwm
+startx
