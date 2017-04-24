@@ -40,7 +40,9 @@
 
 ## Screenshots
 
-### Now: bspwm zsh urxvt tmux vim
+### Now
+
+<br>
 
 ![Tmux1](/.scrot.symlink/tmux1.png)
 ![Tmux2](/.scrot.symlink/tmux2.png)
@@ -48,7 +50,9 @@
 
 <br>
 
-### Old: bspwm dzen2 urxvt sublime-text
+### Old
+
+<br>
 
 ![Clean](/.scrot.symlink/clean.png)
 ![Dirty](/.scrot.symlink/dirty.png) 
@@ -56,10 +60,16 @@
 
 <br>
 
-### Older: openbox tint2 (docky) conky
+### Older
+
+<br>
 
 ![Example1](/.scrot.symlink/ago1.png)
 ![Example2](/.scrot.symlink/ago2.png)
+
+<br>
+
+*They say life is a journey, not a destination. Well, so are dotfiles...*
 
 <br>
 
@@ -117,7 +127,7 @@ pip3 install --user neovim
 ### General
 
 - Install the packages/programs that you want as mentioned above.
-- Clone this repo: `git clone --depth=1 https://github.com/bvanhai/dotfiles`.
+- Clone this repository: `git clone --depth=1 https://github.com/bvanhai/dotfiles`.
     - .vim directory: `git clone --depth=1 https://github.com/bvanhai/.vim`.
 - The dotfiles can simply be moved to their respective locations followed by a restart of the X server. I use symlinks to keep my file system organized so that all of these files live within the folder `dotfiles` in my home directory.
     - Change directory to where you cloned the dotfiles: `cd dotfiles`.
@@ -183,7 +193,7 @@ ln -sf /etc/fonts/conf.avail/30-infinality-aliases.conf /etc/fonts/conf.d
 
 ## Manage subtrees:
 
-Change dir to the root of this repo, then:
+Change dir to the root of this repository, then:
 
 Add `zsh-git-prompt` subtree:
 
@@ -191,7 +201,7 @@ Add `zsh-git-prompt` subtree:
 git subtree add --prefix .zsh.symlink/zsh-git-prompt https://github.com/olivierverdier/zsh-git-prompt.git master --squash
 ```
 
-Get update from the original repo:
+Get update from the original repository:
 
 ```
 git subtree pull --prefix .zsh.symlink/zsh-git-prompt https://github.com/olivierverdier/zsh-git-prompt.git master --squash
