@@ -1,0 +1,60 @@
+#
+# https://github.com/tungel/dotfiles
+# Define which dotfiles to be symlinked
+#
+
+#===============================================================================
+# The most common dot files
+.vimrc
+.vimrc-mini
+.vimrc-minimal
+.profile
+.bashrc
+.zshrc
+.tmux.conf
+.yaourtrc
+
+# Common directories
+.bin
+.zsh
+.vim
+#===============================================================================
+
+
+
+
+#===============================================================================
+# Other misc dotfiles
+.aliases
+.autostart
+.dircolors
+.fehbg
+.gitconfig
+.ideavimrc
+.inputrc
+.vimperatorrc
+.gtkrc-2.0
+.xinitrc
+.Xmodmap
+.Xresources
+
+
+# Other directories
+.aria2
+.colors
+.conky
+.mpd
+.ncmpcpp
+bspwm
+dunst
+gtk-3.0
+htop
+openbox
+#sublime-text-2
+sxhkd
+tint2
+ranger
+mpv
+sxiv
+.scrot
+#===============================================================================
