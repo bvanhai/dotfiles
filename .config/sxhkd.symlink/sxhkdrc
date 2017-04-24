@@ -1,0 +1,479 @@
+#
+# ~/.config/sxhkd/sxhkdrc
+# https://github.com/bvanhai/dotfiles
+# bspwm hotkeys
+#
+
+# Make sxhkd reload its configuration files, run after modify this file
+super + F2
+    pkill -USR1 -x sxhkd
+
+# Make .Xresources reload its configuration files:
+super + shift + F2
+    xrdb -merge ~/.Xresources
+
+# Logout a user
+ctrl + shift + alt + Escape
+    killall -KILL -u bvanhai
+
+
+
+
+#
+# bspwm hotkeys
+# ______________
+
+# Kill all active background programs that we started earlier and quit bspwm
+ctrl + shift + Escape
+    killall trayer; \
+    killall panel; \
+    killall dzen2; \
+    bspc quit;
+
+# Close and kill window
+super + {_,shift + }Escape
+    bspc node -{c,k}
+
+# Refresh all windows
+super + ctrl + alt + r
+    xrefresh
+
+# Alternate between the tiled and monocle layout
+super + m
+    bspc desktop -l next
+
+# If the current node is automatic, send it to the last manual, otherwise pull the last leaf
+super + y
+    bspc query -N -n focused.automatic && bspc node -n last.!automatic || bspc node last.leaf -n focused
+
+# Swap the current node and the biggest node
+super + g
+    bspc node -s biggest
+
+
+
+
+#
+# State/flags
+# ______________
+
+# Set the window state
+super + {t,shift + t,s,f}
+    bspc node -t {tiled,pseudo_tiled,floating,fullscreen}
+
+# Set the node flags
+super + ctrl + {x,y,z}
+    bspc node -g {locked,sticky,private}
+
+# Get all windows under the current desktop and then toggle floating/tiled
+super + alt + t
+    ws=$(bspc query --nodes --desktop); \
+    while read l; do bspc node $l -t {floating,tiled}; done <<< $ws
+
+# Rotate view of the current desktop
+super + {_,shift + ,shift + alt + }r
+    bspc node @/ -R {90,180,270}
+
+# Balance tree
+super + b
+    bspc node @/ -B
+
+# Undo balancing (equalize windows)
+super + shift + b
+    bspc node @/ -E 
+
+
+#
+# Focus/swap
+# ______________
+
+# Focus the node in the given direction
+super + {_,shift + }{h,j,k,l}
+    bspc node -{f,s} {west,south,north,east}
+
+# focus the node for the given path jump
+super + {shift + comma,shift + period,comma,period}
+    bspc node -f @{parent,brother,first,second}
+
+# Circulate the leaves of the tree of the selected desktop
+super + ctrl + {grave,Tab}
+    bspc node @/ -C {backward,forward}
+
+# Focus the next/previous node
+super + shift + {grave,Tab}
+    bspc node -f {prev,next}
+
+# Switch windows sequentially (like an app/task switcher)
+super + {grave,Tab}
+    bspc node -f {prev,next}.local
+
+# Focus the next/previous desktop
+super + bracket{left,right}
+    bspc desktop -f {prev,next}
+
+# Focus the last node/desktop
+super + alt + {grave,Tab}
+    bspc {node,desktop} -f last
+
+# Switches Window w/ Previous Window 
+super + apostrophe
+    bspc node -s last
+
+# Focus the older or newer node in the focus history
+super + {o,i}
+    bspc wm -h off; \
+    bspc node {older,newer} -f; \
+    bspc wm -h on
+
+# Focus or send to the given desktop
+super + {_,shift + }{1-9,0}
+    bspc {desktop -f,node -d} '^{1-9,10}'
+
+#
+# preselect
+# ______________
+
+# Preselect the direction
+super + ctrl + {h,j,k,l}
+    bspc node -p {west,south,north,east}
+
+# Preselect the ratio
+super + ctrl + {1-9}
+    bspc node -o 0.{1-9}
+
+# Cancel the preselection for the focused node
+super + ctrl + space
+    bspc node -p cancel
+
+# Cancel the preselection for the focused desktop
+super + ctrl + shift + space
+    bspc query -N -d | xargs -I id -n 1 bspc node id -p cancel
+
+#
+# move/resize
+# ______________
+
+# Expand a window by moving one of its side outward
+super + alt + {h,j,k,l}
+    bspc node -z {left -20 0,bottom 0 20,top 0 -20,right 20 0}
+
+#super + alt + {h,j,k,l}
+#    bspc node {@west -r -10,@south -r +10,@north -r -10,@east -r +10}
+
+# Contract a window by moving one of its side inward
+super + alt + shift + {h,j,k,l}
+    bspc node -z {right -20 0,top 0 20,bottom 0 -20,left 20 0}
+
+#super + alt + shift + {h,j,k,l}
+#    bspc node {@east -r -10,@north -r +10,@south -r -10,@west -r +10}
+
+# Move a floating window
+super + alt + ctrl + {h,j,k,l}
+    bspc node -v {-20 0,0 20,0 -20,20 0}
+
+
+
+
+#
+# Add Remove gaps/padding
+# ______________
+
+#ctrl + bracket{left,right}
+#    bspc config -m focused window_gap {33,6}
+
+ctrl + shift + bracket{left}
+    bspc config right_padding 40;\
+    bspc config left_padding 40 ;\
+    bspc config top_padding 40 ;\
+    bspc config bottom_padding 40
+
+ctrl + shift + bracket{right}
+    bspc config right_padding 0;\
+    bspc config left_padding 0 ;\
+    bspc config top_padding 25 ;\
+    bspc config bottom_padding 0
+
+
+
+#
+# pointer focus/move/resize
+# __________________
+
+# focus
+#~button1
+#    bspc pointer -g focus
+
+# start move/resize
+#super + button{1-3}
+#    bspc pointer -g {move,resize_side,resize_corner}
+
+# end move/resize
+#super + @button{1-3}
+#    bspc pointer -u
+
+# Move Window to Floating
+#super + !button{1-3}
+#    bspc pointer -t %i %i
+
+# Touchpad "gestures" (depend on your touchpad driver, very likely to be unavailable)
+# Three finger swipe (left or right) to change desktop
+#@button{10,11}
+#    bspc desktop -f {prev,next}
+
+# Three finger swipe (up) to launch dswitcher
+#@button8
+#    dswitcher & xdotool mousemove 640 400
+
+
+
+
+
+
+
+
+#
+# wm independent hotkeys
+# ______________
+
+# Program launcher
+super + BackSpace
+    $HOME/.bin/dmenu/dmenu-running-apps.sh
+
+super + shift + BackSpace
+    $HOME/.bin/dmenu/dmenu-recent.sh
+
+super + alt + BackSpace
+    rofi -show window
+
+super + space
+    $HOME/.bin/dmenu/dmenu-launch.sh
+
+super + shift + space
+    $HOME/.bin/dmenu/dmenu-file-manager.sh
+
+ctrl + alt + Delete
+    $HOME/.bin/dmenu/dmenu-power.sh
+
+super + allt + shift + BackSpace
+    dmenu_run
+
+
+
+
+# Run applications
+super + Return
+    urxvt
+
+super + w
+    urxvt -e tmux-utility.sh
+
+super + ctrl + w
+    tmux kill-session -t bvanhai
+
+super + alt + w
+    lxterminal
+
+super + shift + w
+    urxvt-tabbed
+
+super + alt + ctrl + w
+    urxvt -pe tabbed
+
+super + d
+    subl
+
+super + c
+    urxvt -e nvim
+
+super + e
+    cd /home && urxvt -e ranger
+
+super + shift + e
+    cd /home && gksu 'urxvt -e ranger'
+
+super + alt + e
+    pcmanfm
+
+super + alt + shift + e
+    gksu pcmanfm
+
+super + q
+#    google-chrome-stable
+    chromium
+
+super + shift + q
+    firefox
+
+super + a
+    urxvt -e music.sh
+
+super + shift + a
+    $HOME/.bin/mpdToggle.sh
+
+super + Delete
+    urxvt -e htop
+
+super + v
+    urxvt -e alsamixer
+
+super + shift + v
+    lxappearance
+
+super + z
+    gimp
+
+super + shift + z
+    transmission-gtk
+
+super + x
+    virtualbox
+
+super + shift + x
+    gksu 'sudo modprobe vboxdrv'
+
+# Toggle panel
+super + p
+    nohup panel >/dev/null 2>&1; \
+    $HOME/.config/bspwm/bspwmrc
+
+# Caps Lock Indicator
+Caps_Lock
+    $HOME/.bin/panel/dzen2-caps-not
+
+# Toggle trayer
+super + shift + F5
+    $HOME/.bin/trayerToggle.sh
+
+# Show clock
+super + F5
+    $HOME/.bin/clockToggle.sh
+
+# Mount USB
+super + u
+    gksu 'mkdir -p /run/media/bvanhai'; \
+    gksu 'chmod 777 -R /run/media'; \
+    devmon
+
+
+
+
+#
+# Media keys
+# ______________
+
+# Volume Control
+super + Down
+    amixer set Master 5%- unmute; \
+    $HOME/.bin/panel/dzen2-vol-not
+
+super + Up
+    amixer set Master 5%+ unmute; \
+    $HOME/.bin/panel/dzen2-vol-not
+
+XF86AudioLowerVolume
+    amixer set Master 5%- unmute; \
+    $HOME/.bin/panel/dzen2-vol-not
+
+XF86AudioRaiseVolume
+    amixer set Master 5%+ unmute; \
+    $HOME/.bin/panel/dzen2-vol-not
+
+XF86AudioMute
+    amixer set Master toggle; \
+#    amixer set Headphone toggle; \
+#    amixer set Speaker+LO toggle; \
+    $HOME/.bin/panel/dzen2-vol-mute-not
+
+XF86AudioMicMute
+    amixer set Master toggle; \
+#    amixer set Headphone toggle; \
+#    amixer set Speaker+LO toggle; \
+    $HOME/.bin/panel/dzen2-vol-mute-not
+
+# Touchpad Toggle
+XF86TouchpadToggle
+    synclient TouchpadOff=$(synclient -l | grep -c 'TouchpadOff.*=.*0')
+
+super + F12
+    synclient TouchpadOff=$(synclient -l | grep -c 'TouchpadOff.*=.*0')
+
+# Brightness Xkeys
+XF86MonBrightnessDown
+    xbacklight -dec 10%; \
+    $HOME/.bin/panel/dzen2-blight-not
+
+XF86MonBrightnessUp
+    xbacklight -inc 10%; \
+    $HOME/.bin/panel/dzen2-blight-not
+
+super + Left
+    xbacklight -dec 10%; \
+    $HOME/.bin/panel/dzen2-blight-not
+
+super + Right
+    xbacklight -inc 10%; \
+    $HOME/.bin/panel/dzen2-blight-not
+
+XF86Battery
+    xset dpms force off
+
+super + XF86Battery
+    xset dpms 0 0 0 && xset s off
+
+super + shift + XF86Battery
+    xset dpms 300 600 900
+
+super + alt + XF86Battery
+    xset dpms 3 6 9
+
+
+# Take screenshot 
+Print
+    cd ~/.scrot/screenshot/; \
+    scrot; \
+    aplay ~/.scrot/sound/camera-shutter-click-01.wav; \
+    cd ~/
+
+# Take screenshot window
+shift + @Print
+    cd ~/.scrot/screenshot/; \
+    scrot -s; \
+    aplay ~/.scrot/sound/camera-shutter-click-02.wav; \
+    cd ~/
+
+# Take screenshot after 5 second
+ctrl + @Print
+    cd ~/.scrot/screenshot/; \
+    aplay ~/.scrot/sound/camera-focusing-02.wav; \
+    scrot -d 1; \
+    aplay ~/.scrot/sound/camera-shutter-click-01.wav; \
+    cd ~/
+
+# Screen rotate
+super + F12
+    xrandr --output LVDS1 --rotate normal
+F12
+    xrandr --output LVDS1 --rotate right
+
+
+
+
+#
+# Power keys
+# ______________
+
+# Suspend
+XF86Sleep
+    systemctl suspend
+
+# Toggle auto suspend
+shift + XF86Sleep
+    $HOME/.bin/xautolockToggle.sh
+
+# Reboot
+alt + XF86Sleep
+    systemctl reboot
+
+# Poweroff
+ctrl + XF86Sleep
+    systemctl poweroff

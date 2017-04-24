@@ -1,0 +1,134 @@
+!
+! ~/Xresources
+! https://github.com/bvanhai/dotfiles
+!
+
+! Run: `xrdb -merge ~/.Xresources` after modify this file
+! To check the default color, see: `man urxvt` section `COLOURS AND GRAPHICS`
+#include "/home/bvanhai/.colors/current-xr"
+
+
+! Font stuffs
+
+! For 4K monitor
+! Xft.dpi: 180
+
+Xft.dpi: 96
+Xft.autohint: true
+Xft.lcdfilter:  lcddefault
+Xft.hintstyle:  hintfull
+Xft.hinting: true
+Xft.antialias: true
+Xft.rgba: rgb
+
+Xcursor.theme: Pulse-Glass-Sapphire-Small
+Xcursor.size:  16
+
+! URxvt Settings
+
+URxvt.font: xft:Inconsolata-g:style=Medium:pixelsize=13:antialias=true:hinting=true
+URxvt.boldFont: xft:Inconsolata-g:style=Medium:pixelsize=13:antialias=true:hinting=true
+URxvt.italicFont: xft:Inconsolata-g:style=Medium:pixelsize=13:antialias=true:hinting=true
+
+!URxvt.font: xft:Inconsolata\ for\ Powerline:style=Medium:pixelsize=14:antialias=true:hinting=true
+!URxvt.boldFont: xft:Inconsolata\ for\ Powerline:style=Medium:pixelsize=14:antialias=true:hinting=true
+!URxvt.italicFont: xft:Inconsolata\ for\ Powerline:style=Medium:pixelsize=14:antialias=true:hinting=true
+
+! Make letters stay closer to each other, work well with font Dejavu Sans Mono
+! for Powerline at pixelsize=12 or size=9
+! Note: letterSpace:-1 will fix the folk icon of vim-airline but then the
+! spacing is a bit wide, so we scarify the folk icon for the look of the
+! content by setting it to -2
+URxvt.letterSpace: 0
+
+URxvt.urgentOnBell: true
+URxvt.inheritPixmap: false
+URxvt.xftAntialias: true
+urxvt*bold: false
+urxvt*depth: 32
+urxvt*blurRadius: 3
+URxvt.tintColor: black
+URxvt.fading: 20
+URxvt.fadeColor: #453e40
+URxvt.mouseWheelScrollPage: true
+URxvt.saveLines: 32767
+
+
+!URxvt*pointerColorBackground : #586e75
+!URxvt*pointerColorForeground : #93a1a1
+
+! Fix problem with color in tmux plugin from oh-my-zsh, maybe: tmux-256color
+URxvt.termName: tmux-256color
+URxvt.tabbed.tabbar-fg: 15
+URxvt.tabbed.tabbar-bg: 0
+URxvt.tabbed.tab-fg: 11
+URxvt.tabbed.tab-bg: 8
+URxvt.tabbed.autohide: yes
+URxvt.visualBell: false
+URxvt.scrollTtyOutput: false
+URxvt.scrollWithBuffer: true
+URxvt.scrollTtyKeypress: true
+!URxvt*scrollWithBuffer: true
+!URxvt*secondaryScroll: true
+!URxvt*skipScroll: true
+!URxvt*colorUL: #aaaaaa
+!URxvt*underlineColor: #777777
+!URxvt*buffered: true
+!URxvt.borderLess: false
+
+URxvt.scrollBar:false
+URxvt*scrollBar_right: true
+URxvt*scrollstyle: rxvt
+URxvt*scrollBar_floating: false
+
+
+! Disable for Ctrl+Shift+c/v and set Ctrl+c/v for copy and paste
+URxvt.iso14755:false
+URxvt.iso14755_52:false
+URxvt.keysym.C-c: perl:clipboard:copy
+URxvt.keysym.C-v: perl:clipboard:paste
+URxvt.keysym.C-M-v: perl:clipboard:paste_escaped
+
+
+URxvt.perl-ext-common: default,matcher,clipboard,url-select,keyboard-select
+!URxvt.perl-ext-common: font-size,autocomplete-ALL-the-things, matcher
+URxvt.url-select.launcher: /usr/bin/chromium
+!URxvt.url-select.underline: true
+!URxvt.matcher.button: 1
+!URxvt.clipboard.autocopy: true
+!URxvt.matcher.rend.0: -Uline fg16
+!URxvt.matcher.pattern.1: \bwww\.[\w-]\.[\w./?&@#-]*[\w/-]
+URxvt.cursorColor:  #5E468C
+URxvt.cursorBlink: 0
+URxvt.cursorUnderline: 0
+urxvt.internalBorder: 6
+URxvt.geometry:100x30
+
+!URxvt.keysym.M-slash:       perl:aAtt:complete
+URxvt.keysym.M-Escape:      perl:keyboard-select:activate
+!URxvt.keysym:M-s:           perl:keyboard-select:search
+URxvt.keysym.M-u:           perl:url-select:select_next
+!URxvt.keysym.C-Up:          perl:font-size:increase
+!URxvt.keysym.C-Down:        perl:font-size:decrease
+!URxvt.keysym.S-Up:          command:\033]720;1\007
+!URxvt.keysym.S-Down:        command:\033]721;1\007
+!URxvt.keysym.C-Return:      command:\033[?25t
+!URxvt.keysym.C-Tab:         command:\033[?47t
+
+! Use Ctrl+[0..9] to select window in tmux
+! http://unix.stackexchange.com/questions/96884/using-ctrl0-9-to-cycle-between-windows-using-tmux
+! Use `xev` program to view the `keysym` code
+URxvt.keysym.C-1: \033[27;5;49~
+URxvt.keysym.C-2: \033[27;5;50~
+URxvt.keysym.C-3: \033[27;5;51~
+URxvt.keysym.C-4: \033[27;5;52~
+URxvt.keysym.C-5: \033[27;5;53~
+URxvt.keysym.C-6: \033[27;5;54~
+URxvt.keysym.C-7: \033[27;5;55~
+URxvt.keysym.C-8: \033[27;5;56~
+URxvt.keysym.C-9: \033[27;5;57~
+URxvt.keysym.C-0: \033[27;5;48~
+URxvt.keysym.C-Tab: \033[27;5;9~
+
+ssh-askpass*background: #000000
+URxvt.intensityStyles: false

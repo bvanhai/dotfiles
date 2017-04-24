@@ -1,0 +1,84 @@
+#!/bin/sh
+# ~/.config/bspwm/bspwmrc
+# https://github.com/bvanhai/dotfiles
+#
+
+# Load color theme
+. $HOME/.colors/current-sh
+
+# Kill all the bspc process first
+if [ $(pgrep -cx bspc) -gt 0 ]; then
+    kill -9 $(ps aux | grep bspc | sed 's/\s\+/ /g' | cut -d' ' -f2 | xargs)
+fi
+
+# Global Settings
+bspc config normal_border_color           $COLOR_BACKGROUND
+bspc config focused_border_color          $COLOR_MAGENTA_DARK
+bspc config active_border_color           $COLOR_BACKGROUND
+bspc config split_ratio                   0.52
+bspc config borderless_monocle            true
+bspc config gapless_monocle               true
+bspc config click_to_focus                true
+bspc config remove_disabled_monitors      true
+bspc config remove_unplugged_monitors     true
+bspc config merge_overlapping_monitors    true
+
+# Desktop Settings
+bspc config window_gap                    4
+
+# Node Settings
+bspc config border_width                  0
+
+# Padding to force to center
+PADDING=-4
+bspc config right_padding                 $PADDING
+bspc config left_padding                  $PADDING
+bspc config top_padding                   $PADDING
+bspc config bottom_padding                $PADDING
+
+# Monitor Settings
+if [ $(bspc query -M | wc -l) -eq 2 ]; then
+    bspc monitor LVDS1 -d VI VII VIII IX X
+    bspc monitor VGA1 -d I II III IV V
+    # Move the focus to the main monitor
+    bspc monitor -f primary
+else
+    bspc monitor -d I II III IV V VI VII VIII IX X
+fi
+
+# Rules Settings
+bspc rule -a sublime_text desktop='^2' follow=on
+bspc rule -a google-chrome desktop='^3' follow=on
+bspc rule -a Chromium desktop='^3' follow=on
+bspc rule -a mpv desktop='^4' follow=on
+bspc rule -a Firefox desktop='^5' follow=on
+bspc rule -a Gimp desktop='^6' follow=on
+bspc rule -a VirtualBox desktop='^7' follow=on
+bspc rule -a zathura desktop='^8' follow=on
+bspc rule -a feh center=true
+bspc rule -a file-roller state=pseudo_tiled
+bspc rule -a Screenkey manage=off
+
+# Kill panel and start
+if [ $(pgrep -cx panel) -gt 0 ]; then
+    kill -9 $(ps aux | grep panel | sed 's/\s\+/ /g' | cut -d' ' -f2 | xargs)
+fi
+
+if [ $(pgrep -cx dzen2) -gt 0 ]; then
+    kill -9 $(ps aux | grep dzen2 | sed 's/\s\+/ /g' | cut -d' ' -f2 | xargs)
+fi
+
+if [ $(pgrep -cx xtitle) -gt 0 ]; then
+    kill -9 $(ps aux | grep xtitle | sed 's/\s\+/ /g' | cut -d' ' -f2 | xargs)
+fi
+
+# Tray icon
+if [ $(pgrep -cx trayer) -gt 0 ]; then
+    kill -9 $(ps aux | grep trayer | sed 's/\s\+/ /g' | cut -d' ' -f2 | xargs)
+fi
+
+# Panel dzen2
+#sh $HOME/.bin/panel/panel &
+
+# Wait for panel to show up first (bar or dzen2)
+#sleep 2 &

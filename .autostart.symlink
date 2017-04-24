@@ -1,0 +1,114 @@
+#!/bin/sh
+# ~/.autostart
+# https://github.com/bvanhai/dotfiles
+#
+
+# Set keyboard language
+#setxkbmap -layout en
+
+# For personal fonts
+#xset fp+ $HOME/.fonts
+#xset fp rehash
+#fc-cache -fv
+
+# Unmute with amixer
+#amixer set Master unmute; \
+#amixer set Headphone unmute; \
+#amixer set Speaker+LO unmute;
+
+# Set the cursor icon
+xsetroot -cursor_name left_ptr
+
+# Turn off the laptop LCD panel
+#xrandr    # See what resolution available
+#xrandr --output LVDS1 --off
+#xrandr --output VGA1 --mode 1920x1080
+#xrandr --auto    # Auto adjust monitors
+
+# Set dim LCD brightness
+#xbacklight -set 100
+
+# Screen powersave
+xset +dpms & # Energy Star features on
+xset dpms 600 1200 1800 & # standby -> suspend -> off (seconds)
+
+# Mouse acceleration (xset m <acceleration> <threshold>)
+xset m 3/2 4
+
+# Turn off system beep
+xset b off
+
+# Disable screen blanking (beyond disabling the screensaver)
+#xset -dpms
+#xset s noblank
+#xset s off
+
+#xset c on
+#xset s noexpose
+
+# Adjusting keyboard speed
+xset r rate 200 30
+
+# Disable synaptics mouse
+#synclient TouchpadOff=1
+
+# Enable tap-to-click on touchpad
+#synclient TapButton1=1 TapButton2=2 TapButton3=3
+
+# Disable trackpad while typing 2 seconds
+# -i 2 sets the idle time to 2 seconds. The idle time specifies how many seconds
+# to wait after the last key-press before enabling the touchpad again.
+# -t tells the daemon not to disable mouse movement when typing and only disable
+# tapping and scrolling.
+# -k tells the daemon to ignore modifier keys when monitoring keyboard activity
+# (e.g.: allows Ctrl+Left Click).
+# -d starts as a daemon, in the background.
+#syndaemon -t -k -i 2 -d
+
+
+# Composite Window-effects
+#xcompmgr -c &
+
+# Wallpaper
+#sh $HOME/.fehbg &
+#feh --bg-center /home/Data/Wallpapers/A &
+#feh --randomize --bg-scale /home/Data/Wallpapers/* &
+
+# Conky
+#$HOME/.conky/4-conky.sh &
+
+# Downloads aria2c
+aria2c &
+
+# Power Manager
+#xfce4-power-manager &
+
+# Network Manager tray icon
+#nm-applet &
+
+# Bluetooth applet
+#blueman-applet &
+
+# Check and enable various useful services if Arch is running inside VirtualBox
+# also can use `dmesg` command to check this
+#if [ $(lspci | grep -i VirtualBox | wc -l) -gt 0 ]; then
+#  /usr/bin/VBoxClient-all
+#fi
+
+# Starts screensaver daemon
+#xscreensaver -log ~/log/xscreensaver -no-splash &
+
+# Start locker
+xautolock -time 60 -locker $HOME"/.bin/autoSuspend.sh" -detectsleep &
+
+# Set xautolock state
+echo 'enabled' > /tmp/xautolock.state
+
+# Fix display thing
+$HOME/.bin/echoDisplay.sh &
+
+# Automount removable media
+#devmon &
+
+# Welcome message
+#notify-send "Don't cry because it is over, smile because it happened." &

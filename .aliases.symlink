@@ -1,0 +1,286 @@
+#
+# ~/.aliases
+# https://github.com/bvanhai/dotfiles
+#
+
+# Enable color support of ls and also add handy aliases
+if [ -x /usr/bin/dircolors ]; then
+    test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
+    alias ls='ls --color=auto'
+    alias dir='dir --color=auto'
+    alias vdir='vdir --color=auto'
+
+    alias grep='grep --color=auto'
+    alias fgrep='fgrep --color=auto'
+    alias egrep='egrep --color=auto'
+fi
+
+# Some more ls aliases
+alias ll="ls -l --group-directories-first"
+alias lh="ls -h --color"    # add colors for filetype recognition
+alias la="ls -a"            # show hidden files
+alias lx="ls -xb"           # sort by extension
+alias lk="ls -lSr"          # sort by size, biggest last
+alias lc="ls -ltcr"         # sort by and show change time, most recent last
+alias lu="ls -ltur"         # sort by and show access time, most recent last
+alias lt="ls -ltr"          # sort by date, most recent last
+alias lm="ls -al |more"     # pipe through 'more'
+alias lr="ls -lR"           # recursive ls
+alias lsr="tree -Csu"       # nice alternative to 'recursive ls'
+
+
+# General
+alias less="less -FX"
+alias exit="clear; exit"
+alias 200="ssh 200 -t tmux a -d"
+alias sent="ssh -t cent ssh -t 200"
+alias socks="ssh -D 8080 -f -C -q -N 200"
+
+# Query the systemd journal:
+alias jncl='journalctl -xrb'
+
+# cd
+alias cddl='cd ~/Downloads'
+
+# Empty backup
+alias backupr='rm -rf /home/Data/backup && mkdir -p /home/Data/backup'
+alias backupsr='sudo rm -rf /home/Data/backup && mkdir -p /home/Data/backup'
+
+# Package managers
+# For yaourt
+alias ya='yaourt'
+alias yy='yaourt -Syua'
+alias ys='yaourt -S'
+alias yr='yaourt -Rsnc'
+alias yq='yaourt -Q'
+alias yc='yaourt -Sc'
+
+# For pacman
+alias spa='sudo pacman'
+alias spy='sudo pacman -Syu'
+alias sps='sudo pacman -S'
+alias spu='sudo pacman -U'
+alias spr='sudo pacman -Rsnc'
+alias spq='sudo pacman -Q'
+alias spc='sudo pacman -Sc'
+alias orphans="pacman -Qtdq"
+
+# For permission
+alias scm1='sudo chmod -R go-w /home/Data'
+alias scm2='sudo chmod -R go-w /home/bvanhai/Downloads'
+alias scm3='sudo chmod -R go-w /home/bvanhai/Desktop'
+alias scm4='sudo chmod -R go-w /home/bvanhai/dotfiles'
+
+
+# For xclip
+alias pbcopy='xclip -selection clipboard'   # copy to clipboard, ctrl+c, ctrl+shift+c
+alias pbpaste='xclip -selection clipboard -o'   # paste from clipboard, ctrl+v, ctrl+shift+v
+alias pbselect='xclip -selection primary -o'    # paste from highlight, middle click, shift+insert
+
+# Directories
+alias cddf="cd ~/dotfiles/"
+alias cddd="cd ~/dotfiles-d/"
+alias cdv="cd ~/.vim/"
+# For git:
+alias ga="git add"
+alias gc="git commit -m"
+alias gcu="commit -m "Update""
+alias gca="git commit -a -m"
+alias gcau="git commit -a -m "Update""
+
+alias gp="git push -u origin master"
+alias gpu="git pull"
+alias gitprb="git stash && git pull && git rebase && git stash apply && git stash drop"
+
+alias gits="git status -sb"
+alias gitco="git checkout "
+alias gitcom="git checkout master"
+
+# For Google Drive:
+alias cdgd="cd ~/gdrive"
+alias dp="cdgd && drive push"
+alias dpL="cdgd && drive push Linux"
+alias dpu="cdgd && drive pull"
+
+# Sync time and store to hardware clock
+alias mytime="sudo ntpd -qg && sudo hwclock -w"
+
+# Kill tmux session bvanhai
+alias tks="tmux kill-session -t"
+
+# alias tmux="TERM=screen-256color-bce tmux" <- not very nice
+#alias tmux="tmux -2" # force tmux to use 256 colors
+
+
+# tree: show tree, limit level to 2 automatically
+alias tree="tree -L 2"
+
+# for WiFi
+alias wifiup='sudo ip link set wlo1 up'
+#alias wifiup='sudo ip link set wlp0s29f7u1 up'
+alias wificonnect='sudo wpa_supplicant -i wlo1 -c /etc/wpa_supplicant.conf -B'
+#alias wificonnect='sudo wpa_supplicant -i wlp0s29f7u1 -c /etc/wpa_supplicant.conf -B'
+alias wifiwep='sudo iwconfig wlo1 essid "wifi-id" key s:password'
+alias wifiip='sudo dhcpcd wlo1'
+#alias wifiip='sudo dhcpcd wlp0s29f7u1'
+alias swfm='sudo wifi-menu'
+
+# for LAN network
+alias pong="ping -c 3 www.google.com"
+alias lanup='sudo ip link set enp3s0 up'
+alias lanip='sudo dhcpcd enp3s0'
+
+#alias phoneup='sudo ip link set enp0s29f7u4u4u1 up'
+#alias phoneip='sudo dhcpcd enp0s29f7u4u4u1'
+
+# for Android USB tethering: connect to the usb port beside the HDMI
+alias phoneip='sudo dhcpcd enp0s29f7u2'
+
+#fix the DNS problem of the new router
+alias jurong='echo "nameserver 165.21.100.88" | sudo tee /etc/resolv.conf'
+
+# Touchpad Toggle
+alias padtog='synclient TouchpadOff=$(synclient -l | grep -c "TouchpadOff.*=.*0")'
+
+#for bluetooth
+alias onbt='sudo systemctl start bluetooth.service'
+
+# Top file, folder
+alias topbigdirs="du -h | sort -rh | head -n 20"
+alias topbigfiles="find . -type f -exec du -Sh {} + | sort -rh | head -n 20"
+
+# for mount/unmount USB flashdrive using devmon
+alias um="devmon --mount"
+alias uu="devmon --unmount"
+alias usbm="sudo mount /dev/sdb1 /home/USB"
+alias usbu="sudo umount /dev/sdb1 /home/USB"
+alias osm="sudo mount -t ntfs-3g /dev/sda2 /home/OS"
+
+
+alias findproc="ps aux | grep "
+alias fp="ps aux | grep "
+alias killproc="kill -9"
+alias kp="kill -9"
+
+# Find out which distro we are using
+alias mydistro="cat /etc/*-release"
+
+# for gvim to load back the session
+# alias gvim="gvim -S ~/session.gvim"
+
+# make Acer laptop brighter:
+alias brighter="sudo tee /sys/class/backlight/intel_backlight/brightness <<< 1200"
+
+# sudo make install/uninstall
+alias smi="sudo make install"
+alias smu="sudo make uninstall"
+
+# project to external HDMI screen/monitor
+alias hdmi="xrandr --output HDMI1 --mode 1920x1080"
+
+# project to external VGA monitor
+alias vga="xrandr --output VGA1 --mode 1920x1080"
+alias vga2="xrandr --output VGA2 --mode 1920x1080"
+
+# delete lock vim's session
+#alias rmvim="rm $NOGIT/vimdata/sessions/default.vim.lock ; \
+#             rm $NOGIT/vimdata/sessions/default.vim ; \
+#             rm $NOGIT/vimdata/sessions/last-session.txt"
+
+# To enable various useful stuff for Arch Linux guest in VirtualBox machine
+alias myvirtualbox="sudo modprobe -a vboxguest vboxsf vboxvideo ; \
+                    sudo VBoxClient-all & ; \
+                    sudo systemctl start vboxservice.service"
+
+
+# Add an "alert" alias for long running commands.  Use like so:
+#   sleep 10; alert
+alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
+
+
+alias mybspwm="~/.config/bspwm/bspwmrc"
+
+# for zathura and vim for latex
+# zathura -s -x 'gvim --servername SYNCTEX --remote +%{line} %{input}' thesis.pdf
+alias zavim="zathura -s -x 'gvim --servername SYNCTEX --remote +%{line} %{input}'"
+
+alias dev="cd ~/Dropbox/dev"
+
+# for Dropbox and other app that need to monitor files
+alias mynotify='sudo sysctl fs.inotify.max_user_watches=1000000000'
+
+# list all users
+alias userlist='cut -d: -f1 /etc/passwd'
+
+# list all groups
+alias grouplist='cut -d: -f1 /etc/group'
+
+# AUR Arch Linux has moved to https://aur4.archlinux.org but by default yaourt
+# doesn't seem to use the new url, so here is the fix:
+alias yaourt4='yaourt --aur-url https://aur4.archlinux.org'
+
+alias x='xargs -d "\n"'
+alias cp='cp -i'
+alias mv='mv -i'
+alias cpr='cp -r'
+alias j='jobs'
+alias ..='cd ..'
+alias b='cd -'
+
+alias cgrep='grep --color=auto'
+alias igrep='grep -i'
+alias icgrep='grep --color=auto -i'
+alias ngrep='grep -n'
+alias ingrep='grep -in'
+alias cingrep='grep -in --color=auto'
+alias rgrep='grep -r'
+
+alias pgx='pgrep -x'
+alias pgg='pgrep -g'
+alias pkx='pkill -x'
+alias pkg='pkill -g'
+
+alias chbin='chmod 755'
+alias chord='chmod 644'
+alias octalrights='stat -c %a'
+alias cal='cal -m'
+alias lsync='rsync -aulv --delete'
+alias beep='printf "\a"'
+
+alias rmrf='rm -rf'
+alias rmnn='rm -iv -- "$(nn)"'
+alias rmrfnn='rmrf -v -- "$(nn)"'
+alias ded='find . -type d -empty -print -delete'
+alias duffr='duff -f "%n" -r .'
+
+alias fq='fc-list : family | grep -i'
+alias fqs='fc-list : family style | grep -i'
+alias fqf='fc-list : family file | grep -i'
+alias dpms='xset q | grep "^ *DPMS is" | awk "{print \$3}" | tr "[:upper:]" "[:lower:]"'
+alias psa='ps -Ao tty,pgrp,ppid,pid,comm'
+
+alias alsm='alsamixer'
+
+alias T='date "+%H:%M"'
+alias M='date "+%B"'
+alias Y='date "+%Y"'
+alias D='date "+%Y.%m.%d-%H.%M"'
+
+
+# Print the wireless driver in use
+mywifidriver() {
+    wireless=$(lspci | grep -i wireless | awk '{ print $1  }')
+    if [ $wireless ]; then
+        lspci -vv -s $wireless | grep -iP 'kernel driver in use' | awk -F: '{ gsub(/[ \t]+/, ""); print $2;  }'
+    fi
+}
+
+# Restart wifi driver as it's broken sometimes after waking up from suspend
+mywifirestart() {
+    wirelessDriver=$(mywifidriver)
+    if [ $wirelessDriver ]; then
+        echo "Restarting wireless driver: $wirelessDriver"
+        sudo modprobe -r $wirelessDriver
+        sudo modprobe $wirelessDriver
+    fi
+}
