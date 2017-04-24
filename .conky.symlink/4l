@@ -1,0 +1,103 @@
+######################
+# - Conky settings - #
+######################
+update_interval 1
+total_run_times 0
+net_avg_samples 1
+cpu_avg_samples 1
+uppercase yes
+
+imlib_cache_size 0
+double_buffer yes
+no_buffers yes
+format_human_readable
+draw_graph_borders no
+
+#####################
+# - Text settings - #
+#####################
+use_xft yes
+xftfont Open Sans Light:size=8
+override_utf8_locale yes
+text_buffer_size 2048
+
+#############################
+# - Window specifications - #
+#############################
+own_window yes
+own_window_argb_visual true
+own_window_argb_value 120
+own_window_transparent no
+own_window_color 000000
+own_window_type normal
+own_window_hints undecorated,below,sticky,skip_taskbar,skip_pager
+
+alignment tl
+gap_x 23
+gap_y 20
+minimum_size 210 830
+maximum_width 232
+default_bar_size 230 0
+
+#############
+# - Graphics settings - #
+#############
+draw_shades no            
+color1 6D6D6D
+color2 717c75
+color3 929292
+color4 111111
+
+TEXT
+
+# Music
+${font Open Sans Light:size=8}${color1}  MUSIC
+${color #111111}${execbar}
+${voffset 3}${goto 10}${if_running audacious}${font Open Sans Light:size=7}${color2}TITLE: ${goto 70}${alignr}${color3}${scroll 40 ${exec audtool --current-song-tuple-data title}}${color}    
+${voffset 3}${goto 10}${color2}ARTIST: ${alignr}${color3}${exec audtool --current-song-tuple-data artist | cut -b-35}${color}    
+${voffset 3}${goto 10}${color2}ALBUM: ${alignr}${color3}${exec audtool --current-song-tuple-data album | cut -b-35}${color}    
+${voffset 5}${alignr}${color3}${exec audtool --current-song-output-length} / ${exec audtool --current-song-length}${color}    
+${else}
+${voffset 3}
+${font Open Sans Light:size=7}${alignc}${color3}SILENT
+${voffset 4}
+$endif
+
+
+
+${font Open Sans Light:size=8}${color1}  Facebook
+${color #111111}${execbar}
+
+
+
+
+
+
+
+
+${font Open Sans Light:size=8}${color1}  DISTROWATCH
+${color #111111}${execbar}
+${voffset 3}${goto 10} ${color3}${font Open Sans Light:size=7}${rss http://distrowatch.com/news/dw.xml 5 item_title 0}${color}
+${voffset 3}${goto 10} ${color3}${rss http://distrowatch.com/news/dw.xml 5 item_title 1}${color}
+${voffset 3}${goto 10} ${color3}${rss http://distrowatch.com/news/dw.xml 5 item_title 2}${color}
+${voffset 3}${goto 10} ${color3}${rss http://distrowatch.com/news/dw.xml 5 item_title 3}${color}
+${voffset 3}${goto 10} ${color3}${rss http://distrowatch.com/news/dw.xml 5 item_title 4}${color}
+
+
+
+${font Open Sans Light:size=8}${color1} Phoronix
+${color #111111}${execbar}
+${voffset 3}${goto 10} ${color3}${font Open Sans Light:size=7}${rss http://www.phoronix.com/rss.php 5 item_title 0}${color}
+${voffset 3}${goto 10} ${color3}${rss http://www.phoronix.com/rss.php 5 item_title 1}${color}
+${voffset 3}${goto 10} ${color3}${rss http://www.phoronix.com/rss.php 5 item_title 2}${color}
+${voffset 3}${goto 10} ${color3}${rss http://www.phoronix.com/rss.php 5 item_title 3}${color}
+${voffset 3}${goto 10} ${color3}${rss http://www.phoronix.com/rss.php 5 item_title 4}${color}
+
+
+
+${font Open Sans Light:size=8}${color1}  Verse of the Day
+${color #111111}${execbar}
+${voffset -20}${goto 10} ${font Open Sans Light:size=7}${color3}
+${goto 10} ${execi 3600 $HOME/.conky/.votd/votd}
+${goto 10} ${execi 3600 sed -n '2p' $HOME/.conky/.votd/verse | fold -w 45 -s}
+${voffset 5}${goto 10} ${font Open Sans Light:size=7}${alignr}${color2}${execi 3600 sed -n '1p' $HOME/.conky/.votd/verse}  

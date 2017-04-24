@@ -1,0 +1,153 @@
+# Use Xft?
+use_xft yes
+xftfont Open Sans Light:size=8
+xftalpha 0.8
+text_buffer_size 2048
+uppercase yes
+short_units yes
+
+# Update interval in seconds
+update_interval 1
+
+# This is the number of times Conky will update before quitting.
+# Set to zero to run forever.
+total_run_times 0
+
+# Create own window instead of using desktop (required in nautilus)
+own_window yes
+own_window_transparent yes
+own_window_type normal
+own_window_hints undecorated,below,sticky,skip_taskbar,skip_pager
+#own_window_argb_visual yes
+#own_window_argb_value 255
+
+# Use double buffering (reduces flicker, may not work for everyone)
+double_buffer yes
+
+minimum_size 250
+
+# Draw shades?
+draw_shades no
+default_shade_color 292421
+# Draw outlines?
+draw_outline no
+
+# Draw borders around text
+draw_borders no
+
+# Stippled borders?
+stippled_borders 0
+
+# border margins
+border_inner_margin 5
+border_outer_margin 0
+draw_graph_borders no
+# border width
+border_width 0
+
+# Text alignment, other possible values are commented
+#alignment top_left
+alignment top_right
+#alignment bottom_left
+#alignment bottom_right
+
+# Gap between borders of screen and text
+# same thing as passing -x at command line
+gap_x 30
+gap_y 20
+
+#	Distric-Thin			fonts
+#	Blue Highway
+#	Raleway
+#	Zekton
+#	Calibri
+#	Engebrechtre
+#	Opeln2001
+#	Open Sans Light
+#	Open Sans Light
+
+# -- Lua Load -- #
+lua_load ~/.conky/3.lua
+lua_draw_hook_pre draw_bg
+
+imlib_cache_size 0
+
+color1 0099CC
+color2 9933CC
+color3 669900
+color4 FF8800
+color5 CC0000
+color6 AAAAAA
+color7 484848
+
+TEXT
+#${lua conky_draw_bg}
+${execi 300 curl -s "http://weather.yahooapis.com/forecastrss?w=1252431&u=c" -o ~/.cache/weather.xml}${font Open Sans Light:size=15}${execi 300 grep "yweather:location" ~/.cache/weather.xml | grep -o "city=\"[^\"]*\"" | grep -o "\"[^\"]*\"" | grep -o "[^\"]*"}, ${execi 300 grep "yweather:location" ~/.cache/weather.xml | grep -o "country=\"[^\"]*\"" | grep -o "\"[^\"]*\"" | grep -o "[^\"]*"}${font}
+${font Open Sans Light:size=45}${alignr}${execi 300 grep "yweather:condition" ~/.cache/weather.xml | grep -o "temp=\"[^\"]*\"" | grep -o "\"[^\"]*\"" | grep -o "[^\"]*"}°${font}
+#${voffset -20}
+${execi 300 cp -f ~/.conky/.conky-google-now/$(grep "yweather:condition" ~/.cache/weather.xml | grep -o "code=\"[^\"]*\"" | grep -o "\"[^\"]*\"" | grep -o "[^\"]*").png ~/.cache/weather.png}${image ~/.cache/weather.png -p 0,45 -s 60x60}
+${execi 300 grep "yweather:condition" ~/.cache/weather.xml | grep -o "text=\"[^\"]*\"" | grep -o "\"[^\"]*\"" | grep -o "[^\"]*" | tr '[a-z]' '[A-Z]'}
+${voffset 10}${image ~/.conky/.conky-google-now/wind.png -p 0,135 -s 15x15}${goto 35}${color6}${execi 300 grep "yweather:wind" ~/.cache/weather.xml | grep -o "speed=\"[^\"]*\"" | grep -o "\"[^\"]*\"" | grep -o "[^\"]*"}${execi 300 grep "yweather:units" ~/.cache/weather.xml | grep -o "speed=\"[^\"]*\"" | grep -o "\"[^\"]*\"" | grep -o "[^\"]*"}${color}
+${image ~/.conky/.conky-google-now/humidity.png -p 0,155 -s 15x15}${goto 35}${color6}${execi 300 grep "yweather:atmosphere" ~/.cache/weather.xml | grep -o "humidity=\"[^\"]*\"" | grep -o "\"[^\"]*\"" | grep -o "[^\"]*"}%${color}
+${execi 300 cp -f ~/.conky/.conky-google-now/$(grep "yweather:forecast" ~/.cache/weather.xml | grep -o "code=\"[^\"]*\"" | grep -o "\"[^\"]*\"" | grep -o "[^\"]*" | awk 'NR==1').png ~/.cache/weather-today.png}${image ~/.cache/weather-today.png -p 0,185 -s 30x30}${execi 300 cp -f ~/.conky/.conky-google-now/$(grep "yweather:forecast" ~/.cache/weather.xml | grep -o "code=\"[^\"]*\"" | grep -o "\"[^\"]*\"" | grep -o "[^\"]*" | awk 'NR==2').png ~/.cache/weather-tomorrow.png}${image ~/.cache/weather-tomorrow.png -p 130,185 -s 30x30}
+#${voffset -10}
+${goto 60}${execi 300 grep "yweather:forecast" ~/.cache/weather.xml | grep -o "day=\"[^\"]*\"" | grep -o "\"[^\"]*\"" | grep -o "[^\"]*" | awk 'NR==1' | tr '[a-z]' '[A-Z]'}${goto 190}${execi 300 grep "yweather:forecast" ~/.cache/weather.xml | grep -o "day=\"[^\"]*\"" | grep -o "\"[^\"]*\"" | grep -o "[^\"]*" | awk 'NR==2' | tr '[a-z]' '[A-Z]'}
+${goto 60}${execi 300 grep "yweather:forecast" ~/.cache/weather.xml | grep -o "high=\"[^\"]*\"" | grep -o "\"[^\"]*\"" | grep -o "[^\"]*" | awk 'NR==1'}° ${color6}${execi 300 grep "yweather:forecast" ~/.cache/weather.xml | grep -o "low=\"[^\"]*\"" | grep -o "\"[^\"]*\"" | grep -o "[^\"]*" | awk 'NR==1'}°${color}${goto 190}${execi 300 grep "yweather:forecast" ~/.cache/weather.xml | grep -o "high=\"[^\"]*\"" | grep -o "\"[^\"]*\"" | grep -o "[^\"]*" | awk 'NR==2'}° ${color6}${execi 300 grep "yweather:forecast" ~/.cache/weather.xml | grep -o "low=\"[^\"]*\"" | grep -o "\"[^\"]*\"" | grep -o "[^\"]*" | awk 'NR==2'}°${color}
+#${voffset 15}
+${color7}${hr}${color}
+#
+${if_existing /proc/net/route wlo1}
+${color1}Up:${color} ${color3}${upspeed wlo1}${color}${alignr}${color1}Down:${color} ${color3}${downspeed wlo1}${color}
+${upspeedgraph wlo1 50,120 FF8800 FF8800}${alignr}${downspeedgraph wlo1 50,120 FF8800 FF8800}
+${color1}Sent:${color} ${color2}${totalup wlo1}${color}${alignr}${color1}Received:${color} ${color2}${totaldown wlo1}${color}
+${else}
+Network disconnected
+${color6}Connect to a network to see statistics${color}
+${voffset 50}
+${endif}${voffset -15}
+${color7}${hr}${color}
+#
+#
+${font Open Sans Light:pixelsize=15}System Info
+${color}${font Open Sans Light:pixelsize=10}USER: ${color1}${alignr}${execi 3600 whoami}
+${color}${font Open Sans Light:pixelsize=10}DISTRO:  ${color1}${alignr}${pre_exec lsb_release -sd || cat /etc/*release | grep 'PRETTY_NAME' | cut -c 14-23}
+#${pre_exec lsb_release -sd || cat /etc/*release}
+${color}${font Open Sans Light:pixelsize=10}KERNEL: ${color1}${alignr} ${kernel}
+#${sysname}
+${color}${font Open Sans Light:pixelsize=10}ARCH: ${color1}${alignr}$machine
+${color}${font Open Sans Light:pixelsize=10}BATTERY: ${color1}${alignr}${battery}
+${color}${font Open Sans Light:pixelsize=10}UPTIME: ${color1}${alignr}${uptime}
+${color}${font Open Sans Light:pixelsize=10}PROCESSES: ${color1}${alignr}$processes ($running_processes running)
+${color}${font Open Sans Light:pixelsize=10}SWAP: ${color1}${alignr} $swapperc%
+#${swap} / ${swapmax}
+#(${hwmon 0 temp 1} °C)
+#${cpu}% ${acpitemp}°C
+#${color}${font Open Sans Light:pixelsize=10}LOAD: ${color1}${alignr} ${loadavg}
+${color}${font Open Sans Light:pixelsize=10}RAM: ${color3}${alignr} $memperc%
+#${mem}${color} / ${color1}${memmax}${color}
+#${color}${font Open Sans Light:pixelsize=10}CPU INFOR: ${color1}${alignr}${exec lscpu | grep -i "model name" | cut -c 24-}
+${color}${font Open Sans Light:pixelsize=10}CPU: ${color3}${alignr}$cpu%
+#${freq_g cpu0} GHz
+${color7}${hr}${color}
+
+#
+${font Open Sans Light:pixelsize=15}TOP PROCESSES
+${font Open Sans Light:pixelsize=10}${goto 130}PID${goto 175}MEM%${goto 225} CPU%
+${top name 1}${goto 125}${color1}${top pid 1}${color}${goto 175}${color2}${top mem 1}${color}${goto 225}${color3}${top cpu 1}${color}
+${top name 2}${goto 125}${color1}${top pid 2}${color}${goto 175}${color2}${top mem 2}${color}${goto 225}${color3}${top cpu 2}${color}
+${top name 3}${goto 125}${color1}${top pid 3}${color}${goto 175}${color2}${top mem 3}${color}${goto 225}${color3}${top cpu 3}${color}
+${top name 4}${goto 125}${color1}${top pid 4}${color}${goto 175}${color2}${top mem 4}${color}${goto 225}${color3}${top cpu 4}${color}
+${top name 5}${goto 125}${color1}${top pid 5}${color}${goto 175}${color2}${top mem 5}${color}${goto 225}${color3}${top cpu 5}${color}
+${alignr}${loadgraph 50,250 FF8800 FF8800 -l}
+#${alignr}${memgraph 50,250 FF8800 FF8800 -l}
+${color7}${hr}${color}
+#
+#${voffset -14}
+${font Open Sans Light:pixelsize=15}TEMPERATURES
+${font Open Sans Light:pixelsize=10}AMBIENT:${goto 60}${color1}${exec sensors | grep 'temp4' | cut -c16,17}°C${color}${goto 170}HDD SDA: ${goto 235}${color2}${exec smartctl --all /dev/sda | grep Temperature | cut -c88-89}°C${color}
+EXTERNAL: ${goto 60}${color1}${exec sensors | grep 'temp3' | cut -c16,17}°C${color}${goto 170}CPU VIA EC: ${goto 235}${color2}${exec sensors | grep 'temp1' | cut -c16,17}°C ${color}
+#CORE 1: ${exec sensors | grep 'Core 0' | cut -c18,19}°C
+#CORE 2: ${exec sensors | grep 'Core 1' | cut -c18,19}°C
+#GRAPHICS VIA EC:${exec sensors | grep 'temp2' | cut -c16,17}°C
+#FAN (RPM): ${alignr}${exec sensors | grep 'fan1' | cut -c12-18}
+BATTERY: ${goto 60}${color1}${exec sensors | grep 'temp5' | cut -c16,17}°C${color}${goto 170}CORE PACK: ${goto 235}${color3}${exec sensors | grep 'Physical id 0' | cut -c18,19}°C${color}

@@ -1,0 +1,8 @@
+#!/bin/bash
+
+address="http://www.biblegateway.com/votd/get/?format=atom&version=NIV"
+rm -rf $HOME/.conky/.votd/verse
+wget -O $HOME/.conky/.votd/votd_raw $address
+if [[ -s $HOME/.conky/.votd/votd_raw ]]; then
+ sed -n '14p' $HOME/.conky/.votd/votd_raw | cut -d '>' -f 2 | cut -d '<' -f 1 | tail -1 >> $HOME/.conky/.votd/verse
+ sed -n '21p' $HOME/.conky/.votd/votd_raw | perl -0777 -ne '/(?<=&ldquo;).*(?=&rdquo;)/s;print $&;' $HOME/.conky/.votd/votd_raw | sed -e 's,–,\–,g' | sed -e 's,—,\—,g' | sed -e 's,‘,\‘,g' | sed -e 's,’,\’,g' | sed -e 's,“,\“,g' | sed -e 's,”,\”,g' | tail -1 >> $HOME/.conky/.votd/verse; fi

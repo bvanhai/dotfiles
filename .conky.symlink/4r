@@ -1,0 +1,101 @@
+######################
+# - Conky settings - #
+######################
+update_interval 1
+total_run_times 0
+net_avg_samples 1
+cpu_avg_samples 1
+uppercase yes
+
+imlib_cache_size 0
+double_buffer yes
+no_buffers yes
+format_human_readable
+draw_graph_borders no
+
+#####################
+# - Text settings - #
+#####################
+use_xft yes
+xftfont Open Sans Light:size=8
+override_utf8_locale yes
+text_buffer_size 2048
+
+#############################
+# - Window specifications - #
+#############################
+own_window yes
+own_window_argb_visual true
+own_window_argb_value 120
+own_window_transparent no
+own_window_color 000000
+own_window_type normal
+own_window_hints undecorated,below,sticky,skip_taskbar,skip_pager
+
+alignment tr
+gap_x 23
+gap_y 20
+minimum_size 210 830
+maximum_width 232
+default_bar_size 230 0
+
+#############
+# - Graphics settings - #
+#############
+draw_shades no
+
+color1 6D6D6D
+color2 717c75
+color3 929292
+color4 111111
+
+
+TEXT
+# - TIME - #
+${goto 15}${font Open Sans Light:size=35}${color3}${time %I:%M %p}
+${voffset -30}${font Open Sans Light:size=11}${color2}${alignc}${time %A, %d %B, %Y}${color}
+
+# - SYSTEM - #
+${voffset 8}${font Open Sans Light:size=8}${color2}  SYSTEM${goto 200}Infos  
+${color4}${execbar}
+${voffset 3}${goto 30}${color3}${font Open Sans Light:size=7}Local${goto 120}|${goto 160}${addr wlo1}
+${voffset 3}${goto 30}Host${goto 120}| ${goto 160}${nodename}
+${voffset 3}${goto 30}Kernel${goto 120}| ${goto 160}${kernel}
+${voffset 3}${goto 30}Battery${goto 120}| ${goto 160}${battery}
+${voffset 3}${goto 30}Uptime${goto 120}| ${goto 160}${uptime}
+#${voffset 3}${goto 30}Sysname${goto 120}| ${goto 160}${sysname}
+#${voffset 3}${goto 30}Machine${goto 120}| ${goto 160}${machine}
+
+# - CPU  - #
+${voffset 8}${font Open Sans Light:size=8}${color1}  CPU: ${color3}${hwmon temp 1} °C${color1}${goto 200}Infos  
+${color4}${execbar}
+${voffset 3}${goto 15}${color3}$freq_g GHZ${goto 200}${cpu}%
+${voffset 10}${goto 10}${cpugraph cpu0 40,220 717c75 717c75}
+
+# - PROCESSES  - #
+${voffset 8}${color1}${font Open Sans Light:size=8} PROCESSES${goto 175}Top usage  
+${color4}${execbar}
+${voffset 3}${goto 15}${font Open Sans Light:size=7}${color2} NAME ${goto 110} CPU%   ${goto 155}MEM%${goto 200}${font Open Sans Light:size=7}  PID
+${font Open Sans Light:size=7}${voffset 5}${goto 15} ${color3}${top name 1}    ${goto 110}${top cpu 1}    ${goto 155}${top mem 1}    ${goto 200}${top pid 1}
+${voffset 3}${goto 15} ${color3}${top name 2}    ${goto 110}${top cpu 2}    ${goto 155}${top mem 2}    ${goto 200}${top pid 2} 
+${voffset 3}${goto 15} ${color3}${top name 3}    ${goto 110}${top cpu 3}    ${goto 155}${top mem 3}    ${goto 200}${top pid 3}
+${voffset 3}${goto 15} ${color3}${top name 4}    ${goto 110}${top cpu 4}    ${goto 155}${top mem 4}    ${goto 200}${top pid 4}
+${voffset 3}${goto 15} ${color3}${top name 5}    ${goto 110}${top cpu 5}    ${goto 155}${top mem 5}    ${goto 200}${top pid 5}
+${voffset 10}${goto 10}${loadgraph 40,220 717c75 717c75}
+${voffset 3}${goto 15}${font Open Sans Light:size=8}${color2}RAM: ${color3}${mem}${goto 140}${color2}TOTAL: ${color3}${memmax}
+${voffset 3}${goto 15}${font Open Sans Light:size=8}${color2}SWAP: ${color3}${swap}${goto 140}${color2}TOTAL: ${color3}${swapmax}
+
+# - HDD  - #
+${voffset 8}${font Open Sans Light:size=8}${color1}  HDD: ${color3}${exec smartctl --all /dev/sda | grep Temperature | cut -c88-89}°C${color2}${goto 200}Infos  
+${color4}${execbar}
+${voffset 3}${color2}${goto 15}R: ${color3}${diskio_read}${goto 160}W: ${color3}${diskio_write}
+${voffset 3}${font Open Sans Light:size=7}${color2}${goto 15} ROOT:${color3} ${fs_used_perc /}%${goto 160}${color2}HOME:${color3} ${fs_used_perc /home}%
+${voffset 3}${color2}${goto 15} DATA I:${color3} ${fs_used_perc /home/Data1}%${goto 160}${color2}DATA II:${color3} ${fs_used_perc /home/Data2}%
+
+# - WIRELESS  - #
+${voffset 8}${font Open Sans Light:size=8}${color1}  WIRELESS:${color2}${goto 200}Infos  
+${color4}${execbar}
+${if_existing /proc/net/route wlo1}${voffset 3}${font Open Sans Light:size=8}${color2}${goto 15} UP:${color3} ${upspeed wlo1}${goto 140}${color2}TOTAL:${color3} ${totalup wlo1}
+${voffset 3}${color2}${goto 15} DOWN:${color3} ${downspeed wlo1}${goto 140}${color2}TOTAL:${color3} ${totaldown wlo1}
+${else}${voffset 10}${goto 50}${color1}Network disconnected
+${endif}

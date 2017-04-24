@@ -1,0 +1,83 @@
+# Conky settings #
+background no
+update_interval 1
+cpu_avg_samples 2
+net_avg_samples 2
+override_utf8_locale yes
+double_buffer yes
+no_buffers yes
+text_buffer_size 2048
+#imlib_cache_size 0
+temperature_unit celsius
+
+# Window specifications #
+own_window yes
+own_window_transparent yes
+own_window_type normal
+own_window_hints undecorated,below,sticky,skip_taskbar,skip_pager
+own_window_argb_visual yes
+#own_window_argb_value 255
+#own_window_colour 2D2D2D
+
+border_inner_margin 0
+border_outer_margin 0
+border_width 2
+
+minimum_size  860
+maximum_width 1920
+
+alignment bm
+gap_x -35
+gap_y 65
+
+# Graphics settings #
+draw_shades no
+draw_outline no
+draw_borders no
+draw_graph_borders no
+
+# Text settings #
+use_xft yes
+override_utf8_locale yes
+xftfont Open Sans Light:size=7
+xftalpha 0.8
+uppercase no
+temperature_unit celsius
+
+# Colors settings #
+default_outline_color FAFAFA
+own_window_colour 171717
+default_color c4c4c4
+
+color0 ffffff
+color1 ffffff
+color2 ffffff
+color3 ffffff
+color4 ffffff
+
+# Lua Load  #
+lua_load ~/.conky/1.lua
+lua_draw_hook_pre ring_stats
+
+# -- Lua Load -- #
+#lua_load ~/1.lua
+#lua_draw_hook_pre draw_bg
+#UNCOMMENT NEXT LINE DOWN#####
+#lua_load ~/1.lua
+#lua_draw_hook_pre draw_bg 20 0 0 0 0 0x000000 0.4
+#lua_draw_hook_post draw_bg 20 0 0 0 0 0x000000 0.4
+############ or use ################
+#TEXT
+# PUT THIS AFTER "TEXT" FOR LUA TO WORK######
+#${lua conky_draw_bg 20 0 0 0 0 0x000000 0.7}
+
+
+#lua_load ~/.bargraph_small.lua
+#lua_draw_hook_post main_bars
+
+imlib_cache_size 0
+
+TEXT
+#${lua 3 5 0 30 820 40 0xffffff 0.5}
+${goto 207}SWAP${goto 310}ROOT  ${color2}${fs_size /} / ${fs_used_perc /}%${color1}${goto 472}DATA I${color1}${goto 575}DATA II
+${color3}${goto 207}${swapmax} / ${swapperc}%${color1}${goto 310}HOME  ${color1}${fs_size /home} / ${fs_used_perc /home}%${color3}${goto 472}${fs_size /home/Data1} / ${fs_used_perc /home/Data1}%${color3}${goto 575}${fs_size /home/Data2} / ${fs_used_perc /home/Data2}%

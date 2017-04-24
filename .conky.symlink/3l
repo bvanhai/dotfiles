@@ -1,0 +1,181 @@
+# Use Xft?
+use_xft yes
+xftfont Open Sans Light:size=8
+xftalpha 0.8
+text_buffer_size 2048
+uppercase yes
+short_units yes
+#use_spacer no
+
+# Update interval in seconds
+update_interval 1
+
+# This is the number of times Conky will update before quitting.
+# Set to zero to run forever.
+total_run_times 0
+
+# Create own window instead of using desktop (required in nautilus)
+own_window yes
+own_window_transparent yes
+own_window_type normal
+own_window_hints undecorated,below,sticky,skip_taskbar,skip_pager
+#own_window_argb_visual yes
+#own_window_argb_value 255
+
+# Use double buffering (reduces flicker, may not work for everyone)
+double_buffer yes
+
+minimum_size  255 0
+maximum_width 255
+
+# Draw shades?
+draw_shades no
+default_shade_color 292421
+# Draw outlines?
+draw_outline no
+
+# Draw borders around text
+draw_borders no
+
+# Stippled borders?
+stippled_borders 0
+
+# border margins
+border_inner_margin 5
+border_outer_margin 0
+draw_graph_borders no
+# border width
+border_width 0
+
+# Text alignment, other possible values are commented
+alignment top_left
+#alignment top_right
+#alignment bottom_left
+#alignment bottom_right
+
+# Gap between borders of screen and text
+# same thing as passing -x at command line
+gap_x 30
+gap_y 20
+
+#	Distric-Thin			fonts
+#	Blue Highway
+#	Raleway
+#	Zekton
+#	Calibri
+#	Engebrechtre
+#	Opeln2001
+#	Open Sans Light
+#	Open Sans Light
+
+# -- Lua Load -- #
+lua_load ~/.conky/3.lua
+lua_draw_hook_pre draw_bg
+
+imlib_cache_size 0
+
+color1 0099CC
+color2 9933CC
+color3 669900
+color4 FF8800
+color5 CC0000
+color6 AAAAAA
+color7 484848
+color8 cdbf9a
+color9 c1c1c1
+
+TEXT
+# Time, day
+${lua conky_draw_bg}${lua conky_draw_bg}${lua conky_draw_bg}${font Open Sans Light:size=45}${time %I:%M %P}
+${voffset -40}${color5}${font Open Sans Light:size=15}${alignc}${time %A, %d %B, %Y}${color}
+${color7}${hr}${color}
+#
+# HDD
+#${font Open Sans Light:size=15}FILE SYSTEM
+${font Open Sans Light:pixelsize=10}${color1}Read:${color} ${color3}${diskio_read}${color}${alignr}${color1}Write:${color} ${color3}${diskio_write}${color}
+${diskiograph_read 50,120 FF8800 FF8800}${alignr}${diskiograph_write 50,120 FF8800 FF8800}
+ROOT:${goto 45}${color1}${fs_used /}${color} / ${color2}${fs_size /}${color}${goto 155}DATA I:${goto 195}${color1}${fs_used /home/Data1}${color} / ${color2}${fs_size /home/Data1}${color}
+${font Open Sans Light:pixelsize=10}HOME:${goto 45}${color1}${fs_used /home}${color} / ${color2}${fs_size /home}${color}${goto 155}DATA II:${goto 195}${color1}${fs_used /home/Data2}${color} / ${color2}${fs_size /home/Data1}${color}
+${color7}${hr}${color}
+#
+# Music
+${font Open Sans Light:pixelsize=15}MUSIC
+#${font Open Sans Light:pixelsize=10}Status: ${alignr} ${color3}${audacious_status}${color}
+#FILE: ${alignr}${color1}${exec audtool --current-song | cut -b-35}
+${if_running audacious}${font Open Sans Light:pixelsize=10}TITLE: ${goto 70}${alignr}${color3}${scroll 40 ${exec audtool --current-song-tuple-data title}}${color}
+ARTIST: ${alignr}${color2}${exec audtool --current-song-tuple-data artist | cut -b-35}${color}
+ALBUM: ${alignr}${color1}${exec audtool --current-song-tuple-data album | cut -b-35}${color}
+${voffset 10}${color4}${execbar expr 100 \* $(audtool --current-song-output-length-seconds) \/ $(audtool --current-song-length-seconds)}${color}
+${voffset 5}${alignr}${color1}${exec audtool --current-song-output-length} / ${exec audtool --current-song-length}${color}
+#${voffset 5}GEN:${goto 32}${color1}${exec audtool --current-song-tuple-data genre | cut -b-12}${color}${goto 115}TRACK:  ${goto 150}${color1}${exec audtool --current-song-tuple-data track-number}${color}${goto 205}YEAR: ${color1}${goto 235}${exec audtool --current-song-tuple-data year}${color}
+#LIST: ${goto 32}${color1}${exec audtool --playlist-position} / ${exec audtool --playlist-length}${color}${goto 115}FREQ: ${goto 150}${color1}${exec audtool --current-song-frequency}${color}${goto 205}CHAN: ${goto 235}${color1}${exec audtool --current-song-channels}${color}
+#LEN: ${goto 32}${color1}${exec audtool --current-song-output-length} / ${exec audtool --current-song-length}${color}${goto 115}BIT: ${goto 150}${color1}${exec audtool --current-song-bitrate-kbps} kbps ${color}${goto 205}VOL: ${goto 235}${color1}${exec audtool --get-volume}%
+${else}
+${font Open Sans Light:pixelsize=10}${alignc}${color6}MUSIC IS MY LIFE
+${voffset 37}
+$endif ${color7}${hr}${color}
+#
+#
+#BibleGateway Verse of the Day
+#${font Open Sans Light:pixelsize=15}Verse of the Day
+#${voffset -14}${font Open Sans Light:pixelsize=10}${color1}
+#${execi 3600 $HOME/.conky/.votd/votd_raw}
+#${execi 3600 sed -n '2p' $HOME/.conky/.votd/verse | fold -w 45 -s}
+#${voffset 5}${font Open Sans Light:pixelsize=10}${alignr}${color8}${execi 3600 sed -n '1p' $HOME/.conky/.votd/verse}
+#${color}${voffset -14}
+#${color7}${hr}${color}
+#
+#
+#
+#${color}${font Open Sans Lightz:pixelsize=10}${color1}${rss http://abibleverse.org/faith.xml 5 item_titles 5}
+#${execi 300  curl -s http://www.wordthink.com/feed/ | grep description |sed -e :a -e 's/<[^>]*>//g;/</N' |sed -e 's/[ \t]*//' |sed -e 's/\(.*\)/ \1/' |sed -e 's/\.//' |sed -e 's/\"//' |sed -e 's/\"//' |head -n $((1 + 2)) |tail -n $((1)) | fold -w50}
+#${font Open Sans Light:size=15}RSS Feed${font}
+#${voffset 10}OMG! Ubuntu NEWS
+#${color}${font Open Sans Light:pixelsize=10}${color3}${rss http://www.omgubuntu.co.uk/feed/ 20 item_titles 5}
+#${color7}${hr}${color}
+#${font}Web Upd8 NEWS
+#${color}${font Open Sans Light:pixelsize=10}${color3}${rss https://news.google.com/?output=rss 20 item_titles 5}
+#${font Open Sans Light:size=15}Logs
+#${color}${font Open Sans Lightz:pixelsize=10}${color3}${exec tail -n 5 /var/log/#syslog | fold -w45}
+#${color7}${hr}${color}
+#
+# Facebook Notifications
+${font Open Sans Light:pixelsize=15}Facebook
+
+
+
+
+
+${color7}${hr}${color}
+#
+#
+${font Open Sans Light:pixelsize=15}DISTROWATCH
+${font Open Sans Light:pixelsize=10}${color1}${rss http://distrowatch.com/news/dw.xml 20 item_title 0}${color}
+${color1}${rss http://distrowatch.com/news/dw.xml 10 item_title 1}${color}
+${color1}${rss http://distrowatch.com/news/dw.xml 10 item_title 2}${color}
+${color1}${rss http://distrowatch.com/news/dw.xml 10 item_title 3}${color}
+#${color1}${rss http://distrowatch.com/news/dw.xml 10 item_title 4}${color}
+${color7}${hr}${color}
+#
+#
+#
+#
+#${color orange}RSS feed ${hr 2}$color
+#${execi 300 $HOME/.conky/simple-rss-reader/}
+#
+#
+#
+${font Open Sans Light:pixelsize=15}Phoronix
+${font Open Sans Light:pixelsize=10}${color1}${rss http://distrowatch.com/news/dw.xmlhttp://www.phoronix.com/rss.php 20 item_title 0}${color}
+${color1}${rss http://distrowatch.com/news/dw.xmlhttp://www.phoronix.com/rss.php 10 item_title 1}${color}
+${color1}${rss http://distrowatch.com/news/dw.xmlhttp://www.phoronix.com/rss.php 10 item_title 2}${color}
+${color1}${rss http://distrowatch.com/news/dw.xmlhttp://www.phoronix.com/rss.php 10 item_title 3}${color}
+#${color1}${rss http://distrowatch.com/news/dw.xmlhttp://www.phoronix.com/rss.php 10 item_title 4}${color}
+${color7}${hr}${color}
+#
+#
+#
+${font Open Sans Light:pixelsize=15}Verse of the Day
+${font Open Sans Light:pixelsize=10}${color1}${execi 3600 $HOME/.conky/.votd/votd}${color}
+${color1}${execi 3600 sed -n '2p' $HOME/.conky/.votd/verse | fold -w 45 -s}${color}
+${color1}${font Open Sans Light:size=7}${alignr}${color2}${execi 3600 sed -n '1p' $HOME/.conky/.votd/verse}${color}

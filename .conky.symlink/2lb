@@ -1,0 +1,65 @@
+# Conky settings #
+background no
+update_interval 1
+cpu_avg_samples 2
+net_avg_samples 2
+override_utf8_locale yes
+double_buffer yes
+no_buffers yes
+text_buffer_size 2048
+#imlib_cache_size 0
+temperature_unit celsius
+
+# Window specifications #
+own_window yes
+own_window_transparent yes
+own_window_type normal
+own_window_hints undecorated,below,sticky,skip_taskbar,skip_pager
+own_window_argb_visual yes
+#own_window_argb_value 255
+#own_window_colour 2D2D2D
+
+border_inner_margin 0
+border_outer_margin 0
+border_width 2
+
+minimum_size  350 0
+maximum_width 350
+
+alignment tl
+gap_x 80
+gap_y 500
+
+# Graphics settings #
+draw_shades no
+draw_outline no
+draw_borders no
+draw_graph_borders no
+
+# Text settings #
+use_xft yes
+override_utf8_locale yes
+xftfont Open Sans Light:size=7
+xftalpha 0.8
+uppercase no
+temperature_unit celsius
+
+# Colors settings #
+default_outline_color FAFAFA
+own_window_colour 171717
+default_color c4c4c4
+
+color0 ffffff
+color1 ffffff
+color2 ffffff
+color3 ffffff
+color4 ffffff
+
+imlib_cache_size 0
+
+TEXT
+${cpugraph cpu0 28,84 ffffff C7C7C7}${downspeedgraph wlan0 28,86 C7C7C7 C7C7C7}${upspeedgraph wlan0 28,87 C7C7C7 C7C7C7}${loadgraph 28,87 C7C7C7 C7C7C7 -l}
+${font Open Sans Light:pixelsize=12}${offset 4}${voffset -2}${color1}cpu${offset 6}${color4}${hwmon 0 temp 1}  °C${offset 43}${color2}down${offset 63}${color3}up${offset 70}${color3}load
+#${font Open Sans Light:pixelsize=9}${hr}
+#${font Open Sans Light:pixelsize=9}DISTRIBUTION:  ${pre_exec lsb_release -sd || cat /etc/*release}    KERNEL: ${kernel}   ARCHITECTURE: $machine
+#${font Open Sans Light:pixelsize=9}CPU: ${freq_g cpu0} GHz   ${font Open Sans Light:pixelsize=9}UPTIME: ${uptime}    ${font Open Sans Light:pixelsize=9}PROCESSES: $processes ($running_processes running)   ${font Open Sans Light:pixelsize=9}RAM: ${mem}
