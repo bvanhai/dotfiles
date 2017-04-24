@@ -1,0 +1,36 @@
+#!/bin/sh
+
+# Import settings
+realpath=$(cd `dirname "${BASH_SOURCE[0]}"` && pwd)
+. $realpath/panel-settings
+
+# Because xset -q is slow so we wait for it
+sleep .2;
+
+CAPS="$( xset -q | grep Caps | awk '{print $4}' )"
+
+if [[ $CAPS == "on" ]]; then
+  (
+echo "CAPS"
+ ) | dzen2 \
+    -p "" \
+    -x "4" \
+    -y "855" \
+    -w "100" \
+    -h "28" \
+    -l "0" \
+    -sa "c" \
+    -ta "c" \
+    -title-name "dzen2-capslock-not" \
+    -e "onstart=uncollapse" \
+    -fn "${PANEL_FONT_FAMILY}:pixelsize=${NOT_FONT_SIZE}" \
+    -bg "$PANEL_COLOR_BACKGROUND" \
+    -fg "$PANEL_COLOR_FOREGROUND" &
+
+fi
+if [[ $CAPS == "off" ]]; then
+  PID="$( pgrep dzen | xargs ps | grep popup-capslock-indicator-dzen2-safe | awk '{print $1}' )"
+    if [[ $PID ]]; then
+      kill $PID
+    fi
+fi

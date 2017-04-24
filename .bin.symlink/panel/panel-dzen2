@@ -1,0 +1,140 @@
+#!/bin/sh
+
+# Import settings
+realpath=$(cd `dirname "${BASH_SOURCE[0]}"` && pwd)
+. $realpath/panel-settings
+. $realpath/panel-colors-dzen2
+
+NORMIFS=$IFS
+FIELDIFS=':'
+
+
+while getopts 'f:s:' opt ; do
+  case "$opt" in
+    f)
+      PANEL_FONT_FAMILY=$OPTARG
+      ;;
+    s)
+      PANEL_FONT_SIZE=$OPTARG
+      ;;
+  esac
+done
+
+shift $((OPTIND - 1))
+
+while read -r line ; do
+  case $line in
+    TEMP*)
+      # Sensor Output
+      temp="^fg($COLOR_TITLE_FG)^bg($COLOR_TITLE_BG)${PADDING}${line}${PADDING}^fg()^bg()"
+      ;;
+    HIGHTEMP*)
+      # Sensor Output
+      temp="^fg($COLOR_WARNING_FG)^bg($COLOR_TITLE_BG)${PADDING}${line#????}${PADDING}^fg()^bg()"
+      ;;
+    T*)
+      # xtitle output
+      len="${#line}"
+      if [[ $len > 1 ]]; then
+        # edit 130 to change max characters
+        title="^fg($COLOR_TITLE_FG)^bg($COLOR_TITLE_BG)${PADDING}${line:1:$MAX_TITLE_WIDTH}${PADDING}^fg()^bg()"
+      else
+        title=""
+      fi
+      ;;
+    BAT*)
+      # Battery Output
+      bat="^fg($COLOR_TITLE_FG)^bg($COLOR_TITLE_BG)^ca(1, $HOME/.bin/panel/dzen2-bat)${PADDING}${line}${PADDING}^ca()^fg()^bg()"
+      ;;
+    LOWBAT*)
+      # Battery Output
+      bat="^fg($COLOR_WARNING_FG)^bg($COLOR_TITLE_BG)^ca(1, $HOME/.bin/panel/dzen2-bat)${PADDING}${line#???}${PADDING}^ca()^fg()^bg()"
+      ;;
+    CPU*) 
+      # CPU Output
+      cpu="^fg($COLOR_TITLE_FG)^bg($COLOR_TITLE_BG)^ca(1, $HOME/.bin/panel/dzen2-cpu)${PADDING}${line}${PADDING}^ca()^fg()^bg()"
+      ;;
+    MEM*) 
+      # MEM Output
+      mem="^fg($COLOR_TITLE_FG)^bg($COLOR_TITLE_BG)${PADDING}${line}${PADDING}^fg()^bg()"
+      ;;
+    CLOCK*)
+      # Clock Output
+      clock="^fg($COLOR_TITLE_FG)^bg($COLOR_TITLE_BG)^ca(1, $HOME/.bin/panel/dzen2-cal)${PADDING}${line#?????}${PADDING}^ca()^fg()^bg()"
+      ;;
+
+    NET*)
+      # Network quality
+      net="^fg($COLOR_TITLE_FG)^bg($COLOR_TITLE_BG)^ca(1, $HOME/.bin/panel/dzen2-net)${PADDING}${line}${PADDING}^ca()^fg()^bg()"
+      ;;
+    VOL*) 
+      # VOL Output
+      vol="^fg($COLOR_TITLE_FG)^bg($COLOR_TITLE_BG)^ca(1, $HOME/.bin/panel/dzen2-vol)${PADDING}${line}${PADDING}^ca()^fg()^bg()"
+      ;;
+    DISK*) 
+      # VOL Output
+      disk="^fg($COLOR_TITLE_FG)^bg($COLOR_TITLE_BG)^ca(1, $HOME/.bin/panel/dzen2-disk)${PADDING}${line}${PADDING}^ca()^fg()^bg()"
+      ;;
+    W*)
+      # bspwm internal state
+      wm_infos="$PADDING"
+      IFS=$FIELDIFS
+      set -- ${line#?}
+      while [ $# -gt 0 ] ; do
+        item=$1
+        case $item in
+          [OoFfUu]*)
+            # desktops
+            name=${item#?}
+            case $item in
+              O*)
+                # focused occupied desktop
+                FG=$COLOR_FOCUSED_OCCUPIED_FG
+                BG=$COLOR_FOCUSED_OCCUPIED_BG
+                ;;
+              F*)
+                # focused free desktop
+                FG=$COLOR_FOCUSED_FREE_FG
+                BG=$COLOR_FOCUSED_FREE_BG
+                ;;
+              U*)
+                # focused urgent desktop
+                FG=$COLOR_FOCUSED_URGENT_FG
+                BG=$COLOR_FOCUSED_URGENT_BG
+                ;;
+              o*)
+                # occupied desktop
+                FG=$COLOR_OCCUPIED_FG
+                BG=$COLOR_OCCUPIED_BG
+                ;;
+              f*)
+                # free desktop
+                FG=$COLOR_FREE_FG
+                BG=$COLOR_FREE_BG
+                ;;
+              u*)
+                # urgent desktop
+                FG=$COLOR_URGENT_FG
+                BG=$COLOR_URGENT_BG
+                ;;
+            esac
+            wm_infos="${wm_infos}^fg(${FG})^bg(${BG})^ca(1, bspc desktop -f ${name})^ca(2, bspc node -d ${name})${PADDING}${name}${PADDING}^ca()^ca()"
+            ;;
+          L*)
+            # layout
+            layout=$(printf "%s" "${item#?}" | sed 's/^\(.\).*/\U\1/')
+            wm_infos="${wm_infos}^fg()^bg()${DUALPADDING}^fg($COLOR_LAYOUT_FG)^bg($COLOR_LAYOUT_BG)^ca(1, bspc desktop -l next)${PADDING}$layout${PADDING}^ca()^bg()${DUALPADDING}"
+            ;;
+        esac
+        shift
+      done
+      IFS=$NORMIFS
+      ;;
+  esac
+  left_side="$wm_infos$title"
+#  right_side="$vol $net $cpu $bat $mem $disk $temp $clock"
+  right_side="$vol $net $cpu $mem $disk $temp $clock"
+  left_indent=0
+  right_indent=$COMPUTED_INDENT
+  printf "%s\n" "^pa($left_indent)$left_side^pa($right_indent)$right_side"
+done

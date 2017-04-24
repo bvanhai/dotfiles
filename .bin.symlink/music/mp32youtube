@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+# based on http://www.crimulus.com/2010/01/21/linux-bash-script-convert-mp3-to-avi-with-static-image-command-line/
+
+if [ $# != 3 ] ; then
+    echo "Usage: $0 <image_file> <mp3_file> <output_file.avi>";
+    exit 0;
+fi
+
+TIME=$(ffmpeg -i "$2" |& awk '/Duration/ { sub(/,/,""); print $2 }')
+
+ffmpeg -loop 1 -i "$1" -i "$2" -acodec copy -y -t $TIME "$3"

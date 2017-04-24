@@ -1,0 +1,27 @@
+#!/bin/sh 
+
+# Import settings
+realpath=$(cd `dirname "${BASH_SOURCE[0]}"` && pwd)
+. $realpath/panel-settings
+
+ (
+echo "Disk"
+echo "/: $(df -h / | sed '1d' | awk '{print $3}')/$(df -h / | sed '1d' | awk '{print $2}')"
+echo "/home: $(df -h /home | sed '1d' | awk '{print $3}')/$(df -h /home | sed '1d' | awk '{print $2}')"
+echo "OS: $(df -h /home/OS | sed '1d' | awk '{print $3}')/$(df -h /home/OS | sed '1d' | awk '{print $2}')"
+echo "Data 1: $(df -h /home/Data1 | sed '1d' | awk '{print $3}')/$(df -h /home/Data1 | sed '1d' | awk '{print $2}')"
+echo "Data 2: $(df -h /home/Data2 | sed '1d' | awk '{print $3}')/$(df -h /home/Data2 | sed '1d' | awk '{print $2}')"
+ ) | dzen2 \
+    -p "5" \
+    -x "1310" \
+    -y "27" \
+    -w "200" \
+    -l "5" \
+    -h "18" \
+    -sa "c" \
+    -ta "c" \
+    -title-name "dzen2-disk" \
+    -e "onstart=uncollapse;button1=exit;button3=exit" \
+    -fn "${PANEL_FONT_FAMILY}:pixelsize=${PANEL_FONT_SIZE}" \
+    -bg "$PANEL_COLOR_BACKGROUND" \
+    -fg "$PANEL_COLOR_FOREGROUND" &

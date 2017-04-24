@@ -1,0 +1,38 @@
+#!/bin/sh
+# Pop-up calendar for dzen
+# Based on (c) 2007, by Robert Manea
+# Modified by urukrama
+#
+
+# Import settings
+realpath=$(cd `dirname "${BASH_SOURCE[0]}"` && pwd)
+. $realpath/panel-settings
+. $realpath/panel-colors-dzen2
+
+TODAY=$(expr `date +'%d'` + 0)
+MONTH=`date +'%m'`
+YEAR=`date +'%Y'`
+
+ (
+# Current month, hilight header and today
+cal \
+    | sed -re "s/^(.*[A-Za-z][A-Za-z]*.*)$/^fg("$COLOR_OCCUPIED_FG")^bg("$PANEL_COLOR_BACKGROUND")\1/;s/(^|[ ])($TODAY)($|[ ])/\1^bg("$COLOR_FOCUSED_OCCUPIED_BG")^fg($COLOR_FOCUSED_OCCUPIED_FG)\2^fg("$PANEL_COLOR_FOREGROUND")^bg("$PANEL_COLOR_BACKGROUND")\3/"
+
+# Next month, hilight header
+#[ $MONTH -eq 12 ] && YEAR=`expr $YEAR + 1`
+#cal `expr \( $MONTH + 1 \) % 12` $YEAR \
+#    | sed -e "s/^\(.*[A-Za-z][A-Za-z]*.*\)$/^fg("$COLOR_OCCUPIED_FG")^bg("$PANEL_COLOR_BACKGROUND")\1/"
+ ) | dzen2 \
+    -p "8" \
+    -x "1414" \
+    -y "27" \
+    -w "180" \
+    -l "7" \
+    -h "18" \
+    -sa "c" \
+    -ta "c" \
+    -title-name "dzen2-cal" \
+    -e "onstart=uncollapse;button1=exit;button3=exit" \
+    -fn "${PANEL_FONT_FAMILY_2}:pixelsize=${PANEL_FONT_SIZE}" \
+    -fg "$PANEL_COLOR_FOREGROUND" \
+    -bg "$PANEL_COLOR_BACKGROUND" \

@@ -1,0 +1,44 @@
+#!/bin/sh
+
+# Import settings
+realpath=$(cd `dirname "${BASH_SOURCE[0]}"` && pwd)
+. $realpath/panel-settings
+
+CLOCK_FIFO=/tmp/clock-fifo
+
+[ -e "$CLOCK_FIFO" ] && rm "$CLOCK_FIFO"
+mkfifo "$CLOCK_FIFO"
+
+bspc subscribe > "$CLOCK_FIFO" &
+
+while [[ true ]]; do
+    date +'CLOCK'%H:%M > "$CLOCK_FIFO"
+    sleep 1s
+done &
+
+cat "$CLOCK_FIFO" \
+| \
+while read -r line ; do
+  case $line in
+    CLOCK*)
+      clock="${line#?????}"
+      ;;
+  esac
+  printf "%s\n" "$clock"
+done \
+| \
+dzen2 \
+    -p \
+    -x "1365" \
+    -y "0" \
+    -w "235" \
+    -h "100" \
+    -l "0" \
+    -sa "c" \
+    -ta "c" \
+    -title-name "dzen2-clock-not" \
+    -e "onstart=uncollapse;button1=exit;button3=exit" \
+    -fn "DS\-Digital:pixelsize=88" \
+    -bg "$PANEL_COLOR_BACKGROUND" \
+    -fg "$PANEL_COLOR_FOREGROUND" &
+wait

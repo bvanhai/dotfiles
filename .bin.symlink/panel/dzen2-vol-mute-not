@@ -1,0 +1,36 @@
+#!/bin/sh
+
+# Import settings
+realpath=$(cd `dirname "${BASH_SOURCE[0]}"` && pwd)
+. $realpath/panel-settings
+
+# Because xset -q is slow so we wait for it
+sleep .2;
+
+MUTE="$( amixer get Master | grep Mono | awk '{print $6}' | sed '/^$/d' )"
+PID="$( pgrep dzen | xargs ps | grep dzen2-vol-mute-not | awk '{print $1}' )"
+
+if [[ $MUTE == "[off]" ]]; then
+ (
+echo "MUTE"
+ ) | dzen2 \
+    -p \
+    -x "4" \
+    -y "27" \
+    -w "100" \
+    -h "44" \
+    -l "0" \
+    -sa "c" \
+    -ta "c" \
+    -title-name "dzen2-vol-mute-not" \
+    -e "onstart=uncollapse" \
+    -fn "${PANEL_FONT_FAMILY}:pixelsize=${NOT_FONT_SIZE}" \
+    -bg "$PANEL_COLOR_BACKGROUND" \
+    -fg "$PANEL_COLOR_FOREGROUND" &
+fi
+
+if [[ $MUTE == "[on]" ]]; then
+    if [[ $PID ]]; then
+        kill $PID
+    fi
+fi

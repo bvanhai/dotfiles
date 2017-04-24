@@ -1,0 +1,114 @@
+#!/bin/bash
+# SuperMenu : A dynamic and extendible menu-driven program launcher, using dmenu from suckless.org
+# Copyright © 2010-2015 Douglas McFadzean
+# Acknowledgement: Caching adapted from brisbin33's code at https://bbs.archlinux.org/viewtopic.php?id=80145&p=1
+# SuperMenu is licensed under the MIT (Expat) License, see http://www.opensource.org/licenses/MIT
+# Arch Linux dependencies (others optional, see configuration files): dmenu
+
+
+# Initialize variables
+pgm='supermenu'; invk="${0##*/}"  # Program name and invoking name
+maxcache=99                       # Maximum number of lines -1 in favourites cache file
+cachename='favs'                  # Cache name
+prompt='SuperMenu'                # Menu prompt
+lines=18                          # Default number of lines in vertical menu
+desc=y                            # Display descriptions?
+
+# Parse command line
+while getopts 'hbl:dxc:f:rz' OPTION
+do
+  case $OPTION in
+    b) bot='-b' ;;
+    l) lines="$OPTARG" ;;
+    d) unset desc ;;
+    x) exp=y; unset desc; lines=1 ;;
+    c) confuser="$OPTARG" ;;
+    f) cachename="$OPTARG-$cachename" ;;
+    r) rmcache=y ;;
+    z) dbg=y ;;
+    h) cat <<EOF
+SuperMenu 8.21: Dynamic and extendible menu-driven program launcher, using dmenu
+Usage: supermenu [-b] [-l n] [-d] [-x] [-c file] [-f name] [-r] [keyphrase]
+If no keyphrase is specified, a menu of keyphrases is displayed. A keyphrase is
+a command, or is resolved to a command in either of the configuration files:
+\$XDG_CONFIG_HOME/$pgm.conf (user) and /etc/$pgm.conf (system)
+Keyphrase format: [(?|!)dialog] cmdstring [<descript>] where:
+(?|!)dialog  runs the dialog command \$dlg_dialog (non-zero return code quits)
+             before the desired program is run. A !dialog is never skipped.
+cmdstring    may contain variables \$var defined in the configuration files, for
+             example: s='gksudo', t='xterm -e'. Note the pre-defined variables:
+             \$key is a string containing the keyphrase minus description
+             \$Key is an array containing words of keyphrase minus description
+descript     is a string of descriptive tags which dmenu also searches
+Configuration variables:
+fav if set will display favourite (most frequently used) keyphrases at the start
+    of the menu (menus displayed with/out descriptions are cached independently)
+Options:
+-b  displays menu at bottom of screen instead of at top
+-l  sets number of lines n [$lines] in vertical menu; use <2 for horizontal menu
+-d  does not display descriptions in the menu
+-x  for experts, displays horizontal menu minus descriptions and skips ?dialogs
+-c  uses specified configuration file instead of the usual user and system files
+-f  specifies alternative name for favourites cache
+-r  only removes favourites cache files
+EOF
+       exit 1 ;;
+  esac
+done
+shift $(($OPTIND - 1))
+key="$*"  # Keyphrase specified
+(( $lines > 1 )) && lin="-l $lines"  # Set dmenu option for vertical menu
+
+# Configuration stage
+if [[ -z $confuser ]]; then confuser="${XDG_CONFIG_HOME:-$HOME/.config}/$pgm.conf"; confsys="/etc/$pgm.conf"; fi
+menus="#"  # Load system configuration then user configuration, but append system menu to user menu
+if [[ -r $confsys  ]]; then . "$confsys"; menus="$menu"; fi
+if [[ -r $confuser ]]; then
+  . "$confuser"
+  menu="$menu
+$menus"
+fi
+# Favourites cache
+pache="${XDG_CACHE_HOME:-$HOME/.cache}/$pgm"; [[ -d $pache ]] || mkdir -p "$pache"  # Path to cache
+cache="$pache/$cachename"; cached="$cache"d  # Cache files: without and with descriptions
+if [[ -n $rmcache ]]; then rm -i "$cache" "$cached"; exit; fi  # Only remove cache files?
+[[ -n $desc ]] && cache="$cached"  # Determine which cache file to use
+
+# Launch stage
+launch=y
+dmenu="${DMENU_CMD:-dmenu}"; dmenu="$dmenu $bot $lin -i"  # Set dmenu command
+# Display menu if no keyphrase specified
+if [[ -z $key ]]; then
+  sed='/^#/d'; [[ -z $desc ]] && sed="$sed;s/[[:space:]]*<.*//"  # Remove #comment lines and optionally descriptions
+  if [[ -z $fav ]]; then  # Use favourites cache?
+    key=$(sed $sed <<< "$menu"| $dmenu -p "$prompt")
+  else
+    touch "$cache"; favs=$(sort "$cache" | uniq -c | sort -nr | colrm 1 8)
+    key=$( (echo "$favs"; sed $sed <<< "$menu" | sort -u | grep -vxF "$favs") | $dmenu -p "$prompt") && (echo $key; head -n$maxcache "$cache") > "$cache.$$" && mv "$cache.$$" "$cache"
+  fi
+fi
+# Parse keyphrase: [(?|!)dialog] cmdstring [<descript>]
+key=${key% <*}; Key=($key)  # Strip description from keyphrase and also store keyphrase as array of keywords
+cmd="$key"  # Default command to keyphrase
+[[ -r $confuser ]] && . "$confuser"  # Try resolving keyphrase to a command in user then system configuration file
+if [[ -z $found ]]; then [[ -r $confsys  ]] && . "$confsys"; fi
+[[ -n $dbg ]] && echo debug: key="$key", cmd="$cmd"
+cmd1=${cmd:0:1}  # Check for leading ? or ! indicating dialog
+if [[ $cmd1 == [\?\!] ]]; then
+  dlg=${cmd%% *}; cmd=${cmd#* }  # Get dialog name and strip dialog word from command
+  if [[ $cmd1 == '!' || -z $exp ]]; then  # Always run !dialog and ?dialog if non-expert
+    dlg=${dlg:1}; eval eval '$dlg_'$dlg; (( $? )) && exit 1  # Quit if non-zero return code
+  fi
+fi
+Cmd=($cmd)  # Also store command as array of words for use in configuration files
+eval eval $cmd &  # Final command execution, ensuring variables substituted by values
+exit
+
+# Changelog:
+# 2015-08-30 v8.21: Environment variable $DMENU_CMD replaces $DMENU for specifying default dmenu command line
+# 2013-12-30 v8.20: Add -f option to specify alternative name for favourites cache (patch suggested by likytau)
+# 2013-02-08 v8.10: Add favourites caching, set $fav in configuration to enable; add -r switch to remove cache files
+# 2012-11-22 v8.03: Eval dialog command twice; add dmenu-based dialog and run-time variables function to configuration
+# 2012-11-20 v8.02: Remove -p from $dmenu to make usage easier; tweak configuration file and add services function
+# 2012-11-19 v8.01: Correction to ensure user configuration variables are set after system configuration
+# 2012-11-18 v8.00: Complete simpler rewrite with new configuration files; incompatible with previous version

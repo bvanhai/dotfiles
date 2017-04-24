@@ -1,0 +1,30 @@
+
+!Metaroxy
+
+URxvt.background: #1e1e1e
+URxvt.foreground: #ddccbb
+
+!black
+*color0:#393939
+*color8:#484848
+!red
+*color1:#E45555
+*color9:#E7212A
+!green
+*color2:#7BDD45
+*color10:#7BDD45
+!yellow
+*color3:#FDDC26
+*color11:#F7D325
+!blue
+*color4:#4585DD
+*color12:#00AFDA
+!magenta
+*color5:#652F90
+*color13:#894E9F
+!cyan
+*color6:#5BBAF7
+*color14:#5BBAF7
+!white
+*color7:#989892
+*color15:#B6AAAA

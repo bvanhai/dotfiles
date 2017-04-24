@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+# Convert m4a to flac
+
+for file in *.m4a; do
+    ffmpeg -i "$file" -f flac "${file%.*}.flac"
+done
+
+(( $? == 0 )) && rm *.m4a
+

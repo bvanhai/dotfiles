@@ -1,0 +1,23 @@
+#!/bin/sh
+
+# Import settings
+realpath=$(cd `dirname "${BASH_SOURCE[0]}"` && pwd)
+. $realpath/panel-settings
+
+ (
+echo "Volume" 
+echo -e "^ca(1,amixer -c 0 set Master 3%- unmute) - ^ca() ^ca(1,amixer -c 0 set Master toggle)${DUALPADDING}${DUALPADDING}${DUALPADDING} x ${DUALPADDING}${DUALPADDING}${DUALPADDING}^ca() ^ca(1,amixer -c 0 set Master 3%+ unmute) + ^ca()"
+ ) | dzen2 \
+    -p "5" \
+    -x "1110" \
+    -y "27" \
+    -w "120" \
+    -l "2" \
+    -h "18" \
+    -sa "c" \
+    -ta "c" \
+    -title-name "dzen2-vol" \
+    -e "onstart=uncollapse;button1=exit;button3=exit" \
+    -fn "${PANEL_FONT_FAMILY}:pixelsize=${PANEL_FONT_SIZE}" \
+    -bg "$PANEL_COLOR_BACKGROUND" \
+    -fg "$PANEL_COLOR_FOREGROUND" &

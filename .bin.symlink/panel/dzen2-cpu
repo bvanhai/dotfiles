@@ -1,0 +1,23 @@
+#!/bin/sh
+
+# Import settings
+realpath=$(cd `dirname "${BASH_SOURCE[0]}"` && pwd)
+. $realpath/panel-settings
+
+ (
+ echo "Processor"
+urxvt -e htop
+ ) | dzen2 \
+    -p "1" \
+    -x "1200" \
+    -y "25" \
+    -w "170" \
+    -l "0" \
+    -h "18" \
+    -sa "c" \
+    -ta "c"\
+    -title-name "dzen2-cpu" \
+    -e "onstart=uncollapse;button1=exit;button3=exit" \
+    -fn "${PANEL_FONT_FAMILY}:pixelsize=${PANEL_FONT_SIZE}" \
+    -bg "$PANEL_COLOR_BACKGROUND" \
+    -fg "$PANEL_COLOR_FOREGROUND" &

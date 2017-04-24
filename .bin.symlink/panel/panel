@@ -1,0 +1,141 @@
+#!/bin/sh
+# https://github.com/bvanhai/dotfiles
+#
+
+# Import settings
+realpath=$(cd `dirname "${BASH_SOURCE[0]}"` && pwd)
+. $realpath/panel-settings
+
+if [ $(pgrep -cx panel) -gt 1 ] ; then
+    printf "%s\n" "The panel is already running." >&2
+    exit 1
+fi
+
+trap 'trap - TERM; kill 0' INT TERM QUIT EXIT
+
+[ -e "$PANEL_FIFO" ] && rm "$PANEL_FIFO"
+mkfifo "$PANEL_FIFO"
+
+bspc config top_padding $PANEL_HEIGHT
+
+bspc subscribe > "$PANEL_FIFO" &
+xtitle -sf 'T%s' > "$PANEL_FIFO" &
+
+while [[ true ]]; do
+    if [[ SHOW_SECONDS = true ]]; then
+    date +'CLOCK'%d/%m' '%H:%M:%S > "$PANEL_FIFO"
+    sleep 1s;
+    else
+    date +'CLOCK'%d/%m' '%H:%M > "$PANEL_FIFO"
+    sleep 15s;
+    fi
+done &
+
+while [[ true ]]; do
+    cur_battery="$(acpi | awk '{gsub(",",""); print $4+0}')"
+#    cur_battery="$(cat /sys/class/power_supply/BAT0/capacity)"
+    if [[ DUAL_BATT = true ]]; then
+        bat1=`echo $cur_battery | awk '{print $1+0}'`
+        bat2=`echo $cur_battery | awk '{print $2+0}'`
+        cur_battery="$((($bat2 + $bat1)/2))"
+#        cur_battery="$(($bat2 + $bat1))"
+    fi
+    if [[ $cur_battery -le 20 ]]; then
+        printf "LOWBAT: %3s%%\n" "$cur_battery" > "$PANEL_FIFO"
+    else
+        printf "BAT: %3s%%\n" "$cur_battery" > "$PANEL_FIFO"
+    fi
+#    if [[ $cur_battery -le 10 ]]; then
+#        notify-send "Battery Critical" -u critical -t 10000
+#    fi
+    sleep 20s;
+done &
+
+while [[ true ]]; do
+    #add 0 to $2 to make int
+    cur_temp="$(sensors | grep -i 'Physical' | awk '{print $4+0}')"
+    if [[ cur_temp -ge 75 ]]; then
+        printf "HIGHTEMP: %2s°C\n" "$cur_temp" > "$PANEL_FIFO"
+    else
+        printf "TEMP: %3s°C\n" "$cur_temp" > "$PANEL_FIFO"
+    fi
+    sleep 15s;
+done &
+
+while [[ true ]]; do
+    cpu_usage="$(top -bn 2 -d .5 | grep '^%Cpu' | tail -n 1 | gawk '{print int($2+$4+$6)+1}')"
+    printf "CPU: %3s%%\n" "$cpu_usage" > "$PANEL_FIFO"
+    sleep 15s;
+done &
+
+while [[ true ]]; do
+    mem_usage="$(free | awk '/Mem/{printf("%02d", $3/($2) * 100.0 + 0.5);}')"
+#    mem_usage="$(free | grep Mem | awk '{print 100*$3/$2}' | cut -c 1-2 - | sed 's/\./ /g')"
+    printf "MEM: %3s%%\n" "$mem_usage" > "$PANEL_FIFO"
+    sleep 15s;
+done &
+
+wirelessQuality(){
+    wl_qual="$( cat /proc/net/wireless | tail -n1 | awk '{gsub("\\.", ""); print $3+0}')"
+    wl_qual=`echo "scale=2; $wl_qual / $FULL_WIFI * 100" | bc | awk '{print $1+0}'`
+    echo "${wl_qual}"
+}
+
+while [[ true ]]; do
+    IP_LINK="$(ip route | grep 'via' | awk '{print $5}' | head -n 1)"
+    if [[ $IP_LINK == "tun0" ]] || [[ $IP_LINK == "tap0" ]]; then
+        if [[ $(ip route | grep $SYS_WLAN_INTERFACE) ]]; then
+            net_qual=$(wirelessQuality)
+            net_qual="V"${net_qual}"%"
+        else
+            net_qual="VLAN"
+        fi
+    elif [[ $IP_LINK == $SYS_WLAN_INTERFACE ]]; then
+        #add 0 to $3 to make int
+        net_qual=$(wirelessQuality)
+        net_qual=${net_qual}"%"
+    elif [[ $IP_LINK == $SYS_LAN_INTERFACE ]]; then
+        net_qual=" LAN"
+    else 
+        net_qual=" D/C"
+    fi
+    printf "NET: %4s\n" "$net_qual" > "$PANEL_FIFO"
+    sleep 15s;
+done &
+
+while [[ true ]]; do
+    #add 0 to $2 to make int 
+    vol_off=$(amixer get Master | grep Mono: | cut -d " " -f 8)
+    vol_level=$(amixer get Master | grep Mono: | cut -d " " -f 6 | sed -s 's/\[\(.*\)%\]/\1/')
+    #vol_level="$(amixer get Master | tail -n 1 | cut -d '[' -f 2 | sed 's/%.*//g')"
+    if [[ $vol_off == "[off]" ]]; then
+        printf "VOL: OFF\n" "$vol_off" > "$PANEL_FIFO"
+    else
+        printf "VOL: %3s%%\n" "$vol_level" > "$PANEL_FIFO"
+    fi
+    sleep 15s;
+done &
+
+while [[ true ]]; do
+    disk_usage="$(df -h /home|sed '1d'|awk '{print $5}' | sed 's/\(.*\)%/\1/')"
+    printf "DISK: %3s%%\n" "$disk_usage" > "$PANEL_FIFO"
+    sleep 15s;
+done &
+
+cat "$PANEL_FIFO" \
+| \
+$HOME/.bin/panel/panel-dzen2 \
+    -f "$PANEL_FONT_FAMILY" \
+    -s "$PANEL_FONT_SIZE" \
+| \
+dzen2 \
+    -e \
+    -dock \
+    -h $PANEL_HEIGHT \
+    -ta l \
+    -xs 1 \
+    -title-name panel \
+    -fn "${PANEL_FONT_FAMILY}:pixelsize=${PANEL_FONT_SIZE}" \
+    -bg "$PANEL_COLOR_BACKGROUND" \
+    -fg "$PANEL_COLOR_FOREGROUND" &
+wait

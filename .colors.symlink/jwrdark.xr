@@ -1,0 +1,44 @@
+! -------------------------------------------------
+! file:     .colors/dark
+! author:   jason ryan - http://jasonwryan.com/
+! updated:  26/04/11
+! -------------------------------------------------
+
+! jwr dark
+
+! Added by bvanhai - edit background and foreground colors
+*background: #0D100E
+*foreground: #929292
+*cursorColor: #929292
+
+! Black
+*color0:#333333
+*color8:#474747
+
+! Red
+*color1:#8A2F58
+*color9:#CF4F88
+
+! Green
+*color2:#287373
+*color10:#53A6A6
+
+! Yellow
+*color3:#914E89
+*color11:#BF85CC
+
+! Blue
+*color4:#395573
+*color12:#4779B3
+
+! Magenta
+*color5:#5E468C
+*color13:#7F62B3
+
+! Cyan
+*color6:#2B7694
+*color14:#58AEB1
+
+! White
+*color7:#899CA1
+*color15:#C0C0C0
