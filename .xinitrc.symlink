@@ -39,4 +39,4 @@ fi
 sxhkd &
 
 # Start Window Manager
-exec bspwm W 2> ~$HOME/.config/bspwm/bspwm.log
+exec bspwm W 2> $HOME/.config/bspwm/bspwm.log
