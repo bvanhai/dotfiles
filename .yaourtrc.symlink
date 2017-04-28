@@ -1,7 +1,10 @@
+# ==============================================================================
+# File:     .yaourtrc
+# Author:   Hai Bui
+# Source:   https://github.com/bvanhai/dotfiles
 #
-# ~/.yaourtrc
-# https://github.com/bvanhai/dotfiles
-#
+# Comment:
+# ==============================================================================
 
 # General
 #AUTOSAVEBACKUPFILE=0

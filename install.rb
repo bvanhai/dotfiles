@@ -1,6 +1,12 @@
 #!/usr/bin/env ruby
-# https://github.com/tungel/dotfiles
+
+# ==============================================================================
+# File:     install.rb
+# Author:   Tung Le
+# Source:   https://github.com/tungel/dotfiles
 #
+# Comment:
+# ==============================================================================
 
 require 'io/console' # for STDIN.getch
 require 'fileutils'

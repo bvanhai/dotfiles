@@ -1,8 +1,13 @@
+# ==============================================================================
+# File:     ~/.config/sxhkd/sxhkdrc
+# Author:   Hai Bui
+# Source:   https://github.com/bvanhai/dotfiles
 #
-# ~/.config/sxhkd/sxhkdrc
-# https://github.com/bvanhai/dotfiles
-# bspwm hotkeys
-#
+# Comment:  Simple X hotkey daemon
+# ==============================================================================
+
+
+
 
 # Make sxhkd reload its configuration files, run after modify this file
 super + F2
@@ -20,7 +25,7 @@ ctrl + shift + alt + Escape
 
 
 #
-# bspwm hotkeys
+# BSPWM HOTKEYS
 # ______________
 
 # Kill all active background programs that we started earlier and quit bspwm
@@ -54,7 +59,7 @@ super + g
 
 
 #
-# State/flags
+# STATE/FLAGS
 # ______________
 
 # Set the window state
@@ -84,7 +89,7 @@ super + shift + b
 
 
 #
-# Focus/swap
+# FOCUS/SWAP
 # ______________
 
 # Focus the node in the given direction
@@ -130,7 +135,7 @@ super + {_,shift + }{1-9,0}
     bspc {desktop -f,node -d} '^{1-9,10}'
 
 #
-# preselect
+# PRESELECT
 # ______________
 
 # Preselect the direction
@@ -150,7 +155,7 @@ super + ctrl + shift + space
     bspc query -N -d | xargs -I id -n 1 bspc node id -p cancel
 
 #
-# move/resize
+# MOVE/RESIZE
 # ______________
 
 # Expand a window by moving one of its side outward
@@ -175,7 +180,7 @@ super + alt + ctrl + {h,j,k,l}
 
 
 #
-# Add Remove gaps/padding
+# ADD REMOVE GAPS/PADDING
 # ______________
 
 #ctrl + bracket{left,right}
@@ -196,7 +201,7 @@ ctrl + shift + bracket{right}
 
 
 #
-# pointer focus/move/resize
+# POINTER FOCUS/MOVE/RESIZE
 # __________________
 
 # focus
@@ -232,7 +237,7 @@ ctrl + shift + bracket{right}
 
 
 #
-# wm independent hotkeys
+# WM INDEPENDENT HOTKEYS
 # ______________
 
 # Program launcher
@@ -260,7 +265,7 @@ super + allt + shift + BackSpace
 
 
 
-# Run applications
+# RUN APPLICATIONS
 super + Return
     urxvt
 
@@ -358,7 +363,7 @@ super + u
 
 
 #
-# Media keys
+# MEDIA KEYS
 # ______________
 
 # Volume Control
@@ -459,7 +464,7 @@ F12
 
 
 #
-# Power keys
+# POWER KEYS
 # ______________
 
 # Suspend

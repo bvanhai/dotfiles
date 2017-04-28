@@ -1,7 +1,10 @@
+# ==============================================================================
+# File:     ~/.dircolors
+# Author:   Hai Bui
+# Source:   https://github.com/bvanhai/dotfiles
 #
-# ~/.dircolors
-# https://github.com/bvanhai/dotfiles
-#
+# Comment:
+# ==============================================================================
 
 # Configuration file for dircolors, a utility to help you set the
 # LS_COLORS environment variable used by GNU ls with the --color option.

@@ -1,4 +1,10 @@
-# vim:set et sw=2:
+# ==============================================================================
+# File:     ~/.inputrc
+# Author:   Hai Bui
+# Source:   https://github.com/bvanhai/dotfiles
+#
+# Comment:
+# ==============================================================================
 
 # Enable vi keys for other command line programm like irb, pry, ...
 set editing-mode vi

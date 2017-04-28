@@ -1,8 +1,13 @@
+#===============================================================================
+# File:     ~/.config/openbox/autostart
+# Author:   Hai Bui
+# Source:   https://github.com/bvanhai/dotfiles
 #
-# These things are run when an Openbox X Session is started.
-# You may place a similar script in $HOME/.config/openbox/autostart
-# to run user-specific things.
+# Comment:  These things are run when an Openbox X Session is started.
 #
+#           You may place a similar script in $HOME/.config/openbox/autostart to
+#           run user-specific things.
+#===============================================================================
 
 # If you want to use GNOME config tools...
 #

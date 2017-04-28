@@ -1,6 +1,12 @@
 #!/bin/sh
-# https://github.com/bvanhai/dotfiles
+
+# ==============================================================================
+# File:     ~/.bin/panel/panel
+# Author:   Benjamin Ghaemmaghami
+# Source:   https://github.com/benghaem/dotfiles
 #
+# Comment:
+# ==============================================================================
 
 # Import settings
 realpath=$(cd `dirname "${BASH_SOURCE[0]}"` && pwd)

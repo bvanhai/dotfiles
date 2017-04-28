@@ -1,7 +1,12 @@
 #!/bin/sh
-# ~/.config/bspwm/bspwmrc
-# https://github.com/bvanhai/dotfiles
+
+# ==============================================================================
+# File:     ~/.config/bspwm/bspwmrc
+# Author:   Hai Bui
+# Source:   https://github.com/bvanhai/dotfiles
 #
+# Comment:
+# ==============================================================================
 
 # Load color theme
 . $HOME/.colors/current-sh

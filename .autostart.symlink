@@ -1,7 +1,12 @@
 #!/bin/sh
-# ~/.autostart
-# https://github.com/bvanhai/dotfiles
+
+# ==============================================================================
+# File:     ~/.autostart
+# Author:   Hai Bui
+# Source:   https://github.com/bvanhai/dotfiles
 #
+# Comment:
+# ==============================================================================
 
 # Set keyboard language
 #setxkbmap -layout en

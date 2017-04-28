@@ -1,7 +1,10 @@
+# ==============================================================================
+# File:     ~/.zshrc
+# Author:   Hai Bui
+# Source:   https://github.com/bvanhai/dotfiles
 #
-# ~/.zshrc
-# https://github.com/bvanhai/dotfiles
-#
+# Comment:
+# ==============================================================================
 
 # Amount of commands that need to remember in the history list
 SAVEHIST=10000

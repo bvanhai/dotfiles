@@ -1,8 +1,10 @@
+# ==============================================================================
+# File:     ~/.bashrc
+# Author:   Hai Bui
+# Source:   https://github.com/bvanhai/dotfiles
 #
-# ~/.bashrc
-# https://github.com/bvanhai/dotfiles
-# Executed by bash(1) for non-login shells.
-#
+# Comment:  Executed by bash(1) for non-login shells
+# ==============================================================================
 
 # Following automatically calls "startx" when you login:
 #[[ -z $DISPLAY && $XDG_VTNR -eq 1 ]] && exec startx -- -keeptty -nolisten tcp > ~/.xorg.log 2>&1

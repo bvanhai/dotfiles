@@ -1,7 +1,6 @@
 #!/bin/sh
 # Displays info about wm, font, gtk theme
 # copied from z3bra's blog
-#
 
 c00=$'\e[0;30m'
 c01=$'\e[0;31m'

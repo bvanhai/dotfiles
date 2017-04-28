@@ -1,7 +1,3 @@
-#
-# https://github.com/bvanhai/dotfiles
-#
-
 # Run:
 # git config --global core.excludesfile "~/.gitignore"
 

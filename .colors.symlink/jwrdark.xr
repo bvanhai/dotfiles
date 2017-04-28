@@ -1,15 +1,14 @@
-! -------------------------------------------------
-! file:     .colors/dark
-! author:   jason ryan - http://jasonwryan.com/
-! updated:  26/04/11
-! -------------------------------------------------
-
-! jwr dark
+! ==============================================================================
+! File:     ~/.colors/jwrdark.xr
+! Author:   Jason Ryan
+! Source:   http://jasonwryan.com/
+!
+! Comment:
+! ==============================================================================
 
 ! Added by bvanhai - edit background and foreground colors
 *background: #0D100E
 *foreground: #929292
-*cursorColor: #929292
 
 ! Black
 *color0:#333333

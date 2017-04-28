@@ -69,7 +69,7 @@
 
 <br>
 
-*They say life is a journey, not a destination. Well, so are dotfiles...*
+> *They say life is a journey, not a destination. Well, so are dotfiles...*
 
 <br>
 
@@ -115,9 +115,9 @@ select which dotfile to be symlinked in the `config` file.
 
 *To use `deoplete` in `Neovim`, we must also install:*
 
-```
-sudo pacman -S python-pip
-pip3 install --user neovim
+```bash
+$ sudo pacman -S python-pip
+$ pip3 install --user neovim
 ```
 
 <br>
@@ -127,13 +127,34 @@ pip3 install --user neovim
 ### General
 
 - Install the packages/programs that you want as mentioned above.
-- Clone this repository: `git clone --depth=1 https://github.com/bvanhai/dotfiles`.
-    - .vim directory: `git clone --depth=1 https://github.com/bvanhai/.vim`.
+- Clone this repository: 
+
+```bash
+$ git clone --depth=1 https://github.com/bvanhai/dotfiles
+
+# .vim directory:
+$ git clone --depth=1 https://github.com/bvanhai/.vim
+```
+
 - The dotfiles can simply be moved to their respective locations followed by a restart of the X server. I use symlinks to keep my file system organized so that all of these files live within the folder `dotfiles` in my home directory.
-    - Change directory to where you cloned the dotfiles: `cd dotfiles`.
-    - Edit `config` file to specify which dotfiles are to be symlinked.
-    - Then, run: `ruby install.rb` (We must install `ruby`).
-- Symlink the .vim directory: `ln -s /path/to/downloaded/.vim ~/.vim`.
+```bash
+# Change directory to where you cloned the dotfiles:
+$ cd dotfiles
+
+# Edit 'config' file to specify which dotfiles are to be symlinked
+
+# Install 'ruby'
+$ pacman -S ruby
+
+# Then, run
+$ ruby install.rb
+```
+
+- Symlink the .vim directory:
+
+```bash
+$ ln -s /path/to/downloaded/.vim ~/.vim
+```
 
 After the files are moved/symlinked please read the configuration section below.
 
@@ -176,35 +197,31 @@ My xinitrc launches a few applications you may not use. Simply remove them from 
 
 Create the following symlinks using root to instruct freetype2 to use good-looking rendering defaults:
 
-```
-ln -sf /etc/fonts/conf.avail/11-lcdfilter-default.conf /etc/fonts/conf.d
-ln -sf /etc/fonts/conf.avail/10-sub-pixel-rgb.conf /etc/fonts/conf.d
-ln -sf /etc/fonts/conf.avail/10-hinting-slight.conf /etc/fonts/conf.d
+```bash
+$ ln -s /etc/fonts/conf.avail/11-lcdfilter-default.conf /etc/fonts/conf.d
+$ ln -s /etc/fonts/conf.avail/10-sub-pixel-rgb.conf /etc/fonts/conf.d
+$ ln -s /etc/fonts/conf.avail/10-hinting-slight.conf /etc/fonts/conf.d
 ```
 
 The `local.conf` in `~/dotfiles/linux/etc/fonts/` should be moved to `/etc/etc/fonts/`.
 
 Install the package fonts-meta-extended-lt from the AUR:
 
-```
-yaourt -S fonts-meta-extended-lt
-ln -sf /etc/fonts/conf.avail/30-infinality-aliases.conf /etc/fonts/conf.d
+```bash
+$ yaourt -S fonts-meta-extended-lt
+$ ln -s /etc/fonts/conf.avail/30-infinality-aliases.conf /etc/fonts/conf.d
 ```
 
 ## Manage subtrees:
 
 Change dir to the root of this repository, then:
 
-Add `zsh-git-prompt` subtree:
+```bash
+# Add 'zsh-git-prompt' subtree:
+$ git subtree add --prefix .zsh.symlink/zsh-git-prompt https://github.com/olivierverdier/zsh-git-prompt.git master --squash
 
-```
-git subtree add --prefix .zsh.symlink/zsh-git-prompt https://github.com/olivierverdier/zsh-git-prompt.git master --squash
-```
-
-Get update from the original repository:
-
-```
-git subtree pull --prefix .zsh.symlink/zsh-git-prompt https://github.com/olivierverdier/zsh-git-prompt.git master --squash
+# Get update from the original repository:
+$ git subtree pull --prefix .zsh.symlink/zsh-git-prompt https://github.com/olivierverdier/zsh-git-prompt.git master --squash
 ```
 
 <br>

@@ -1,7 +1,10 @@
+! ==============================================================================
+! File:     ~/.Xmodmap
+! Author:   Hai Bui
+! Source:   https://github.com/bvanhai/dotfiles
 !
-! ~/.Xmodmap
-! https://github.com/bvanhai/dotfiles
-!
+! Comment:
+! ==============================================================================
 
 ! Map capslock key to the left control key
 remove Lock = Caps_Lock

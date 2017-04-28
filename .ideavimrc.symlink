@@ -1,3 +1,11 @@
+# ==============================================================================
+# File:     ~/.ideavimrc
+# Author:   Hai Bui
+# Source:   https://github.com/bvanhai/dotfiles
+#
+# Comment:
+# ==============================================================================
+
 source ~/.vimrc-mini
 
 " allow using system clipboard

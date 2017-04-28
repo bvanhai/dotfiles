@@ -1,7 +1,10 @@
+# ==============================================================================
+# File:     ~/.tmux.conf
+# Author:   Hai Bui
+# Source:   https://github.com/bvanhai/dotfiles
 #
-# ~/.tmux.conf
-# https://github.com/bvanhai/dotfiles
-#
+# Comment:
+# ==============================================================================
 
 # Fix problem with vim colorscheme in tmux
 #set -g default-terminal "screen-256color"

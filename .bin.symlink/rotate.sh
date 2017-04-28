@@ -1,7 +1,6 @@
 #!/bin/bash
 # usage: rotate.sh dir screen
 # Rotate screen, reload wallpaper, restart panel
-#
 
 # Rotate, use defaults
 defaultdisp="LVDS1";

@@ -1,7 +1,10 @@
+# ==============================================================================
+# File:     ~/.aliases
+# Author:   Hai Bui
+# Source:   https://github.com/bvanhai/dotfiles
 #
-# ~/.aliases
-# https://github.com/bvanhai/dotfiles
-#
+# Comment:
+# ==============================================================================
 
 # Enable color support of ls and also add handy aliases
 if [ -x /usr/bin/dircolors ]; then
@@ -28,46 +31,23 @@ alias lm="ls -al |more"     # pipe through 'more'
 alias lr="ls -lR"           # recursive ls
 alias lsr="tree -Csu"       # nice alternative to 'recursive ls'
 
-
-# General
+# View text files
 alias less="less -FX"
-alias exit="clear; exit"
-alias 200="ssh 200 -t tmux a -d"
-alias sent="ssh -t cent ssh -t 200"
-alias socks="ssh -D 8080 -f -C -q -N 200"
 
 # Query the systemd journal:
 alias jncl='journalctl -xrb'
 
-# Empty backup
-alias backupr='rm -rf /home/Data/backup && mkdir -p /home/Data/backup'
-alias backupsr='sudo rm -rf /home/Data/backup && mkdir -p /home/Data/backup'
-
 # Package managers
-# For yaourt
 alias ya='yaourt'
 alias yy='yaourt -Syua'
 alias ys='yaourt -S'
 alias yr='yaourt -Rsnc'
 alias yq='yaourt -Q'
 alias yc='yaourt -Sc'
-
-# For pacman
-alias spa='sudo pacman'
-alias spy='sudo pacman -Syu'
-alias sps='sudo pacman -S'
-alias spu='sudo pacman -U'
-alias spr='sudo pacman -Rsnc'
-alias spq='sudo pacman -Q'
-alias spc='sudo pacman -Sc'
 alias orphans="pacman -Qtdq"
 
 # For permission
-alias scm1='sudo chmod -R go-w /home/Data'
-alias scm2='sudo chmod -R go-w /home/bvanhai/Downloads'
-alias scm3='sudo chmod -R go-w /home/bvanhai/Desktop'
-alias scm4='sudo chmod -R go-w /home/bvanhai/dotfiles'
-
+alias scm='sudo chmod -R go-w'
 
 # For xclip
 alias pbcopy='xclip -selection clipboard'   # copy to clipboard, ctrl+c, ctrl+shift+c
@@ -97,6 +77,13 @@ alias gitcom="git checkout master"
 
 alias gitundo="git reset HEAD~1 && git push origin -f"
 alias githundo="git reset --hard HEAD~1 && git push origin -f"
+
+alias git2undo="git reset HEAD~2 && git push origin -f"
+alias git2hundo="git reset --hard HEAD~2 && git push origin -f"
+
+alias git5undo="git reset HEAD~5 && git push origin -f"
+alias git5hundo="git reset --hard HEAD~5 && git push origin -f"
+
 
 # For Google Drive:
 alias cdgd="cd ~/gdrive"

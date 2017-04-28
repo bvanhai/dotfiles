@@ -1,11 +1,12 @@
-# -------------------------------------------------
-# file:     .colors/dark
-# author:   jason ryan - http://jasonwryan.com/
-# updated:  26/04/11
-# -------------------------------------------------
+# ==============================================================================
+# File:     ~/.colors/jwrdark.sh
+# Author:   Jason Ryan
+# Source:   http://jasonwryan.com/
+#
+# Comment:
+# ==============================================================================
 
-# jwr dark
-
+# Added by bvanhai - edit background and foreground colors
 COLOR_BACKGROUND="#0D100E"
 COLOR_FOREGROUND="#929292"
 

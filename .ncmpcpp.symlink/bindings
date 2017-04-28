@@ -1,8 +1,11 @@
-##########################################################
-## this is example bindings configuration file, copy it ##
-## to ~/.ncmpcpp/bindings and set up your preferences   ##
-##########################################################
-##
+# ==============================================================================
+# File:     ~/.ncmpcpp/bindings
+# Author:   Hai Bui
+# Source:   https://github.com/bvanhai/dotfiles
+#
+# Comment:
+# ==============================================================================
+
 ##### General rules #####
 ##
 ## 1) Because each action has runtime checks whether it's

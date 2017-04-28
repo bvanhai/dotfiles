@@ -1,15 +1,18 @@
-"===============================================================================
-" https://github.com/tungel/dotfiles
-" Minimal setup for vim
+" ==============================================================================
+" File:     ~/.vimrc-minimal
+" Author:   Tung Le
+" Source:   https://github.com/tungel/dotfiles
 "
-" The purpose of this file is to configure vim to work with general text file
-" such that it doesn't change the format of the text (like: remove trailing
-" white space, change tab to space, ...)
-" So that, we can use this Vim's configuration file to work with other projects
-" which contains non-standard text format ("Death to the Space Infidels!" -
-" Coding Horror)
-"===============================================================================
-
+" Comment:  Minimal setup for vim
+"
+"           The purpose of this file is to configure vim to work with general
+"           text file such that it doesn't change the format of the text (like:
+"           remove trailing white space, change tab to space,...)
+" 
+"           So that, we can use this Vim's configuration file to work with other
+"           projects which contains non-standard text format ("Death to the
+"           Space Infidels!" - Coding Horror)
+" ==============================================================================
 
 " disable compatibility to vi because it's annoying.
 " compatibility with vi make `imap jk <ESC>` doesn't work

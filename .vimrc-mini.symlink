@@ -1,15 +1,16 @@
-"===============================================================================
-" https://github.com/tungel/dotfiles
+" ==============================================================================
+" File:     ~/.vimrc-mini
+" Author:   Tung Le
+" Source:   https://github.com/tungel/dotfiles
 "
-" Mini .vimrc setting for Vim
+" Comment:  Mini .vimrc setting for Vim
 "
-" The purpose of this file is to provide some basic functionalities to edit text
-" with Vim without any plugin dependent. This is best suited for light-editing
-" works.
+"           The purpose of this file is to provide some basic functionalities
+"           to edit text with Vim without any plugin dependent. This is best
+"           suited for light-editing works.
 "
-" This file can also be used as a stand-alone .vimrc file
-"===============================================================================
-
+"           This file can also be used as a stand-alone .vimrc file
+" ==============================================================================
 
 " Read essential configuration from the mini file
 source ~/.vimrc-minimal

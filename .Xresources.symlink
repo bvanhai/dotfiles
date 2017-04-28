@@ -1,7 +1,10 @@
+! ==============================================================================
+! File:     ~/.Xresources
+! Author:   Hai Bui
+! Source:   https://github.com/bvanhai/dotfiles
 !
-! ~/Xresources
-! https://github.com/bvanhai/dotfiles
-!
+! Comment:
+! ==============================================================================
 
 ! Run: `xrdb -merge ~/.Xresources` after modify this file
 ! To check the default color, see: `man urxvt` section `COLOURS AND GRAPHICS`
@@ -91,7 +94,6 @@ URxvt.keysym.C-M-v: perl:clipboard:paste_escaped
 
 
 URxvt.perl-ext-common: default,matcher,clipboard,url-select,keyboard-select
-!URxvt.perl-ext-common: font-size,autocomplete-ALL-the-things, matcher
 URxvt.url-select.launcher: /usr/bin/chromium
 !URxvt.url-select.underline: true
 !URxvt.matcher.button: 1

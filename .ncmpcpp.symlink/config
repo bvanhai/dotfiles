@@ -1,9 +1,11 @@
-##############################################################
-## This is the example configuration file. Copy it to       ##
-## $HOME/.ncmpcpp/config or $XDG_CONFIG_HOME/ncmpcpp/config ##
-## and set up your preferences.                             ##
-##############################################################
+# ==============================================================================
+# File:     ~/.ncmpcpp/config
+# Author:   Hai Bui
+# Source:   https://github.com/bvanhai/dotfiles
 #
+# Comment:
+# ==============================================================================
+
 ##### directories ######
 ##
 ## Directory for storing ncmpcpp related files.
