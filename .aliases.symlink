@@ -143,7 +143,11 @@ alias um="devmon --mount"
 alias uu="devmon --unmount"
 alias usbm="sudo mount /dev/sdb1 /home/USB"
 alias usbu="sudo umount /dev/sdb1 /home/USB"
+
+# Mount NTFS partition
 alias osm="sudo mount -t ntfs-3g /dev/sda2 /home/OS"
+alias d1m="sudo mount -t ntfs-3g /dev/sda6 /home/Data1"
+alias d2m="sudo mount -t ntfs-3g /dev/sda7 /home/Data2"
 
 
 alias findproc="ps aux | grep "
