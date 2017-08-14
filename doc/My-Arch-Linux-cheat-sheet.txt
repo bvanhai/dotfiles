@@ -507,6 +507,7 @@
       yaourt -S ruby-neovim
   + To use your vim configuration in neovim execute the following commands
     which will create the appropriate symlinks:
+      git clone https://github.com/bvanhai/.vim
       mkdir -p ~/.config
       ln -s ~/.vim ~/.config/nvim
       ln -s ~/.vimrc ~/.config/nvim/init.vim
@@ -524,7 +525,6 @@
 - Web Browsers:
   + Chromium:
       sudo pacman -S chromium
-      ttf-liberation: fix fonts for some PDFs
   + Google Chrome:
       yaourt -S google-chrome
   + Firefox:
