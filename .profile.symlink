@@ -21,6 +21,11 @@ export MANWIDTH=78
 export KEYTIMEOUT=15
 export TERM=rxvt-unicode-256color
 
+# Input method framework to enter foreign characters
+export GTK_IM_MODULE=ibus
+export XMODIFIERS=@im=ibus
+export QT_IM_MODULE=ibus
+
 # Linux console colors (jwr dark)
 if [ "$TERM" = "linux" ]; then
     echo -en "\e]P0242424" #black
