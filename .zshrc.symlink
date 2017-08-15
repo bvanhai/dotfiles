@@ -204,30 +204,22 @@ zle -N zle-line-finish
 
 
 # Plugins
-# zsh-git-prompt
-. $HOME/.zsh/zsh-git-prompt/zshrc.sh
-
-# zsh-syntax-highlighting
-. $HOME/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.plugin.zsh
-
-# zsh-autosuggestions
-. $HOME/.zsh/zsh-autosuggestions/zsh-autosuggestions.plugin.zsh
-
-# zsh-completions
-. $HOME/.zsh/zsh-completions/zsh-completions.plugin.zsh
-
-# zsh-history-substring-search
-. $HOME/.zsh/zsh-history-substring-search/zsh-history-substring-search.plugin.zsh
-
-# z
-. $HOME/.zsh/z/z.sh
+zsh_plugins=(zsh-syntax-highlighting zsh-autosuggestions zsh-completions zsh-history-substring-search z zsh-git-prompt)
+for plugin ($zsh_plugins); do
+    if [ -f $HOME/.zsh/plugins/$plugin/$plugin.plugin.zsh ]; then
+        . $HOME/.zsh/plugins/$plugin/$plugin.plugin.zsh
+    elif [ -f $HOME/.zsh/plugins/$plugin/$plugin.zsh ]; then
+        . $HOME/.zsh/plugins/$plugin/$plugin.zsh
+    elif [ -f $HOME/.zsh/plugins/$plugin/*.sh ]; then
+        . $HOME/.zsh/plugins/$plugin/*.sh
+    fi
+done
 
 # oh-my-zsh
 ohmyzsh_plugins=(archlinux dirhistory sudo tmux)
-
-for plugin ($ohmyzsh_plugins); do
-    if [ -f $HOME/.zsh/oh-my-zsh/$plugin/$plugin.plugin.zsh ]; then
-    . $HOME/.zsh/oh-my-zsh/$plugin/$plugin.plugin.zsh
+for oplugin ($ohmyzsh_plugins); do
+    if [ -f $HOME/.zsh/oh-my-zsh/$oplugin/$oplugin.plugin.zsh ]; then
+    . $HOME/.zsh/oh-my-zsh/$oplugin/$oplugin.plugin.zsh
     fi
 done
 
