@@ -208,13 +208,16 @@ zle -N zle-line-finish
 . $HOME/.zsh/zsh-git-prompt/zshrc.sh
 
 # zsh-syntax-highlighting
-. $HOME/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+. $HOME/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.plugin.zsh
 
 # zsh-autosuggestions
-. $HOME/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
+. $HOME/.zsh/zsh-autosuggestions/zsh-autosuggestions.plugin.zsh
 
 # zsh-completions
 . $HOME/.zsh/zsh-completions/zsh-completions.plugin.zsh
+
+# zsh-history-substring-search
+. $HOME/.zsh/zsh-history-substring-search/zsh-history-substring-search.plugin.zsh
 
 # oh-my-zsh
 ohmyzsh_plugins=(archlinux dirhistory sudo tmux)
