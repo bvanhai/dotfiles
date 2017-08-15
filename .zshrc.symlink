@@ -204,7 +204,7 @@ zle -N zle-line-finish
 
 
 # Plugins
-# Informative git prompt for zsh
+# zsh-git-prompt
 . $HOME/.zsh/zsh-git-prompt/zshrc.sh
 
 # zsh-syntax-highlighting
@@ -218,6 +218,9 @@ zle -N zle-line-finish
 
 # zsh-history-substring-search
 . $HOME/.zsh/zsh-history-substring-search/zsh-history-substring-search.plugin.zsh
+
+# z
+. $HOME/.zsh/z/z.sh
 
 # oh-my-zsh
 ohmyzsh_plugins=(archlinux dirhistory sudo tmux)
