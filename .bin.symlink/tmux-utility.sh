@@ -7,9 +7,9 @@ tmux has-session -t $SESSION
 
 if [ $? != 0 ]; then
     # Create new session, name it, name the window, detach
-    tmux new-session -d -s $SESSION -n ranger "cd /home && ranger"
+    tmux new-session -d -s $SESSION -n 'ranger' "cd /home && ranger"
 
-    tmux new-window -t $SESSION: -n misc
+    tmux new-window -t $SESSION: -n 'misc'
     tmux split-window -h -p 32 -t $SESSION      # horizontal split
     tmux select-pane -t $SESSION:2.2            # select second pane
     tmux send-keys -t $SESSION 'music.sh' C-m   # process in second pane
@@ -21,6 +21,11 @@ if [ $? != 0 ]; then
     tmux split-window -v -p 32 -t $SESSION      # vertical split
 
     tmux new-window -t $SESSION 'nvim'
+
+    tmux new-window -t $SESSION: -n 'miscx'
+    tmux split-window -h -p 50 -t $SESSION      # horizontal split
+    tmux split-window -v -p 50 -t $SESSION      # create a pane below second pane
+    tmux select-pane -t $SESSION:4.1            # select first pane of window#4
 
     # Go to first pane of window#2
     tmux select-window -t $SESSION:2    # select window#2
