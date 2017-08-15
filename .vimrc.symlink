@@ -450,6 +450,9 @@ set laststatus=2
 "let g:airline_powerline_fonts = 1
 "let g:Powerline_symbols="fancy"
 
+" Use ASCII symbols
+let g:airline_symbols_ascii = 1
+
 " Theme default
 let g:airline_theme='lucius'
 
@@ -1261,11 +1264,49 @@ let g:vim_json_syntax_conceal = 0
 
 
 if has("nvim")
-let g:deoplete#enable_at_startup = 1
+  " ============= NEOVIM ================ {{{
+  " Makes the cursor a pipe in insert-mode, and a block in normal-mode
+  " let $NVIM_TUI_ENABLE_CURSOR_SHAPE=1
+  set guicursor=n-v-c:block-Cursor/lCursor-blinkon0,i-ci:ver25-Cursor/lCursor,r-cr:hor20-Cursor/lCursor
 
+  " Use double ESC to go to normal mode in terminal window. We want to reserve a
+  " single ESC to use vi editing mode for the line-editor
+  tnoremap <Esc><Esc> <C-\><C-n>
+
+  " Use deoplete.
+  let g:deoplete#enable_at_startup = 1
+  " Use smartcase.
+  let g:deoplete#enable_smart_case = 1
+
+  let g:deoplete#disable_auto_complete = 0
+
+  inoremap <expr><C-y>  deoplete#mappings#close_popup()
+  inoremap <expr><C-e>  deoplete#mappings#cancel_popup()
+
+  " <C-h>, <BS>: close popup and delete backword char.
+  " inoremap <expr><C-h> deolete#mappings#smart_close_popup()."\<C-h>"
+  inoremap <expr><BS> deoplete#mappings#smart_close_popup()."\<C-h>"
+  set completeopt+=noinsert
+  if has("patch-7.4.314")
+    set shortmess+=c
+  endif
+
+  let g:deoplete#sources = {}
+  let g:deoplete#sources._ = ['buffer', 'file']
+  let g:deoplete#sources.cpp = ['buffer', 'tag', 'file']
+  let g:deoplete#sources.ruby = ['buffer', 'tag', 'file']
+
+  let g:deoplete#omni_patterns = {}
+  " let g:deoplete#omni_patterns.ruby = ['[^. *\t]\.\w*', '\h\w*::']
+  " let g:deoplete#omni_patterns.ruby = ''
+  " let g:deoplete#omni_patterns.java = '[^. *\t]\.\w*'
+  let g:deoplete#omni_patterns.rust = '[(\.)(::)]'
+
+  " let g:deoplete#keyword_patterns = {}
+  " let g:deoplete#keyword_patterns.ruby = ''
+
+  " end Neovim }}}
 endif
-
-
 
 " ==============================================================================
 "--- begin terminal window {{{
