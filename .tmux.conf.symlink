@@ -45,8 +45,9 @@ unbind p
 bind p paste-buffer
 
 bind -Tcopy-mode-vi 'v' send -X begin-selection
-bind -Tcopy-mode-vi Escape send -X cancel
-bind -Tcopy-mode-vi V send -X rectangle-toggle
+bind -Tcopy-mode-vi 'V' send -X select-line
+bind -Tcopy-mode-vi 'Escape' send -X cancel
+bind -Tcopy-mode-vi 'r' send -X rectangle-toggle
 
 # Copy selection to system clipboard (make sure xclip is installed)
 bind -Tcopy-mode-vi 'y' send -X copy-pipe-and-cancel 'xclip -in -selection clipboard >/dev/null'
