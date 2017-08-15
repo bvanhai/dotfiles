@@ -59,7 +59,7 @@ done &
 
 while [[ true ]]; do
     #add 0 to $2 to make int
-    cur_temp="$(sensors | grep -i 'Physical' | awk '{print $4+0}')"
+    cur_temp="$(sensors | grep -i 'Package' | awk '{print $4+0}')"
     if [[ cur_temp -ge 75 ]]; then
         printf "HIGHTEMP: %2s°C\n" "$cur_temp" > "$PANEL_FIFO"
     else
