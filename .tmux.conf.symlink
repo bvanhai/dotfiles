@@ -8,7 +8,12 @@
 
 # Fix problem with vim colorscheme in tmux
 #set -g default-terminal "screen-256color"
-set -g default-terminal "tmux-256color"
+#set -g default-terminal "tmux-256color"
+set-option -g default-terminal "xterm-256color"
+
+# Needs this line also to overrides the default color, so that the neovim color
+# themes work correctly
+set-option -ga terminal-overrides ",xterm-256color:Tc"
 
 set-option -g default-shell /bin/zsh
 set-option -g default-command /bin/zsh
