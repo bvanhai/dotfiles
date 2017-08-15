@@ -59,6 +59,7 @@ alias cddl='cd ~/Downloads'
 alias cddf="cd ~/dotfiles/"
 alias cddd="cd ~/dotfiles-d/"
 alias cdv="cd ~/.vim/"
+alias cdh="cd ~/"
 
 # For git:
 alias ga="git add"
