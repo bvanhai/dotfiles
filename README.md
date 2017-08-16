@@ -193,9 +193,15 @@ _NOTE: The fullscreen setting only works for BSPWM._
 #### xinitrc
 My xinitrc launches a few applications you may not use. Simply remove them from the list and add your own.
 
-#### Fontconfig Configuration
+#### Font Configuration
 
-Create the following symlinks using root to instruct freetype2 to use good-looking rendering defaults:
+Install the package `fontconfig-infinality` and `freetype2-infinality` from the AUR:
+
+```bash
+$ yaourt -S fontconfig-infinality freetype2-infinality
+```
+
+~~*Create the following symlinks using root to instruct freetype2 to use good-looking rendering defaults:*~~
 
 ```bash
 $ ln -s /etc/fonts/conf.avail/11-lcdfilter-default.conf /etc/fonts/conf.d
@@ -203,9 +209,9 @@ $ ln -s /etc/fonts/conf.avail/10-sub-pixel-rgb.conf /etc/fonts/conf.d
 $ ln -s /etc/fonts/conf.avail/10-hinting-slight.conf /etc/fonts/conf.d
 ```
 
-The `local.conf` in `~/dotfiles/linux/etc/fonts/` should be moved to `/etc/etc/fonts/`.
+~~*The `local.conf` in `~/dotfiles/linux/etc/fonts/` should be moved to `/etc/etc/fonts/`.*~~
 
-Install the package fonts-meta-extended-lt from the AUR:
+~~*Install the package fonts-meta-extended-lt from the AUR:*~~
 
 ```bash
 $ yaourt -S fonts-meta-extended-lt
