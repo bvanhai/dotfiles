@@ -13,9 +13,9 @@ if [ $? != 0 ]; then
     tmux split-window -h -p 32 -t $SESSION      # horizontal split
     tmux select-pane -t $SESSION:2.2            # select second pane
     tmux send-keys -t $SESSION 'music.sh' C-m   # process in second pane
-    tmux split-window -v -p 56 -t $SESSION      # create a pane below second pane
+    tmux split-window -v -p 58 -t $SESSION      # create a pane below second pane
     tmux send-keys -t $SESSION 'htop' C-m       # process in third pane
-    tmux split-window -v -p 75 -t $SESSION      # create a pane below third pane
+    tmux split-window -v -p 74 -t $SESSION      # create a pane below third pane
     tmux send-keys -t $SESSION 'tmux-utility-info.sh && sleep infinity' C-m     # process in fourth pane
     tmux select-pane -t $SESSION:2.1            # select first pane of window#2
     tmux split-window -v -p 32 -t $SESSION      # vertical split

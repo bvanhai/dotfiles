@@ -79,6 +79,4 @@ cat << EOF
             ${c07}▉▉  | ${f1}Root ${f0}......... $f2$root
             ${c15}  ▉▉| ${f1}Home ${f0}......... $f2$home
 
-
-
 EOF
