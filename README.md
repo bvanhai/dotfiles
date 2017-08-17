@@ -41,32 +41,39 @@
 
 ## Screenshots
 
-### Now
+### Version 4
 
 <br>
 
-![Tmux1](/.scrot.symlink/tmux1.png)
-![Tmux2](/.scrot.symlink/tmux2.png)
-![Tmux3](/.scrot.symlink/tmux3.png)
+![Version4a](/.scrot.symlink/v4a.png)
+![Version4b](/.scrot.symlink/v4b.png)
+![Version4c](/.scrot.symlink/v4c.png)
 
 <br>
 
-### Old
+### Version 3
 
 <br>
 
-![Clean](/.scrot.symlink/clean.png)
-![Dirty](/.scrot.symlink/dirty.png) 
-![Example](/.scrot.symlink/example.png)
+![Version3a](/.scrot.symlink/v3a.png)
+![Version3b](/.scrot.symlink/v3b.png) 
+![Version3c](/.scrot.symlink/v3c.png)
 
 <br>
 
-### Older
+### Version 2
 
 <br>
 
-![Example1](/.scrot.symlink/ago1.png)
-![Example2](/.scrot.symlink/ago2.png)
+![Version2](/.scrot.symlink/v2.png)
+
+<br>
+
+### Version 1
+
+<br>
+
+![Version1](/.scrot.symlink/v1.png)
 
 <br>
 
