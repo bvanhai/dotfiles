@@ -436,23 +436,20 @@ super + alt + XF86Battery
 Print
     cd ~/.scrot/screenshot/; \
     scrot; \
-    aplay ~/.scrot/sound/camera-shutter-click-01.wav; \
-    cd ~/
+    aplay ~/.scrot/sound/camera-shutter-click-01.wav
 
 # Take screenshot window
 shift + @Print
     cd ~/.scrot/screenshot/; \
     scrot -s; \
-    aplay ~/.scrot/sound/camera-shutter-click-02.wav; \
-    cd ~/
+    aplay ~/.scrot/sound/camera-shutter-click-02.wav
 
 # Take screenshot after 5 second
-ctrl + @Print
+ctrl + Print
     cd ~/.scrot/screenshot/; \
     aplay ~/.scrot/sound/camera-focusing-02.wav; \
     scrot -d 1; \
-    aplay ~/.scrot/sound/camera-shutter-click-01.wav; \
-    cd ~/
+    aplay ~/.scrot/sound/camera-shutter-click-01.wav
 
 # Screen rotate
 super + F12
