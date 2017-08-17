@@ -97,8 +97,8 @@ bind L swap-pane -D
 # Rotate layout with `C-r`
 bind -r C-r next-layout
 
-# Use F10 to toggle zoom the current pane
-bind -n F10 resize-pane -Z
+# Use F11 to toggle zoom the current pane
+bind -n F11 resize-pane -Z
 
 # Moving between windows with vim movement keys
 # Press the prefix (Ctrl+a) then hold Ctrl key and press h or l to cycle through
