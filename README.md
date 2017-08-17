@@ -7,7 +7,8 @@
 🐧 This is a collection of **dotfiles** for use with **BSPWM** or any other **window manager** that requires the use of a **dzen panel**.
 <br>
 🐧 It is **my personal configuration** and includes all of the features I find necessary for a full WM experience.
-
+<br>
+🐧 My `.vim` folder is [here](https://github.com/bvanhai/.vim) and `My Arch Linux cheat-sheet` is [here](https://github.com/bvanhai/dotfiles/blob/master/doc/My-Arch-Linux-cheat-sheet.txt).
 <br>
 
 ## Table of Contents
@@ -75,9 +76,7 @@
 
 ## Requirements
 
-Here is the list of relevant packages/programs that I use in Arch Linux. You
-don't need to install everything below, just choose what you want and then
-select which dotfile to be symlinked in the `config` file.
+Here is the list of relevant packages/programs that I use in Arch Linux. You don't need to install everything below, just choose what you want and then select which dotfile to be symlinked in the `config` file.
 
 ### General
 * `bspwm`                  (window manager)
@@ -137,16 +136,17 @@ $ git clone --depth=1 https://github.com/bvanhai/.vim
 ```
 
 - The dotfiles can simply be moved to their respective locations followed by a restart of the X server. I use symlinks to keep my file system organized so that all of these files live within the folder `dotfiles` in my home directory.
+
 ```bash
 # Change directory to where you cloned the dotfiles:
 $ cd dotfiles
 
 # Edit 'config' file to specify which dotfiles are to be symlinked
 
-# Install 'ruby'
+# Install 'ruby':
 $ pacman -S ruby
 
-# Then, run
+# Then, run:
 $ ruby install.rb
 ```
 
@@ -199,35 +199,6 @@ Install the package `fontconfig-infinality` and `freetype2-infinality` from the 
 
 ```bash
 $ yaourt -S fontconfig-infinality freetype2-infinality
-```
-
-~~*Create the following symlinks using root to instruct freetype2 to use good-looking rendering defaults:*~~
-
-```bash
-$ ln -s /etc/fonts/conf.avail/11-lcdfilter-default.conf /etc/fonts/conf.d
-$ ln -s /etc/fonts/conf.avail/10-sub-pixel-rgb.conf /etc/fonts/conf.d
-$ ln -s /etc/fonts/conf.avail/10-hinting-slight.conf /etc/fonts/conf.d
-```
-
-~~*The `local.conf` in `~/dotfiles/linux/etc/fonts/` should be moved to `/etc/etc/fonts/`.*~~
-
-~~*Install the package fonts-meta-extended-lt from the AUR:*~~
-
-```bash
-$ yaourt -S fonts-meta-extended-lt
-$ ln -s /etc/fonts/conf.avail/30-infinality-aliases.conf /etc/fonts/conf.d
-```
-
-## Manage subtrees:
-
-Change dir to the root of this repository, then:
-
-```bash
-# Add 'zsh-git-prompt' subtree:
-$ git subtree add --prefix .zsh.symlink/zsh-git-prompt https://github.com/olivierverdier/zsh-git-prompt.git master --squash
-
-# Get update from the original repository:
-$ git subtree pull --prefix .zsh.symlink/zsh-git-prompt https://github.com/olivierverdier/zsh-git-prompt.git master --squash
 ```
 
 <br>
