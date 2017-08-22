@@ -399,7 +399,7 @@ XF86AudioMicMute
 XF86TouchpadToggle
     synclient TouchpadOff=$(synclient -l | grep -c 'TouchpadOff.*=.*0')
 
-super + F12
+shift + F12
     synclient TouchpadOff=$(synclient -l | grep -c 'TouchpadOff.*=.*0')
 
 # Brightness Xkeys
@@ -452,9 +452,9 @@ ctrl + Print
     aplay ~/.scrot/sound/camera-shutter-click-01.wav
 
 # Screen rotate
-F12
+alt + F12
     xrandr --output LVDS1 --rotate normal
-shift + F12
+ctrl + F12
     xrandr --output LVDS1 --rotate right
 
 
