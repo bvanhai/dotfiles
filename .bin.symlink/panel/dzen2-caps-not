@@ -29,7 +29,7 @@ echo "CAPS"
 
 fi
 if [[ $CAPS == "off" ]]; then
-  PID="$( pgrep dzen | xargs ps | grep popup-capslock-indicator-dzen2-safe | awk '{print $1}' )"
+  PID="$( pgrep dzen | xargs ps | grep dzen2-capslock-not | awk '{print $1}' )"
     if [[ $PID ]]; then
       kill $PID
     fi
