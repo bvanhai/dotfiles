@@ -452,9 +452,9 @@ ctrl + Print
     aplay ~/.scrot/sound/camera-shutter-click-01.wav
 
 # Screen rotate
-super + F12
-    xrandr --output LVDS1 --rotate normal
 F12
+    xrandr --output LVDS1 --rotate normal
+shift + F12
     xrandr --output LVDS1 --rotate right
 
 
