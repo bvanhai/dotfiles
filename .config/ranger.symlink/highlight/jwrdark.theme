@@ -1,0 +1,22 @@
+
+Description="jwrdark.theme"
+
+Default        = { Colour="#7F62B3" }
+Canvas         = { Colour="#929292" }
+Number         = { Colour="#58AEB1" }
+Escape         = { Colour="#BF85CC" }
+String         = { Colour="#287373" }
+StringPreProc  = { Colour="#929292" }
+BlockComment   = { Colour="#CF4F88" }
+LineComment    = { Colour="#333333" }
+PreProcessor   = { Colour="#53A6A6" }
+LineNum        = { Colour="#474747" }
+Operator       = { Colour="#914E89" }
+Interpolation  = { Colour="#929292" }
+
+Keywords = {
+  { Colour= "#53A6A6" },
+  { Colour= "#53A6A6" },
+  { Colour= "#53A6A6" },
+  { Colour= "#53A6A6" },
+}
