@@ -287,6 +287,9 @@ super + alt + ctrl + w
 super + d
     subl
 
+super + shift + d
+    gksu subl
+
 super + c
     urxvt -e nvim
 
@@ -314,6 +317,9 @@ super + a
 
 super + shift + a
     $HOME/.bin/mpdToggle.sh
+
+super + ctrl + a
+    killall mpd
 
 super + Delete
     urxvt -e htop
