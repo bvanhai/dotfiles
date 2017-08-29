@@ -64,23 +64,24 @@ bspc rule -a feh center=true
 bspc rule -a file-roller state=pseudo_tiled
 bspc rule -a Screenkey manage=off
 
+
 # Kill panel and start
-if [ $(pgrep -cx panel) -gt 0 ]; then
-    kill -9 $(ps aux | grep panel | sed 's/\s\+/ /g' | cut -d' ' -f2 | xargs)
-fi
+#if [ $(pgrep -cx panel) -gt 0 ]; then
+#    kill -9 $(ps aux | grep panel | sed 's/\s\+/ /g' | cut -d' ' -f2 | xargs)
+#fi
 
-if [ $(pgrep -cx dzen2) -gt 0 ]; then
-    kill -9 $(ps aux | grep dzen2 | sed 's/\s\+/ /g' | cut -d' ' -f2 | xargs)
-fi
+#if [ $(pgrep -cx dzen2) -gt 0 ]; then
+#    kill -9 $(ps aux | grep dzen2 | sed 's/\s\+/ /g' | cut -d' ' -f2 | xargs)
+#fi
 
-if [ $(pgrep -cx xtitle) -gt 0 ]; then
-    kill -9 $(ps aux | grep xtitle | sed 's/\s\+/ /g' | cut -d' ' -f2 | xargs)
-fi
+#if [ $(pgrep -cx xtitle) -gt 0 ]; then
+#    kill -9 $(ps aux | grep xtitle | sed 's/\s\+/ /g' | cut -d' ' -f2 | xargs)
+#fi
 
 # Tray icon
-if [ $(pgrep -cx trayer) -gt 0 ]; then
-    kill -9 $(ps aux | grep trayer | sed 's/\s\+/ /g' | cut -d' ' -f2 | xargs)
-fi
+#if [ $(pgrep -cx trayer) -gt 0 ]; then
+#    kill -9 $(ps aux | grep trayer | sed 's/\s\+/ /g' | cut -d' ' -f2 | xargs)
+#fi
 
 # Panel dzen2
 #sh $HOME/.bin/panel/panel &
