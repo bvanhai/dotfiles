@@ -19,17 +19,18 @@ if [ $? != 0 ]; then
     tmux send-keys -t $SESSION 'tmux-utility-info.sh && sleep infinity' C-m     # process in fourth pane
     tmux select-pane -t $SESSION:2.1            # select first pane of window#2
     tmux split-window -v -p 32 -t $SESSION      # vertical split
+    tmux select-pane -t $SESSION:2.1            # select first pane of window#2
+
+    tmux new-window -t $SESSION: -n 'miscx'
+    tmux split-window -h -p 32 -t $SESSION      # horizontal split
+    tmux select-pane -t $SESSION:3.1            # select first pane of window#3
+    tmux split-window -v -p 32 -t $SESSION      # vertical split
+    tmux select-pane -t $SESSION:3.1            # select first pane of window#3
 
     tmux new-window -t $SESSION 'nvim'
 
-    tmux new-window -t $SESSION: -n 'miscx'
-    tmux split-window -h -p 50 -t $SESSION      # horizontal split
-    tmux split-window -v -p 50 -t $SESSION      # create a pane below second pane
-    tmux select-pane -t $SESSION:4.1            # select first pane of window#4
-
-    # Go to first pane of window#2
+    # Go to window#2
     tmux select-window -t $SESSION:2    # select window#2
-    tmux select-pane -t $SESSION:2.1    # select first pane of window#2
 fi
 
 tmux attach-session -d -t $SESSION
