@@ -24,7 +24,7 @@ f1=$'\e[1;37m'
 f2=$'\e[0;37m'
 
 kernel=$(uname -r)
-system=$(sed 's/\s*[\(\\]\+.*$//' /etc/issue)
+system=$(uname -o)
 
 if [[ -n $DISPLAY ]]; then
     WM=$(xprop -root _NET_SUPPORTING_WM_CHECK)
