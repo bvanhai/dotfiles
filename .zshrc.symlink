@@ -3,7 +3,8 @@
 # Author:   Hai Bui
 # Source:   https://github.com/bvanhai/dotfiles
 #
-# Comment:
+# Comment:  Run cat then press keys to see the codes your shortcut send.
+#           Press Ctrl+C to kill the cat when you're done
 # ==============================================================================
 
 # Amount of commands that need to remember in the history list
@@ -204,7 +205,7 @@ zle -N zle-line-finish
 
 
 # Plugins
-zsh_plugins=(zsh-syntax-highlighting zsh-autosuggestions zsh-completions zsh-history-substring-search z zsh-git-prompt)
+zsh_plugins=(z zaw zsh-autosuggestions zsh-completions zsh-history-substring-search zsh-git-prompt)
 for plugin ($zsh_plugins); do
     if [ -f $HOME/.zsh/plugins/$plugin/$plugin.plugin.zsh ]; then
         . $HOME/.zsh/plugins/$plugin/$plugin.plugin.zsh
@@ -222,6 +223,10 @@ for oplugin ($ohmyzsh_plugins); do
     . $HOME/.zsh/oh-my-zsh/$oplugin/$oplugin.plugin.zsh
     fi
 done
+
+# Allow alt-q, alt-delete for zaw-history, zaw-process
+bindkey '^[q' zaw-history
+bindkey '^[^[[3~' zaw-process
 
 
 # Load profile definitions
