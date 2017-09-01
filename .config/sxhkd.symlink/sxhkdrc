@@ -17,10 +17,14 @@ super + shift + F2
 super + F2
     xrdb -merge ~/.Xresources
 
-# Logout a user
-ctrl + shift + alt + Escape
-    killall -KILL -u bvanhai
+# Kill all active background programs that started with user bvanhai
+ctrl + shift + Escape
+     killall -u bvanhai
 
+# Logout user bvanhai
+ctrl + shift + alt + Escape
+#    killall -KILL -u bvanhai
+    pkill -9 -u bvanhai
 
 
 
@@ -29,11 +33,11 @@ ctrl + shift + alt + Escape
 # ______________
 
 # Kill all active background programs that we started earlier and quit bspwm
-ctrl + shift + Escape
-    killall trayer; \
-    killall panel; \
-    killall dzen2; \
-    bspc quit;
+#ctrl + shift + Escape
+#    killall trayer; \
+#    killall panel; \
+#    killall dzen2; \
+#    bspc quit;
 
 # Close and kill window
 super + {_,shift + }Escape
