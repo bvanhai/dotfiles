@@ -127,13 +127,6 @@ Here is the list of relevant packages/programs that I use in Arch Linux. You don
 * `mpv`                      (video player)
 * `aria2`                (download utility)
 
-*To use `deoplete` in `Neovim`, we must also install:*
-
-```bash
-$ sudo pacman -S python-pip
-$ pip3 install --user neovim
-```
-
 <br>
 
 ## Installation
