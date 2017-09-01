@@ -163,6 +163,8 @@
     sudo pacman -S xdotool
 - Running X apps as root:
     sudo pacman -S gksu
+- Digital clock in ncurses:
+    yaourt -S tty-clock
 
 
 
@@ -219,6 +221,7 @@
            ## uncomment and set autologin username to enable autologin
            autologin=ma
          ]
+
 
 
 
@@ -388,7 +391,6 @@
   + Method:
       sudo pacman -S bzip2 cdrkit cpio gzip lha lrzip lz4 lzop p7zip pixz tar unace unace unrar unzip xz zip zlib zziplib
   + for the XFCE desktop use:
-      sudo pacman -S
       yaourt -S engrampa-thunar
   + for the cinnamon desktop use:
       sudo pacman -S nemo-fileroller
@@ -451,7 +453,7 @@
 - Music:
     sudo pacman -S mpd ncmpcpp
 - Install other Multimedia Codecs:
-    sudo pacman -S a52dec faac faad2 flac jasper lame libdca libdv libmad libmpeg2 libtheora libvorbis libxv wavpack x264 xvidcore libdvdcss libdvdread libdvdnav gecko-mediaplayer dvd+rw-tools dvdauthor dvgrab cdrdao
+    sudo pacman -S a52dec faac faad2 flac jasper lame libdca libdv libmad libmpeg2 libtheora libvorbis libxv wavpack x264 xvidcore libdvdcss libdvdread libdvdnav dvd+rw-tools dvdauthor dvgrab cdrdao
 
 
 
@@ -583,6 +585,8 @@
       drive push <target>
 
 
+
+
 **** NETWORK MANAGERS
 - The wireless here is "wlo1":
     sudo ip link set wlo1 up
@@ -627,6 +631,8 @@
     sudo mkdir -p /home/Data2
     sudo mount -t ntfs-3g /dev/sda2 /home/OS
     mount -t ntfs-3g /dev/<device> /mnt/<folder>
+- Disk protection for HP machines "HP Mobile Data Protection System 3D" or "HP 3D DriveGuard":
+    yaourt -S hpfall-git
 - Automount removable media:
   1) Install:
       sudo pacman -S udevil
@@ -699,6 +705,18 @@
              udo mkfs.ext4 /dev/sdc1
   + Modify partition labels / Change disk name:
       sudo e2label /dev/sda1 Webserver
+- Label:
+  + swap (using util-linux)
+      swaplabel -L <label> /dev/XXX
+  + ext2/3/4 (using e2fsprogs)
+      e2label /dev/XXX <label>
+  + fat/vfat (using dosfstools or mtools)
+      fatlabel /dev/XXX <label>
+      mlabel -i /dev/XXX ::<label>
+  + ntfs (using ntfs-3g)
+      ntfslabel /dev/XXX <label>
+
+
 
 
 **** TRUECRYPT
@@ -710,7 +728,7 @@
     sudo tee /etc/modules-load.d/truecrypt.conf <<< "loop"
 - Fix truecrypt Dropbox volume mount as read only:
   1) See log file:
-       jounrnalctl -xn
+       journalctl -xn
   2) The error is:
        Unable to monitor entire Dropbox folder hierarchy. Please run "echo
        100000 | sudo tee /proc/sys/fs/inotify/max_user_watches" and restart
@@ -807,6 +825,15 @@
     yaourt -S fuse gtkmm linux-headers ncurses5-compat-libs
 - Start the installation:
     sh VMware-edition-version.release.architecture.bundle
+
+
+
+
+**** WINDOW APPS
+- Enable multilib:
+    nano /etc/pacman.conf
+- Install wine:
+    yaourt -S wine
 
 
 
@@ -1004,8 +1031,8 @@
     sudo passwd [username]
 - Add group bvanhai:
     sudo groupadd bvanhai
-- Add user bvanhai to group bvanhai:
-    sudo gpasswd -a bvanhai bvanhai
+- Add user bvanhai to group audio:
+    sudo gpasswd -a bvanhai audio
 - List file in tar:
     tar -tvf em-4.0.15-lt.tar.gz | more
 - List file in .rar:
@@ -1198,27 +1225,30 @@
 - Wiki:
     https://wiki.archlinux.org/index.php/Kernels/Compilation/Traditional
 - Fetching source:
-    cd Downloads
-    tar -xvJf linux-4.4.36.tar.xz
-    cd linux-4.4.36
-    make mrproper    # Prepare for compilation by running
+    sudo pacman -S bc
+    mkdir ~/kernelbuild
+    cd kernelbuild
+    tar -xvJf linux-4.12.9.tar.xz
+    cd linux-4.12.9
 - Configure your kernel:
+    make clean && make mrproper
     zcat /proc/config.gz > .config    # Copy the .config file from the running kernel
-    make nconfig    # Traditional menuconfig
+    make menuconfig    # Menuconfig
+    make nconfig    # Menuconfig
       lspci -k
       /sbin/lspci
       cat /proc/cpuinfo
 - Compilation and installation:
-    make    # Compile
-    sudo make modules_install    # Install modules
-    sudo cp -v arch/x86/boot/bzImage /boot/vmlinuz-4.4.36-lts
-    sudo mkinitcpio -k 4.4.36-lts -c /etc/mkinitcpio.conf -g /boot/initramfs-4.4.36-lts.img    # Make initial RAM disk
-    sudo cp System.map /boot/System.map-4.4.36-lts
-    sudo ln -sf /boot/System.map-4.4.36-lts /boot/System.map
+    make -j2
+    sudo make modules_install
+    sudo cp -v arch/x86_64/boot/bzImage /boot/vmlinuz-4.12.9-ARCH
+    sudo mkinitcpio -k 4.12.9-ARCH -g /boot/initramfs-4.12.9-ARCH.img
+    sudo cp System.map /boot/System.map-4.12.9-ARCH
+    sudo ln -sf /boot/System.map-4.12.9-ARCH /boot/System.map
 - Bootloader configuration:
     sudo grub-mkconfig -o /boot/grub/grub.cfg
-- Keeps track of EVERY kernel module ever used - useful for those of us who
-  make localmodconfig:
+- Keeps track of EVERY kernel module ever used - useful for those of us who make
+  localmodconfig:
     + Install:
         yaourt -S modprobed-db
     + Run:
