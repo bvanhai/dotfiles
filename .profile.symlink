@@ -19,7 +19,7 @@ export PAGER=less
 export BROWSER=/usr/bin/chromium
 export MANWIDTH=78
 export KEYTIMEOUT=15
-export TERM=rxvt-unicode-256color
+export TERM=rxvt-unicode
 
 # Input method framework to enter foreign characters
 export GTK_IM_MODULE=ibus
