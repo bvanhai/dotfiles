@@ -254,7 +254,7 @@ super + shift + space
 ctrl + alt + Delete
     $HOME/.bin/dmenu/dmenu-power.sh
 
-super + allt + shift + BackSpace
+super + alt + shift + BackSpace
     dmenu_run
 
 
@@ -283,7 +283,7 @@ super + d
     subl
 
 super + shift + d
-    gksu subl
+    sudo subl
 
 super + c
     urxvt -e nvim
@@ -292,13 +292,13 @@ super + e
     cd /home && urxvt -e ranger
 
 super + shift + e
-    cd /home && gksu 'urxvt -e ranger'
+    cd /home && sudo urxvt -e ranger
 
 super + alt + e
     pcmanfm
 
 super + alt + shift + e
-    gksu pcmanfm
+    sudo pcmanfm
 
 super + q
 #    google-chrome-stable

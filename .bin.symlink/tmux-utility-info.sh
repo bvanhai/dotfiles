@@ -23,6 +23,7 @@ f0=$'\e[1;30m'
 f1=$'\e[1;37m'
 f2=$'\e[0;37m'
 
+#battery= cat /sys/class/power_supply/BAT0/capacity
 kernel=$(uname -r)
 system=$(uname -o)
 
@@ -62,21 +63,21 @@ cat << EOF
 
 
 
-            ${c00}▉▉  | ${f1}OS ${f0}........... $f2$system
-            ${c08}  ▉▉| ${f1}Hostname ${f0}..... $f2$HOSTNAME
-            ${c01}▉▉  | ${f1}User ${f0}......... $f2$user
-            ${c09}  ▉▉| ${f1}Today ${f0}........ $f2$today
-            ${c02}▉▉  |
-            ${c10}  ▉▉| ${f1}Kernel ${f0}....... $f2$kernel
-            ${c03}▉▉  | ${f1}WM ${f0}........... $f2$wmname
-            ${c11}  ▉▉| ${f1}Shell ${f0}........ $f2$shell
-            ${c04}▉▉  | ${f1}Packages ${f0}..... $f2$pkgnum
-            ${c12}  ▉▉| 
-            ${c05}▉▉  | ${f1}Theme ${f0}........ $f2$gtktheme
-            ${c13}  ▉▉| ${f1}Icon ${f0}......... $f2$icons
-            ${c06}▉▉  | ${f1}Font ${f0}......... $f2$termfn
-            ${c14}  ▉▉|
-            ${c07}▉▉  | ${f1}Root ${f0}......... $f2$root
-            ${c15}  ▉▉| ${f1}Home ${f0}......... $f2$home
+             ${c00}▉▉  | ${f1}OS ${f0}........... $f2$system
+             ${c08}  ▉▉| ${f1}Hostname ${f0}..... $f2$HOSTNAME
+             ${c01}▉▉  | ${f1}User ${f0}......... $f2$user
+             ${c09}  ▉▉| ${f1}Today ${f0}........ $f2$today
+             ${c02}▉▉  |
+             ${c10}  ▉▉| ${f1}Kernel ${f0}....... $f2$kernel
+             ${c03}▉▉  | ${f1}WM ${f0}........... $f2$wmname
+             ${c11}  ▉▉| ${f1}Shell ${f0}........ $f2$shell
+             ${c04}▉▉  | ${f1}Packages ${f0}..... $f2$pkgnum
+             ${c12}  ▉▉| 
+             ${c05}▉▉  | ${f1}Theme ${f0}........ $f2$gtktheme
+             ${c13}  ▉▉| ${f1}Icon ${f0}......... $f2$icons
+             ${c06}▉▉  | ${f1}Font ${f0}......... $f2$termfn
+             ${c14}  ▉▉|
+             ${c07}▉▉  | ${f1}Root ${f0}......... $f2$root
+             ${c15}  ▉▉| ${f1}Home ${f0}......... $f2$home
 
 EOF

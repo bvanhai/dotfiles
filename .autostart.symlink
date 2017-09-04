@@ -31,7 +31,7 @@ xsetroot -cursor_name left_ptr
 #xrandr --auto    # Auto adjust monitors
 
 # Set dim LCD brightness
-#xbacklight -set 100
+xbacklight -set 100
 
 # Screen powersave
 xset +dpms & # Energy Star features on
