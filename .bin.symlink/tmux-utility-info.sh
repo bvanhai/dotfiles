@@ -2,6 +2,8 @@
 # Displays info about wm, font, gtk theme
 # copied from z3bra's blog
 
+version="1.0.0"
+
 c00=$'\e[0;30m'
 c01=$'\e[0;31m'
 c02=$'\e[0;32m'
@@ -25,9 +27,19 @@ f2=$'\e[0;37m'
 
 #battery= cat /sys/class/power_supply/BAT0/capacity
 kernel=$(uname -r)
-system=$(uname -o)
 
 if [[ -n $DISPLAY ]]; then
+    if grep -q 'arch' /etc/os-release; then
+        distro="Arch Linux"
+        pkgnum=$(pacman -Q | wc -l)
+        birthd=$(sed -n '1s/^\[\([0-9-]*\).*$/\1/p' /var/log/pacman.log | tr - .)
+    elif grep -q 'gentoo' /etc/os-release; then
+        distro="Gentoo Linux"
+        pkgnum=$(ls -d /var/db/pkg/*/* | wc -l)
+    else
+        distro=$(cat /etc/os-release | grep PRETTY_NAME | cut -d '"' -f2)
+        pkgnum=
+    fi
     WM=$(xprop -root _NET_SUPPORTING_WM_CHECK)
     wmname=$(xprop -id ${WM//* } _NET_WM_NAME | sed -re 's/.*= "(.*)"/\1/')
     termfn=$(awk -F: '/^URxvt.font/ {print $3}' ~/.Xresources)
@@ -41,13 +53,13 @@ else
 fi
 
 user=$(whoami)
-pkgnum=$(pacman -Q | wc -l)
-birthd=$(sed -n '1s/^\[\([0-9-]*\).*$/\1/p' /var/log/pacman.log | tr - .)
+
+IP=$(ifconfig -a | awk '/broadcast/ {print $2; exit}')
 
 today=$(date +%Y.%m.%d)
 
-root=$(df -h / | sed '1d' | awk '{print $3}')/$(df -h / | sed '1d' | awk '{print $2}')
-home=$(df -h /home | sed '1d' | awk '{print $3}')/$(df -h /home | sed '1d' | awk '{print $2}')
+root="$(df -h / | sed '1d' | awk '{print $3}') / $(df -h / | sed '1d' | awk '{print $2}')"
+home="$(df -h /home | sed '1d' | awk '{print $3}') / $(df -h /home | sed '1d' | awk '{print $2}')"
 
 # Shell
 shell+="$("$SHELL" --version)"
@@ -63,9 +75,9 @@ cat << EOF
 
 
 
-             ${c00}▉▉  | ${f1}OS ${f0}........... $f2$system
-             ${c08}  ▉▉| ${f1}Hostname ${f0}..... $f2$HOSTNAME
-             ${c01}▉▉  | ${f1}User ${f0}......... $f2$user
+             ${c00}▉▉  | ${f1}OS ${f0}........... $f2$distro
+             ${c08}  ▉▉| ${f1}User ${f0}......... $f2$user
+             ${c01}▉▉  | ${f1}IP ${f0}........... $f2$IP
              ${c09}  ▉▉| ${f1}Today ${f0}........ $f2$today
              ${c02}▉▉  |
              ${c10}  ▉▉| ${f1}Kernel ${f0}....... $f2$kernel
