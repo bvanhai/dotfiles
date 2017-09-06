@@ -3,26 +3,23 @@
 ! Author:   Hai Bui
 ! Source:   https://github.com/bvanhai/dotfiles
 !
-! Comment:
+! Comment:  Run: `xrdb -merge ~/.Xresources` after modify this file
 ! ==============================================================================
 
-! Run: `xrdb -merge ~/.Xresources` after modify this file
-! To check the default color, see: `man urxvt` section `COLOURS AND GRAPHICS`
 #include "/home/bvanhai/.colors/current-xr"
 
+! Basic settings
 
-! Font stuffs
+Xft.antialias:  1
+Xft.autohint:   0
+Xft.dpi:        96
+Xft.hinting:    1
+Xft.hintstyle:  hintfull
+Xft.lcdfilter:  lcddefault
+Xft.rgba:       rgb
 
 ! For 4K monitor
 ! Xft.dpi: 180
-
-Xft.dpi: 96
-Xft.autohint: true
-Xft.lcdfilter:  lcddefault
-Xft.hintstyle:  hintfull
-Xft.hinting: true
-Xft.antialias: true
-Xft.rgba: rgb
 
 Xcursor.theme: Pulse-Glass-Sapphire-Small
 Xcursor.size:  16
@@ -37,11 +34,6 @@ URxvt.italicFont: xft:Inconsolata-g:style=Medium:pixelsize=13:antialias=true:hin
 !URxvt.boldFont: xft:Inconsolata\ for\ Powerline:style=Medium:pixelsize=14:antialias=true:hinting=true
 !URxvt.italicFont: xft:Inconsolata\ for\ Powerline:style=Medium:pixelsize=14:antialias=true:hinting=true
 
-! Make letters stay closer to each other, work well with font Dejavu Sans Mono
-! for Powerline at pixelsize=12 or size=9
-! Note: letterSpace:-1 will fix the folk icon of vim-airline but then the
-! spacing is a bit wide, so we scarify the folk icon for the look of the
-! content by setting it to -2
 URxvt.letterSpace: -1
 
 URxvt.urgentOnBell: true
