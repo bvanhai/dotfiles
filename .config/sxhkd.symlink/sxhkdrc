@@ -32,12 +32,9 @@ ctrl + shift + alt + Escape
 # BSPWM HOTKEYS
 # ______________
 
-# Kill all active background programs that we started earlier and quit bspwm
-#ctrl + shift + Escape
-#    killall trayer; \
-#    killall panel; \
-#    killall dzen2; \
-#    bspc quit;
+# Quit bspwm
+shift + Escape
+    bspc quit
 
 # Close and kill window
 super + {_,shift + }Escape
@@ -262,10 +259,10 @@ super + alt + shift + BackSpace
 
 # RUN APPLICATIONS
 super + Return
-    urxvt
+    urxvt -name main
 
 super + w
-    urxvt -e tmux-utility.sh
+    urxvt -name tmux -e tmux-utility.sh
 
 super + ctrl + w
     tmux kill-session -t bvanhai
@@ -317,10 +314,10 @@ super + ctrl + a
     killall mpd
 
 super + Delete
-    urxvt -e htop
+    urxvt -name htop -e htop
 
 super + v
-    urxvt -e alsamixer
+    urxvt -name alsamixer -e alsamixer
 
 super + shift + v
     lxappearance
