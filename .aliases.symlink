@@ -19,172 +19,190 @@ if [ -x /usr/bin/dircolors ]; then
 fi
 
 # Some more ls aliases
-alias ll="ls -l --group-directories-first"
-alias lh="ls -h --color"    # add colors for filetype recognition
-alias la="ls -a"            # show hidden files
-alias lx="ls -xb"           # sort by extension
-alias lk="ls -lSr"          # sort by size, biggest last
-alias lc="ls -ltcr"         # sort by and show change time, most recent last
-alias lu="ls -ltur"         # sort by and show access time, most recent last
-alias lt="ls -ltr"          # sort by date, most recent last
-alias lm="ls -al |more"     # pipe through 'more'
-alias lr="ls -lR"           # recursive ls
-alias lsr="tree -Csu"       # nice alternative to 'recursive ls'
+alias ll='ls -l --group-directories-first'
+alias lh='ls -h --color'    # add colors for filetype recognition
+alias la='ls -a'            # show hidden files
+alias lx='ls -xb'           # sort by extension
+alias lk='ls -lSr'          # sort by size, biggest last
+alias lc='ls -ltcr'         # sort by and show change time, most recent last
+alias lu='ls -ltur'         # sort by and show access time, most recent last
+alias lt='ls -ltr'          # sort by date, most recent last
+alias lm='ls -al |more'     # pipe through 'more'
+alias lr='ls -lR'           # recursive ls
+alias lsr='tree -Csu'       # nice alternative to 'recursive ls'
 
 # View text files
-alias less="less -FX"
+alias less='less -FX'
 
 # Query the systemd journal:
 alias jncl='journalctl -xrb'
 
-# Package managers
+# Package managers on Arch Linux
 alias ya='yaourt'
 alias yy='yaourt -Syua'
 alias ys='yaourt -S'
-alias yr='yaourt -Rsnc'
+alias yr='yaourt -Rs'
 alias yq='yaourt -Q'
 alias yc='yaourt -Sc'
-alias orphans="pacman -Qtdq"
+alias orphans='pacman -Qtdq'
 
-# For permission
-alias scm='sudo chmod -R go-w'
+# Package managers on Gentoo
+alias emi='sudo emerge -av'
+alias emu='sudo emerge -avuDN @world'
+alias emc='sudo emerge -av --depclean'
+alias emw='sudo emerge-webrsync'
+alias eixu='sudo eix-update'
+alias spca='sudo perl-cleaner --allmodules'
+alias setcu='sudo etc-update'
 
-# For xclip
+# Check bspwm window rules:
+alias bsrl='xprop |awk "/WM_CLASS/{print $4}"'
+
+# Permission
+alias scmw='sudo chmod -R go-w'
+
+
+alias rsxhkd='pkill -USR1 -x sxhkd'
+
+
+# xclip
 alias pbcopy='xclip -selection clipboard'   # copy to clipboard, ctrl+c, ctrl+shift+c
 alias pbpaste='xclip -selection clipboard -o'   # paste from clipboard, ctrl+v, ctrl+shift+v
 alias pbselect='xclip -selection primary -o'    # paste from highlight, middle click, shift+insert
 
 # Directories
+alias cdl='cd /'
+alias cdh='cd ~/'
 alias cddl='cd ~/Downloads'
-alias cddf="cd ~/dotfiles/"
-alias cddd="cd ~/dotfiles-d/"
-alias cdv="cd ~/.vim/"
-alias cdh="cd ~/"
+alias cddf='cd ~/dotfiles/'
+alias cddd='cd ~/dotfiles-d/'
+alias cdv='cd ~/.vim/'
 
-# For git:
-alias ga="git add"
-alias gc="git commit -m"
-alias gcu="commit -m "Update""
-alias gca="git commit -a -m"
-alias gcau="git commit -a -m "Update""
+# git:
+alias ga='git add'
+alias gc='git commit -m'
+alias gcu='commit -m 'Update''
+alias gca='git commit -a -m'
+alias gcau='git commit -a -m 'Update''
 
-alias gp="git push -u origin master"
-alias gpu="git pull"
-alias gitprb="git stash && git pull && git rebase && git stash apply && git stash drop"
+alias gp='git push -u origin master'
+alias gpu='git pull'
+alias gitprb='git stash && git pull && git rebase && git stash apply && git stash drop'
 
-alias gits="git status -sb"
-alias gitco="git checkout "
-alias gitcom="git checkout master"
+alias gits='git status'
+alias gitsb='git status -sb'
+alias gitco='git checkout '
+alias gitcom='git checkout master'
 
-alias gitundo="git reset HEAD~1 && git push origin -f"
-alias githundo="git reset --hard HEAD~1 && git push origin -f"
+alias gitundo='git reset HEAD~1 && git push origin -f'
+alias githundo='git reset --hard HEAD~1 && git push origin -f'
 
-alias git2undo="git reset HEAD~2 && git push origin -f"
-alias git2hundo="git reset --hard HEAD~2 && git push origin -f"
+alias git2undo='git reset HEAD~2 && git push origin -f'
+alias git2hundo='git reset --hard HEAD~2 && git push origin -f'
 
-alias git5undo="git reset HEAD~5 && git push origin -f"
-alias git5hundo="git reset --hard HEAD~5 && git push origin -f"
+alias git5undo='git reset HEAD~5 && git push origin -f'
+alias git5hundo='git reset --hard HEAD~5 && git push origin -f'
 
 
-# For Google Drive:
-alias cdgd="cd ~/gdrive"
-alias dp="cdgd && drive push"
-alias dpL="cdgd && drive push Linux"
-alias dpu="cdgd && drive pull"
+# Google Drive:
+alias cdgd='cd ~/gdrive'
+alias dp='cdgd && drive push'
+alias dpL='cdgd && drive push Linux'
+alias dpu='cdgd && drive pull'
 
 # Sync time and store to hardware clock
-alias mytime="sudo ntpd -qg && sudo hwclock -w"
+alias mytime='sudo ntpd -qg && sudo hwclock -w'
 
-# Kill tmux session bvanhai
-alias tks="tmux kill-session -t"
+# Kill tmux session <seassion-name>
+alias tks='tmux kill-session -t'
 
-# alias tmux="TERM=screen-256color-bce tmux" <- not very nice
-#alias tmux="tmux -2" # force tmux to use 256 colors
+# alias tmux='TERM=screen-256color-bce tmux' <- not very nice
+#alias tmux='tmux -2' # force tmux to use 256 colors
 
 
 # tree: show tree, limit level to 2 automatically
-alias tree="tree -L 2"
+alias tree='tree -L 2'
 
-# for WiFi
-alias wifiup='sudo ip link set wlo1 up'
-#alias wifiup='sudo ip link set wlp0s29f7u1 up'
-alias wificonnect='sudo wpa_supplicant -i wlo1 -c /etc/wpa_supplicant.conf -B'
-#alias wificonnect='sudo wpa_supplicant -i wlp0s29f7u1 -c /etc/wpa_supplicant.conf -B'
-alias wifiwep='sudo iwconfig wlo1 essid "wifi-id" key s:password'
-alias wifiip='sudo dhcpcd wlo1'
-#alias wifiip='sudo dhcpcd wlp0s29f7u1'
-alias swfm='sudo wifi-menu'
-
-# for LAN network
-alias pong="ping -c 3 www.google.com"
+# LAN network
+alias pong='ping -c 3 www.google.com'
 alias lanup='sudo ip link set enp3s0 up'
 alias lanip='sudo dhcpcd enp3s0'
+
+# WiFi
+alias wifiup='sudo ip link set wlo1 up'
+alias wificonnect='sudo wpa_supplicant -i wlo1 -c /etc/wpa_supplicant.conf -B'
+alias wifiwep='sudo iwconfig wlo1 essid "wifi-id" key s:password'
+alias wifiip='sudo dhcpcd wlo1'
+alias swfm='sudo wifi-menu'
 
 #alias phoneup='sudo ip link set enp0s29f7u4u4u1 up'
 #alias phoneip='sudo dhcpcd enp0s29f7u4u4u1'
 
-# for Android USB tethering: connect to the usb port beside the HDMI
+# Android USB tethering: connect to the usb port beside the HDMI
 alias phoneip='sudo dhcpcd enp0s29f7u2'
 
-#fix the DNS problem of the new router
+# Fix the DNS problem of the new router
 alias jurong='echo "nameserver 165.21.100.88" | sudo tee /etc/resolv.conf'
 
 # Touchpad Toggle
 alias padtog='synclient TouchpadOff=$(synclient -l | grep -c "TouchpadOff.*=.*0")'
 
-#for bluetooth
+# Bluetooth
 alias onbt='sudo systemctl start bluetooth.service'
 
 # Top file, folder
-alias topbigdirs="du -h | sort -rh | head -n 20"
-alias topbigfiles="find . -type f -exec du -Sh {} + | sort -rh | head -n 20"
+alias topbigdirs='du -h | sort -rh | head -n 20'
+alias topbigfiles='find . -type f -exec du -Sh {} + | sort -rh | head -n 20'
 
-# for mount/unmount USB flashdrive using devmon
-alias um="devmon --mount"
-alias uu="devmon --unmount"
-alias usbm="sudo mount /dev/sdb1 /home/USB"
-alias usbu="sudo umount /dev/sdb1 /home/USB"
+# Mount/unmount USB flashdrive using devmon
+alias um='devmon --mount'
+alias uu='devmon --unmount'
+alias usbm='sudo mount /dev/sdb1 /home/USB'
+alias usbu='sudo umount /home/USB'
 
 # Mount NTFS partition
-alias osm="sudo mount -t ntfs-3g /dev/sda2 /home/OS"
-alias d1m="sudo mount -t ntfs-3g /dev/sda6 /home/Data1"
-alias d2m="sudo mount -t ntfs-3g /dev/sda7 /home/Data2"
+alias osm='sudo mount -t ntfs-3g /dev/sda2 /home/OS'
+alias osu='sudo umount /home/OS'
+alias d1m='sudo mount -t ntfs-3g -U 5A9EB7CA9EB79D47 /home/Data1'
+alias d1u='sudo umount /home/Data1'
+alias d2m='sudo mount -t ntfs-3g -U 01D31C99042D5490 /home/Data2'
+alias d2u='sudo umount /home/Data2'
 
 
-alias findproc="ps aux | grep "
-alias fp="ps aux | grep "
-alias killproc="kill -9"
-alias kp="kill -9"
+alias findproc='ps aux | grep '
+alias fp='ps aux | grep '
+alias killproc='kill -9'
+alias kp='kill -9'
 
 # Find out which distro we are using
-alias mydistro="cat /etc/*-release"
+alias mydistro='cat /etc/*-release'
 
 # for gvim to load back the session
-# alias gvim="gvim -S ~/session.gvim"
+# alias gvim='gvim -S ~/session.gvim'
 
 # make Acer laptop brighter:
-alias brighter="sudo tee /sys/class/backlight/intel_backlight/brightness <<< 1200"
+alias brighter='sudo tee /sys/class/backlight/intel_backlight/brightness <<< 1200'
 
 # sudo make install/uninstall
-alias smi="sudo make install"
-alias smu="sudo make uninstall"
+alias smi='sudo make install'
+alias smu='sudo make uninstall'
 
 # project to external HDMI screen/monitor
-alias hdmi="xrandr --output HDMI1 --mode 1920x1080"
+alias hdmi='xrandr --output HDMI1 --mode 1920x1080'
 
 # project to external VGA monitor
-alias vga="xrandr --output VGA1 --mode 1920x1080"
-alias vga2="xrandr --output VGA2 --mode 1920x1080"
+alias vga='xrandr --output VGA1 --mode 1920x1080'
+alias vga2='xrandr --output VGA2 --mode 1920x1080'
 
 # delete lock vim's session
-#alias rmvim="rm $NOGIT/vimdata/sessions/default.vim.lock ; \
+#alias rmvim='rm $NOGIT/vimdata/sessions/default.vim.lock ; \
 #             rm $NOGIT/vimdata/sessions/default.vim ; \
-#             rm $NOGIT/vimdata/sessions/last-session.txt"
+#             rm $NOGIT/vimdata/sessions/last-session.txt'
 
 # To enable various useful stuff for Arch Linux guest in VirtualBox machine
-alias myvirtualbox="sudo modprobe -a vboxguest vboxsf vboxvideo ; \
+alias myvirtualbox='sudo modprobe -a vboxguest vboxsf vboxvideo ; \
                     sudo VBoxClient-all & ; \
-                    sudo systemctl start vboxservice.service"
+                    sudo systemctl start vboxservice.service'
 
 
 # Add an "alert" alias for long running commands.  Use like so:
@@ -192,13 +210,13 @@ alias myvirtualbox="sudo modprobe -a vboxguest vboxsf vboxvideo ; \
 alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
 
 
-alias mybspwm="~/.config/bspwm/bspwmrc"
+alias mybspwm='~/.config/bspwm/bspwmrc'
 
 # for zathura and vim for latex
 # zathura -s -x 'gvim --servername SYNCTEX --remote +%{line} %{input}' thesis.pdf
-alias zavim="zathura -s -x 'gvim --servername SYNCTEX --remote +%{line} %{input}'"
+alias zavim='zathura -s -x "gvim --servername SYNCTEX --remote +%{line} %{input}"'
 
-alias dev="cd ~/Dropbox/dev"
+alias dev='cd ~/Dropbox/dev'
 
 # for Dropbox and other app that need to monitor files
 alias mynotify='sudo sysctl fs.inotify.max_user_watches=1000000000'
@@ -260,10 +278,13 @@ alias M='date "+%B"'
 alias Y='date "+%Y"'
 alias D='date "+%Y.%m.%d-%H.%M"'
 
+alias st='startx'
+alias cl='clear'
+
 
 # Print the wireless driver in use
 mywifidriver() {
-    wireless=$(lspci | grep -i wireless | awk '{ print $1  }')
+    wireless=$(lspci | grep -i "Network controller" | awk '{ print $1  }')
     if [ $wireless ]; then
         lspci -vv -s $wireless | grep -iP 'kernel driver in use' | awk -F: '{ gsub(/[ \t]+/, ""); print $2;  }'
     fi
