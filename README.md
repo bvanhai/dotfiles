@@ -104,11 +104,11 @@ Here is the list of relevant packages/programs that I use in Arch Linux. You don
 * `tmux`             (terminal multiplexer)
 
 ### Panel
-* `dzen2`                 (panel clickable)
+* `dzen` or `dzen2`       (panel clickable)
 * `acpi`                          (battery)
 * `bc`                       (various math)
 * `bind-tools`        (network external ip)
-* `xtitle-git`               (window title)
+* `xtitle`                   (window title)
 * `wireless_tools`          (network essid)
 * `lm_sensors`                   (cpu temp)
 * `trayer`              (tray icon display)
@@ -151,8 +151,7 @@ $ cd dotfiles
 
 # Edit 'config' file to specify which dotfiles are to be symlinked
 
-# Install 'ruby':
-$ pacman -S ruby
+# Install 'ruby' package:
 
 # Then, run:
 $ ruby install.rb
@@ -203,11 +202,7 @@ My xinitrc launches a few applications you may not use. Simply remove them from 
 
 #### Font Configuration
 
-Install the package `fontconfig-infinality` and `freetype2-infinality` from the AUR:
-
-```bash
-$ yaourt -S fontconfig-infinality freetype2-infinality
-```
+Install the `fontconfig-infinality` package.
 
 <br>
 
