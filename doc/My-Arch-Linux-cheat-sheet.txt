@@ -117,14 +117,26 @@
 
 
 
-**** Rename or change user name
-  killall -u old
-  id old
-    usermod -l new old
-    groupmod -n new old
-    usermod -d /home/new -m new
-    usermod -c “New Real Name” new
-  id new
+**** USERS AND GROUPS
+- Add new user:
+    sudo useradd -m -g [initial_group] -G [additional_groups] -s [login_shell] [username]
+    example: sudo useradd -m -g users -s /bin/bash newuser
+- Specify user password:
+    sudo passwd [username]
+- Add group bvanhai:
+    sudo groupadd bvanhai
+- Rename or change user name
+    killall -u old
+    id old
+      usermod -l new old
+      groupmod -n new old
+      usermod -d /home/new -m new
+      usermod -c “New Real Name” new
+    id new
+- To assign a new UID to user called bvanhai:
+    usermod -u 1000 bvanhai
+- View UID of user bvanhai:
+    id -u bvanhai
 
 
 
@@ -133,13 +145,16 @@
 - Installing bspwm:
   1) Install:
        sudo pacman -S bspwm
+       sudo emerge -av bspwm
   2) Add the following command to end line of file "~/.xinitrc" and deactivate
      any "exec" line:
        exec bspwm
 - X hotkey:
     sudo pacman -S sxhkd
+    sudo emerge -av sxhkd
 - Panel:
     sudo pacman -S dzen2    # panel clickable
+    sudo emerge -av dzen    # panel clickable
     yaourt -S acpi xtitle lm_sensors bind-tools dunst bc wireless_tools
       acpi              # battery
       xtitle-git        # window title
@@ -152,6 +167,7 @@
     sudo pacman -S trayer
 - Menu:
     sudo pacman -S dmenu
+    sudo emerge -av dmenu
 - For script auto suspend:
     sudo pacman -S xautolock
 - Simple screen locker utility for X:
@@ -163,6 +179,7 @@
     sudo pacman -S xdotool
 - Running X apps as root:
     sudo pacman -S gksu
+    sudo emerge -av gksu
 - Digital clock in ncurses:
     yaourt -S tty-clock
 
@@ -290,7 +307,9 @@
 - Advanced and programmable command interpreter (shell), including some
   features of bash, ksh, and tcsh:
     sudo pacman -S zsh
+    sudo emerge -av zsh
     yaourt -S oh-my-zsh-git
+    sudo emerge -av app-shells/gentoo-zsh-completions
 - Changing your default shell:
   + To list all installed shells, run:
       chsh -l
@@ -303,8 +322,10 @@
 **** THEME
 - Allows us to change gtk application theme:
     sudo pacman -S lxappearance gdk-pixbuf2 glib2
-- Fix Gtk-WARNING **: Unable to locate theme engine in module_path: "murrine":
+    sudo emerge -av lxappearance
+- Fix Gtk-WARNING **: Unable to locate theme engine in module_path: "murrine,mist":
     sudo pacman -S gtk-engines gtk-engine-murrine
+    sudo emerge -av gtk-engines gtk-engines-murrine
 - Composite Window-effects manager:
     sudo pacman -S xcompmgr
 - For Qt:
@@ -390,12 +411,14 @@
 - Archive Managers:
   + Method:
       sudo pacman -S bzip2 cdrkit cpio gzip lha lrzip lz4 lzop p7zip pixz tar unace unace unrar unzip xz zip zlib zziplib
+      sudo emerge -av app-arch/unzip app-arch/zip app-arch/p7zip app-arch/unace app-arch/arj app-arch/cpio app-arch/dpkg app-cdr/cdrtools app-arch/zip and app-arch/unzip app-arch/lha app-arch/lzop app-arch/lz4 app-arch/unrar app-arch/unar app-arch/rpm app-arch/stuffit app-arch/zoo
   + for the XFCE desktop use:
       yaourt -S engrampa-thunar
   + for the cinnamon desktop use:
       sudo pacman -S nemo-fileroller
   + for Gnome Desktop:
-      sudo pacman -S file-roller 
+      sudo pacman -S file-roller
+      sudo emerge -av file-roller
 - A directory listing program displaying a depth indented list of files:
     sudo pacman -S tree
 
@@ -406,6 +429,7 @@
 - Viewers:
     sudo pacman -S sxiv
     sudo pacman -S gpicview
+    sudo emerge -av gpicview
 - Desktop wallpaper:
     sudo pacman -S feh
     feh --bg-center /home/Data/Wallpapers/A
@@ -443,13 +467,15 @@
 
 **** MEDIA PLAYERS
 - Sound is muted by default, so need to unmuted it:
-    sudo pacman -S alsa-utils
+    sudo pacman -S alsa-lib alsa-utils
     amixer sset Master unmute
 - Control volume
     + sudo pacman -S pulseaudio pulseaudio-alsa
     + sudo pacman -S pavucontrol
 - Video:
     sudo pacman -S mpv
+    sudo emerge -av mpd youtube-dl
+        mpv $(youtube-dl -g "<url>")
 - Music:
     sudo pacman -S mpd ncmpcpp
 - Install other Multimedia Codecs:
@@ -462,8 +488,10 @@
 - A unicode enabled rxvt-clone terminal emulator (urxvt):
     + Install:
         sudo pacman -S rxvt-unicode
+        sudo emerge -av rxvt-unicode
     + For copy/paste:
         sudo pacman -S urxvt-perls
+        sudo emerge -av urxvt-perls
     + Fix color when run "ls":
         + dircolors -p > ~/.dircolors
         + eval $(dircolors ~/.dircolors)
@@ -476,6 +504,7 @@
     sudo pacman -S lxterminal
 - A terminal multiplexer:
     sudo pacman -S tmux
+    sudo emerge -av tmux
 
 
 
@@ -507,6 +536,7 @@
   + Install:
       sudo pacman -S neovim
       yaourt -S ruby-neovim
+      sudo emerge -av neovim
   + To use your vim configuration in neovim execute the following commands
     which will create the appropriate symlinks:
       git clone https://github.com/bvanhai/.vim
@@ -517,6 +547,7 @@
       sudo pacman -S python python2-neovim python-neovim
 - Sublime text:
     yaourt -S sublime-text
+    sudo emerge -av sublime-text
 - Leafpad:
     sudo pacman -S leafpad
 
@@ -527,6 +558,7 @@
 - Web Browsers:
   + Chromium:
       sudo pacman -S chromium
+      sudo emerge -av chromium
   + Google Chrome:
       yaourt -S google-chrome
   + Firefox:
@@ -573,7 +605,8 @@
 - Google Drive
   + Home: https://github.com/odeke-em/drive
   + Install:
-      yaourt -S  drive
+      yaourt -S drive
+      sudo emerge -av drive
   + Create home folder:
       mkdir -p ~/gdrive
   + Before you can use drive, you'll need to mount your Google Drive directory
@@ -628,11 +661,14 @@
 **** DISK
 - Mount NTFS:
     sudo pacman -S ntfs-3g
-    sudo mkdir -p /home/Data2
+    sudo emerge -av ntfs3g
+    sudo mkdir /home/OS
     sudo mount -t ntfs-3g /dev/sda2 /home/OS
     mount -t ntfs-3g /dev/<device> /mnt/<folder>
 - Disk protection for HP machines "HP Mobile Data Protection System 3D" or "HP 3D DriveGuard":
     yaourt -S hpfall-git
+- NCurses Disk Usage:
+    sudo emerge -av ncdu
 - Automount removable media:
   1) Install:
       sudo pacman -S udevil
@@ -755,9 +791,11 @@
       smartctl -A /dev/sdx
 - Task manager:
     sudo pacman -S htop
+    sudo emerge -av htop
     sudo pacman -S lxtask
 - Terminal hack (display beautiful Arch Linux logo on terminal):
     sudo pacman -S perl-data-dump alsi
+    sudo emerge -av dev-perl/Data-Dump
     sudo pacman -S i-nex
     sudo pacman -S tlp
     sudo pacman -S acpi
@@ -841,6 +879,8 @@
 **** SUSPEND: pm-suspend
 - Install:
     sudo pacman -S pm-utils
+    sudo emerge -av sys-power/suspend
+        sudo s2ram
 - Locking the screen saver on hibernate or suspend: 
   1)create file:
      nano /etc/pm/sleep.d/00screensaver-lock
@@ -1024,13 +1064,6 @@
     pacman -Q > pacman.txt
     pacman -Qqe > pacman.txt
     sudo pacman -Qs gnome (search for keyword "gnome" in the installed package)
-- Add new user:
-    sudo useradd -m -g [initial_group] -G [additional_groups] -s [login_shell] [username]
-    example: sudo useradd -m -g users -s /bin/bash newuser
-- Specify user password:
-    sudo passwd [username]
-- Add group bvanhai:
-    sudo groupadd bvanhai
 - Add user bvanhai to group audio:
     sudo gpasswd -a bvanhai audio
 - List file in tar:
@@ -1102,6 +1135,8 @@
       KEYMAP=de-latin1
       FONT=lat9w-16
     ]
+- View temp:
+    cat /sys/class/thermal/thermal_zone*/temp
 
 
 
@@ -1220,6 +1255,8 @@
 
 
 **** CUSTOMIZE COMPILE AND INSTALL THE LINUX KERNEL
+
+**** ARCH ****
 - Download kernel:
     https://www.kernel.org
 - Wiki:
@@ -1228,23 +1265,24 @@
     sudo pacman -S bc
     mkdir ~/kernelbuild
     cd kernelbuild
-    tar -xvJf linux-4.12.9.tar.xz
-    cd linux-4.12.9
+    tar -xvJf linux-4.12.11.tar.xz
+    cd linux-4.12.11
 - Configure your kernel:
     make clean && make mrproper
     zcat /proc/config.gz > .config    # Copy the .config file from the running kernel
     make menuconfig    # Menuconfig
     make nconfig    # Menuconfig
+    (gentoo nedd)
       lspci -k
       /sbin/lspci
       cat /proc/cpuinfo
 - Compilation and installation:
     make -j2
     sudo make modules_install
-    sudo cp -v arch/x86_64/boot/bzImage /boot/vmlinuz-4.12.9-ARCH
-    sudo mkinitcpio -k 4.12.9-ARCH -g /boot/initramfs-4.12.9-ARCH.img
-    sudo cp System.map /boot/System.map-4.12.9-ARCH
-    sudo ln -sf /boot/System.map-4.12.9-ARCH /boot/System.map
+    sudo cp -v arch/x86_64/boot/bzImage /boot/vmlinuz-4.12.11-ARCH
+    sudo mkinitcpio -k 4.12.11-ARCH -g /boot/initramfs-4.12.11-ARCH.img
+    sudo cp System.map /boot/System.map-4.12.11-ARCH
+    sudo ln -sf /boot/System.map-4.12.11-ARCH /boot/System.map
 - Bootloader configuration:
     sudo grub-mkconfig -o /boot/grub/grub.cfg
 - Keeps track of EVERY kernel module ever used - useful for those of us who make
@@ -1256,6 +1294,30 @@
         sudo modprobed-db restore
         make localmodconfig
         make nconfig
+
+**** GENTOO ****
+- Package need:
+    sudo emerge -av sys-libs/ncurses
+    sudo emerge -av sys-kernel/genkernel
+- Set symlink
+    eselect kernel list
+    sudo eselect kernel set 1
+- Configuration
+    su
+    cd /usr/src/linux
+    make clean && make mrproper
+    make nconfig
+- Default configuration
+    make defconfig
+- Select all modules currently loaded by the LiveCD:
+    make localyesconfig
+- Compilation and installation:
+    time make -j2
+    make modules_install
+    make install
+    genkernel --install initramfs
+    ln -sf /boot/System.map-4.12.5-gentoo /boot/System.map
+
 
 
 
