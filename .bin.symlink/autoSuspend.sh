@@ -1,9 +1,9 @@
 #!/bin/sh
 
 # Don't suspend when these are running
-WHITELIST=("GoogleTalkPlug" "mumble" "pacman" "yaourt" "aura" "make" "backintime")
+WHITELIST=("make" "pacman" "yaourt" "emerge" "mpv")
 # Don't lock screen when these are running
-SCREENONLIST=("GoogleTalkPlug" "")
+SCREENONLIST=("mpv")
 # Don't lock screen when an app is fullscreen ****BSPWM ONLY****
 SCREENONFULLSCREEN=true
 # Don't suspend if MPD server is playing music
@@ -63,12 +63,15 @@ fi
 if [[ $CANCEL == true ]]; then
     sleep 2s;
     xset dpms force off;
-    feh --randomize --bg-fill /media/Wallpaper/*
+    feh --randomize --bg-fill /home/Data/Wallpaper/*
     killall -SIGUSR1 dunst # pause
     /usr/bin/sxlock -f -*-terminus-*-r-*-*-32-*-*-*-*-*-*-*
     killall -SIGUSR2 dunst # resume
 else
-    feh --randomize --bg-fill /media/Wallpaper/*
-    # I use a systemctl suspend modification
-    systemctl suspend
+    feh --randomize --bg-fill /home/Data/Wallpaper/*
+    if [ -f /usr/sbin/s2ram ]; then
+        sudo s2ram
+    else
+        systemctl suspend
+    fi
 fi
