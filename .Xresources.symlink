@@ -8,7 +8,7 @@
 
 #include "/home/bvanhai/.colors/current-xr"
 
-! Basic settings
+! BASIC SETTINGS
 
 Xft.antialias:  1
 Xft.autohint:   0
@@ -24,7 +24,7 @@ Xft.rgba:       rgb
 Xcursor.theme: Pulse-Glass-Sapphire-Small
 Xcursor.size:  16
 
-! URxvt Settings
+! URXVT SETTINGS
 
 URxvt.font: xft:Inconsolata-g:style=Medium:pixelsize=13:antialias=true:hinting=true
 URxvt.boldFont: xft:Inconsolata-g:style=Medium:pixelsize=13:antialias=true:hinting=true

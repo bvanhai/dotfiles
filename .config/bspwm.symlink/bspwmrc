@@ -1,5 +1,4 @@
 #!/bin/sh
-
 # ==============================================================================
 # File:     ~/.config/bspwm/bspwmrc
 # Author:   Hai Bui
@@ -57,7 +56,7 @@ bspc rule -a URxvt:main follow=on
 bspc rule -a URxvt:tmux desktop='^1' follow=on
 bspc rule -a URxvt:htop desktop='^5' follow=on
 bspc rule -a URxvt:alsamixer desktop='^6' follow=on
-bspc rule -a Subl desktop='^2' follow=on
+#bspc rule -a Subl desktop='^2' follow=on
 bspc rule -a sublime_text desktop='^2' follow=on
 bspc rule -a google-chrome desktop='^3' follow=on
 bspc rule -a Chromium desktop='^3' follow=on
@@ -69,7 +68,7 @@ bspc rule -a VirtualBox desktop='^7' follow=on
 bspc rule -a File-roller state=floating
 
 # Panel dzen2
-#$HOME/.bin/panel/panel &
+#sh $HOME/.bin/panel/panel &
 
 # Wait for panel to show up first (bar or dzen2)
 #sleep 2 &
