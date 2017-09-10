@@ -6,7 +6,7 @@
 # Comment:
 # ==============================================================================
 
-# Enable color support of ls and also add handy aliases
+# Enable color support
 if [ -x /usr/bin/dircolors ]; then
     test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
     alias ls='ls --color=auto'
@@ -16,6 +16,8 @@ if [ -x /usr/bin/dircolors ]; then
     alias grep='grep --color=auto'
     alias fgrep='fgrep --color=auto'
     alias egrep='egrep --color=auto'
+    alias igrep='grep --color=auto -i'
+    alias ingrep='grep -in --color=auto'
 fi
 
 # Some more ls aliases
@@ -29,7 +31,12 @@ alias lu='ls -ltur'         # sort by and show access time, most recent last
 alias lt='ls -ltr'          # sort by date, most recent last
 alias lm='ls -al |more'     # pipe through 'more'
 alias lr='ls -lR'           # recursive ls
-alias lsr='tree -Csu'       # nice alternative to 'recursive ls'
+
+# Show tree, limit level to 2 automatically
+alias tree='tree -L 2'
+
+# Nice alternative to 'recursive ls'
+alias lsr='tree -Csu'
 
 # View text files
 alias less='less -FX'
@@ -50,20 +57,35 @@ alias orphans='pacman -Qtdq'
 alias emi='sudo emerge -av'
 alias emu='sudo emerge -avuDN @world'
 alias emc='sudo emerge -av --depclean'
+alias rrb='sudo revdep-rebuild'
 alias emw='sudo emerge-webrsync'
+alias emf='sudo emerge --info'
+alias eml='sudo emerge --list-sets'
 alias eixu='sudo eix-update'
-alias spca='sudo perl-cleaner --allmodules'
-alias setcu='sudo etc-update'
+alias pca='sudo perl-cleaner --allmodules'
+alias etcu='sudo etc-update'
+alias ql='qlop -tHvg'
+alias ecd='eclean -d distfiles'
+alias ecp='eclean -d packages'
+alias tel='sudo tail -f /var/log/emerge-fetch.log'
 
 # Check bspwm window rules:
 alias bsrl='xprop |awk "/WM_CLASS/{print $4}"'
 
+
+# Reload bspwm, sxhkd config:
+alias mybspwm='~/.config/bspwm/bspwmrc'
+alias mysxhkd='pkill -USR1 -x sxhkd'
+
 # Permission
 alias scmw='sudo chmod -R go-w'
 
-
-alias rsxhkd='pkill -USR1 -x sxhkd'
-
+# System
+alias st='startx'
+alias cl='clear'
+alias rb='sudo reboot'
+alias po='sudo poweroff'
+alias sp='sudo s2ram'
 
 # xclip
 alias pbcopy='xclip -selection clipboard'   # copy to clipboard, ctrl+c, ctrl+shift+c
@@ -71,12 +93,19 @@ alias pbpaste='xclip -selection clipboard -o'   # paste from clipboard, ctrl+v, 
 alias pbselect='xclip -selection primary -o'    # paste from highlight, middle click, shift+insert
 
 # Directories
-alias cdl='cd /'
+alias cdr='cd /'
 alias cdh='cd ~/'
 alias cddl='cd ~/Downloads'
 alias cddf='cd ~/dotfiles/'
 alias cddd='cd ~/dotfiles-d/'
 alias cdv='cd ~/.vim/'
+alias ..='cd ..'
+alias b='cd -'
+alias cp='cp -i'
+alias mv='mv -i'
+alias cpr='cp -r'
+alias x='xargs -d "\n"'
+alias j='jobs'
 
 # git:
 alias ga='git add'
@@ -119,21 +148,35 @@ alias tks='tmux kill-session -t'
 # alias tmux='TERM=screen-256color-bce tmux' <- not very nice
 #alias tmux='tmux -2' # force tmux to use 256 colors
 
-
-# tree: show tree, limit level to 2 automatically
-alias tree='tree -L 2'
-
 # LAN network
 alias pong='ping -c 3 www.google.com'
-alias lanup='sudo ip link set enp3s0 up'
-alias lanip='sudo dhcpcd enp3s0'
+alias lanup='sudo ip link set enp0s25 up'
+alias lanip='sudo dhcpcd enp0s25'
 
 # WiFi
 alias wifiup='sudo ip link set wlo1 up'
 alias wificonnect='sudo wpa_supplicant -i wlo1 -c /etc/wpa_supplicant.conf -B'
 alias wifiwep='sudo iwconfig wlo1 essid "wifi-id" key s:password'
 alias wifiip='sudo dhcpcd wlo1'
-alias swfm='sudo wifi-menu'
+alias wifimn='sudo wifi-menu'
+
+# Print the wireless driver in use
+mywifidriver() {
+    wireless=$(sudo lspci | grep -i "Network controller" | awk '{ print $1  }')
+    if [ $wireless ]; then
+        sudo lspci -vv -s $wireless | grep -iP 'kernel driver in use' | awk -F: '{ gsub(/[ \t]+/, ""); print $2;  }'
+    fi
+}
+
+# Restart wifi driver as it's broken sometimes after waking up from suspend
+mywifirestart() {
+    wirelessDriver=$(mywifidriver)
+    if [ $wirelessDriver ]; then
+        echo "Restarting wireless driver: $wirelessDriver"
+        sudo modprobe -r $wirelessDriver
+        sudo modprobe $wirelessDriver
+    fi
+}
 
 #alias phoneup='sudo ip link set enp0s29f7u4u4u1 up'
 #alias phoneip='sudo dhcpcd enp0s29f7u4u4u1'
@@ -154,13 +197,11 @@ alias onbt='sudo systemctl start bluetooth.service'
 alias topbigdirs='du -h | sort -rh | head -n 20'
 alias topbigfiles='find . -type f -exec du -Sh {} + | sort -rh | head -n 20'
 
-# Mount/unmount USB flashdrive using devmon
-alias um='devmon --mount'
-alias uu='devmon --unmount'
+# Mount/unmount USB
 alias usbm='sudo mount /dev/sdb1 /home/USB'
 alias usbu='sudo umount /home/USB'
 
-# Mount NTFS partition
+# Mount/unmount NTFS partition
 alias osm='sudo mount -t ntfs-3g /dev/sda2 /home/OS'
 alias osu='sudo umount /home/OS'
 alias d1m='sudo mount -t ntfs-3g -U 5A9EB7CA9EB79D47 /home/Data1'
@@ -168,24 +209,17 @@ alias d1u='sudo umount /home/Data1'
 alias d2m='sudo mount -t ntfs-3g -U 01D31C99042D5490 /home/Data2'
 alias d2u='sudo umount /home/Data2'
 
-
+# proc
 alias findproc='ps aux | grep '
-alias fp='ps aux | grep '
 alias killproc='kill -9'
-alias kp='kill -9'
+
+alias pgx='pgrep -x'
+alias pgg='pgrep -g'
+alias pkx='pkill -x'
+alias pkg='pkill -g'
 
 # Find out which distro we are using
 alias mydistro='cat /etc/*-release'
-
-# for gvim to load back the session
-# alias gvim='gvim -S ~/session.gvim'
-
-# make Acer laptop brighter:
-alias brighter='sudo tee /sys/class/backlight/intel_backlight/brightness <<< 1200'
-
-# sudo make install/uninstall
-alias smi='sudo make install'
-alias smu='sudo make uninstall'
 
 # project to external HDMI screen/monitor
 alias hdmi='xrandr --output HDMI1 --mode 1920x1080'
@@ -194,10 +228,10 @@ alias hdmi='xrandr --output HDMI1 --mode 1920x1080'
 alias vga='xrandr --output VGA1 --mode 1920x1080'
 alias vga2='xrandr --output VGA2 --mode 1920x1080'
 
-# delete lock vim's session
-#alias rmvim='rm $NOGIT/vimdata/sessions/default.vim.lock ; \
-#             rm $NOGIT/vimdata/sessions/default.vim ; \
-#             rm $NOGIT/vimdata/sessions/last-session.txt'
+# Delete lock vim's session
+alias rmvim='rm $NOGIT/vimdata/sessions/default.vim.lock ; \
+             rm $NOGIT/vimdata/sessions/default.vim ; \
+             rm $NOGIT/vimdata/sessions/last-session.txt'
 
 # To enable various useful stuff for Arch Linux guest in VirtualBox machine
 alias myvirtualbox='sudo modprobe -a vboxguest vboxsf vboxvideo ; \
@@ -206,52 +240,24 @@ alias myvirtualbox='sudo modprobe -a vboxguest vboxsf vboxvideo ; \
 
 
 # Add an "alert" alias for long running commands.  Use like so:
-#   sleep 10; alert
+# sleep 10; alert
 alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
 
 
-alias mybspwm='~/.config/bspwm/bspwmrc'
-
-# for zathura and vim for latex
+# For zathura and vim for latex
 # zathura -s -x 'gvim --servername SYNCTEX --remote +%{line} %{input}' thesis.pdf
 alias zavim='zathura -s -x "gvim --servername SYNCTEX --remote +%{line} %{input}"'
 
-alias dev='cd ~/Dropbox/dev'
-
-# for Dropbox and other app that need to monitor files
-alias mynotify='sudo sysctl fs.inotify.max_user_watches=1000000000'
-
-# list all users
+# List all users
 alias userlist='cut -d: -f1 /etc/passwd'
 
-# list all groups
+# List all groups
 alias grouplist='cut -d: -f1 /etc/group'
 
-# AUR Arch Linux has moved to https://aur4.archlinux.org but by default yaourt
-# doesn't seem to use the new url, so here is the fix:
-alias yaourt4='yaourt --aur-url https://aur4.archlinux.org'
+# View time
+alias tnow='date "+%Y.%m.%d-%H.%M"'
 
-alias x='xargs -d "\n"'
-alias cp='cp -i'
-alias mv='mv -i'
-alias cpr='cp -r'
-alias j='jobs'
-alias ..='cd ..'
-alias b='cd -'
-
-alias cgrep='grep --color=auto'
-alias igrep='grep -i'
-alias icgrep='grep --color=auto -i'
-alias ngrep='grep -n'
-alias ingrep='grep -in'
-alias cingrep='grep -in --color=auto'
-alias rgrep='grep -r'
-
-alias pgx='pgrep -x'
-alias pgg='pgrep -g'
-alias pkx='pkill -x'
-alias pkg='pkill -g'
-
+# Other
 alias chbin='chmod 755'
 alias chord='chmod 644'
 alias octalrights='stat -c %a'
@@ -270,32 +276,3 @@ alias fqs='fc-list : family style | grep -i'
 alias fqf='fc-list : family file | grep -i'
 alias dpms='xset q | grep "^ *DPMS is" | awk "{print \$3}" | tr "[:upper:]" "[:lower:]"'
 alias psa='ps -Ao tty,pgrp,ppid,pid,comm'
-
-alias alsm='alsamixer'
-
-alias T='date "+%H:%M"'
-alias M='date "+%B"'
-alias Y='date "+%Y"'
-alias D='date "+%Y.%m.%d-%H.%M"'
-
-alias st='startx'
-alias cl='clear'
-
-
-# Print the wireless driver in use
-mywifidriver() {
-    wireless=$(lspci | grep -i "Network controller" | awk '{ print $1  }')
-    if [ $wireless ]; then
-        lspci -vv -s $wireless | grep -iP 'kernel driver in use' | awk -F: '{ gsub(/[ \t]+/, ""); print $2;  }'
-    fi
-}
-
-# Restart wifi driver as it's broken sometimes after waking up from suspend
-mywifirestart() {
-    wirelessDriver=$(mywifidriver)
-    if [ $wirelessDriver ]; then
-        echo "Restarting wireless driver: $wirelessDriver"
-        sudo modprobe -r $wirelessDriver
-        sudo modprobe $wirelessDriver
-    fi
-}
