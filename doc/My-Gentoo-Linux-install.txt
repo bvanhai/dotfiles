@@ -1,0 +1,218 @@
+#
+# My Gentoo Linux Install
+# https://github.com/bvanhai/dotfiles
+# 
+
+# https://wiki.gentoo.org/wiki/Handbook:Main_Page
+
+
+
+
+lsblk
+fdisk /dev/sda
+mkfs.ext4 /dev/sdaX
+mkswap /dev/sdaX && swapon /dev/sdaX
+mount /dev/sdaX /mnt/gentoo
+mkdir -p /mnt/gentoo/boot
+mount /dev/sdaX /mnt/gentoo/boot
+mkdir -p /mnt/gentoo/home
+mount /dev/sdaX /mnt/gentoo/home
+
+date <Mon Oct  3 13:16:22 PDT 2016>
+date 100313162016
+
+cd /mnt/gentoo
+links http://www.gentoo.org
+tar xvjpf stage3-*.tar.bz2
+tar xvjf portage-*.tar.bz2 -C /mnt/gentoo/usr
+cp -L /etc/resolv.conf /mnt/gentoo/etc/resolv.conf
+
+mount -t proc /proc /mnt/gentoo/proc && mount --rbind /sys /mnt/gentoo/sys && mount --make-rslave /mnt/gentoo/sys && mount --rbind /dev /mnt/gentoo/dev && mount --make-rslave /mnt/gentoo/dev
+
+
+
+
+chroot /mnt/gentoo /bin/bash
+source /etc/profile && export PS1="(chroot) $PS1"
+
+
+nano -w /etc/portage/make.conf
+#==================
+CFLAGS="-march=sandybridge -O2 -pipe"
+#CFLAGS="-march=native -O2 -pipe"
+CXXFLAGS="${CFLAGS}"
+CHOST="x86_64-pc-linux-gnu"
+MAKEOPTS="-j2"
+
+LINGUAS="en en_US"
+L10N="en en-US" 
+
+DOUSE="alsa icu infinality python vaapi xft"
+NOUSE="-bindinst -ipv6 -llvm"
+USE="${DOUSE} ${NOUSE}" 
+
+CPU_FLAGS_X86="mmx sse sse2 mmxext sse3 sse4_1 ssse3"
+
+INPUT_DEVICES="evdev keyboard mouse synaptics"
+VIDEO_CARDS="fbdev vesa intel i965"
+ALSA_CARDS="hda-intel"
+
+PORTDIR="/usr/portage"
+DISTDIR="${PORTDIR}/distfiles"
+PKGDIR="${PORTDIR}/packages"
+#===================
+
+
+emerge-webrsync
+
+eselect news list
+eselect news read
+eselect profile list
+eselect profile set 3
+    desktop
+
+
+ls /usr/share/zoneinfo
+cp /usr/share/zoneinfo/Asia/Ho_Chi_Minh /etc/localtime
+echo "Asia/Ho_Chi_Minh" > /etc/timezone
+emerge --config sys-libs/timezone-data
+
+nano -w /etc/locale.gen
+    en_US.UTF-8 UTF-8
+locale-gen
+eselect locale list
+eselect locale set 2
+env-update && source /etc/profile && export PS1="(chroot) $PS1"
+
+
+emerge -av sys-kernel/gentoo-sources sys-apps/pciutils sys-kernel/linux-firmware
+cd /usr/src/linux
+
+sudo emerge -av sys-libs/ncurses
+make nconfig
+
+make clean && make mrproper
+time make -j2
+make modules_install && make install
+emerge -av sys-kernel/genkernel
+genkernel --install initramfs
+ln -sf /boot/System.map-*-gentoo /boot/System.map
+
+
+nano -w /etc/fstab
+#============
+# (fs)                                     (mp)  (type) (opts)       (dump/pass)
+
+# /dev/sda6 
+UUID=58a0fc43-4c06-48cc-8fe3-04fc18a7d334  /      ext4  noatime           0 1
+
+# /dev/sda1
+UUID=26cb51b0-e1a1-4dff-917d-466e4aa9116e  /boot  ext4  defaults,noatime  0 2
+
+# /dev/sda10
+UUID=3f4a7563-db6f-4957-b7b8-43514f930dc4  /home  ext4  noatime           0 2
+
+# /dev/sda11
+UUID=8c77bd5b-efec-4700-a9db-e7e4d620104c  none   swap  sw                0 0
+#============
+
+
+emerge -av sys-boot/grub:2 sys-boot/os-prober
+grub-install /dev/sda
+grub-mkconfig -o /boot/grub/grub.cfg
+
+
+nano -w /etc/conf.d/hostname
+hostname
+nano -w /etc/hosts
+    127.0.0.1       gentoo.homenetwork gentoo localhost
+
+nano -w /etc/rc.conf
+nano -w /etc/conf.d/keymaps
+nano -w /etc/conf.d/hwclock
+    clock="local"
+
+emerge -av app-admin/syslog-ng
+rc-update add syslog-ng default
+
+
+
+
+#emerge -av net-misc/netifrc sys-apps/net-tools
+#ifconfig
+#nano -w /etc/conf.d/net
+#    config_emp0s3="dhcp"
+#cd /etc/init.d
+#ln -s net.lo net.enp0s25
+#/etc/init.d/net.enp0s25 start
+#rc-update add net.enp0s25 default
+
+
+emerge -av net-misc/dhcpcd net-wireless/wpa_supplicant net-wireless/wireless-tools net-wireless/iw
+
+nano -w /etc/wpa_supplicant/wpa_supplicant.conf
+#=========================
+# Allow users in the 'wheel' group to control wpa_supplicant
+ctrl_interface=DIR=/var/run/wpa_supplicant GROUP=wheel
+
+# Make this file writable for wpa_gui / wpa_cli
+update_config=1
+
+network={
+        ssid="wifi-name"
+        psk="wifi-password"
+        scan_ssid=1
+        proto=RSN
+        key_mgmt=WPA-PSK
+        group=CCMP TKIP
+        pairwise=CCMP TKIP
+        priority=5
+}
+#=========================
+
+nano -w /etc/conf.d/wpa_supplicant
+    wpa_supplicant_args="-B -M -c/etc/wpa_supplicant/wpa_supplicant.conf"
+
+nano -w /etc/conf.d/net
+    modules_wlan0="wpa_supplicant"
+    config_wlan0="dhcp"
+
+rc-update add dhcpcd default && rc-update add wpa_supplicant default
+
+
+passwd
+exit
+cd /
+umount -l /mnt/gentoo/dev{/shm,/pts,}
+umount -R /mnt/gentoo
+reboot
+(login root)
+
+
+
+
+useradd -m -G users,wheel,audio,portage,usb,video -s /bin/bash bvanhai
+passwd bvanhai
+
+emerge -av app-admin/sudo
+nano -w /etc/sudoers
+    bvanhai ALL=(ALL) ALL
+    %wheel ALL=(ALL) NOPASSWD: /usr/sbin/s2ram, /sbin/reboot, /sbin/halt, /sbin/poweroff, /usr/bin/urxvt, /usr/bin/subl
+
+
+rm /stage3-*.tar.bz2
+rm /portage-*.tar.bz2
+exit
+(login new user)
+
+
+
+
+emerge -avuDN @world
+emerge -av x11-base/xorg-x11
+emerge -av x11-wm/bspwm x11-misc/sxhkd
+
+nano -w ~/.xinitrc
+    sxhkd &
+    exec bspwm
+startx
