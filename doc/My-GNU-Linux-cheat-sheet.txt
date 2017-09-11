@@ -1,18 +1,18 @@
 #
-# My Arch Linux cheat-sheet
+# My GNU/Linux cheat-sheet
 # https://github.com/bvanhai/dotfiles
 #
 
 * ABOUT
 
 - I have kind of short term memory so I like to take note of what I've done.
-  This cheat-sheet log some of the things I've done to my Arch Linux machine.
+  This cheat-sheet log some of the things I've done to my GNU/Linux machine.
   Lots of these stuffs are based on my personal preference and may not be
   applicable to you. Also take note that: I'm not responsible if you break your
   machine by following any of the steps in this file. So before making any
   changes to your system, please make sure you know what you are doing. This
   note very messy and is written for my personal reference in mind. I just put
-  it here as some YouTube users would like to see it.
+  it here as some users would like to see it.
 
 - This file based on
   "My Arch Linux cheat-sheet" <https://gist.github.com/tungel/5948860>
@@ -21,23 +21,24 @@
 
 
 
-* INSTALLING ARCH
+* INSTALLING
 
 
 
 
 **** PACKAGE MANAGERS
+
+**** ARCH LINUX ****
 - Installing yaourt (enable AUR support for Arch Linux) directly from source
   (recommended):
-    Run:
-      git clone https://aur.archlinux.org/package-query.git
-      cd package-query
-      makepkg -cis
-      cd ..
-      git clone https://aur.archlinux.org/yaourt.git
-      cd yaourt
-      makepkg -cis
-      cd ..
+    git clone https://aur.archlinux.org/package-query.git
+    cd package-query
+    makepkg -cis
+    cd ..
+    git clone https://aur.archlinux.org/yaourt.git
+    cd yaourt
+    makepkg -cis
+    cd ..
 - Installing yaourt via Archlinux.fr repository:
   1) Edit pacman.conf file:
        sudo nano /etc/pacman.conf
@@ -115,14 +116,105 @@
     yaourt -S kalu
 
 
+**** GENTOO LINUX ****
+
+- Sync methods
+  + Sync the Gentoo ebuild repository using the mirrors by obtaining a snapshot
+    that is (at most) a day old:
+      sudo emerge-webrsync
+  + Sync custom package repository and the Gentoo ebuild repository using eix:
+      sudo emerge -av eix
+      eix-update
+      sudo eix-sync
+- Package installation and removal
+  + Install a package:
+      sudo emerge -av www-client/chromium
+  - Install a specific version of a package (Use '\=' if your shell attaches
+    meaning to '='):
+      sudo emerge -av =www-client/chromium-61.0.3163.79
+  - Install a package but excluding it from the world file:
+      sudo emerge --oneshot www-client/chromium
+    or
+      sudo emerge -1 www-client/chromium
+  - Remove a package that no other packages depend on:
+      sudo emerge -cav www-client/chromium
+  - Remove a package even if it is needed by other packages:
+      sudo emerge -C www-client/chromium
+  - Remove packages no longer needed:
+      sudo emerge -av --depclean
+  - As a safety measure, depclean will not remove any packages unless all
+    required dependencies have been resolved. As a consequence of this, it often
+    becomes necessary to run:
+      sudo emerge --update --newuse --deep @world
+  - Avoid unnecessary rebuilds when USE flags only get added to or dropped from the repository:
+      sudo emerge --update --changed-use --deep @world
+- Package upgrades
+  + Upgrade all installed packages, dependencies, and deep dependencies that
+    are outdated or have USE flag changes (avoiding unnecessary rebuilds when
+    USE changes have no impact):
+      sudo emerge -uDU --keep-going --with-bdeps=y @world
+- Package troubleshooting
+  + Check for and rebuild missing libraries:
+      sudo emerge -av gentoolkit
+      sudo revdep-rebuild -v
+  + Tell which installed package provides a command using equery:
+      equery b `which vim`
+  + Tell which packages depend on a specific package (cat/pkg in the example) 
+    using equery:
+      equery d www-client/chromium
+  + Get information about a package using eix:
+      eix www-client/chromium
+- Portage enhancements
+  + Manage configuration changes after an emerge completes:
+      sudo dispatch-conf
+- After installations or updates
+  + Rebuilds packages that depend on an recently updated library:
+      sudo revdep-rebuild
+  + After updating perl-core packages:
+      sudo perl-cleaner --all
+      emerge -av python-updater
+      sudo python-updater
+      eselect python list
+- USE flags
+  + Obtain descriptions and usage of the USE flag X using euse:
+      euse -i X
+  + Obtain a description of the png USE flag:
+      euse -i | grep png
+  + Show what packages have the python USE flag:
+      equery hasuse python
+  + Show what packages are currently built with the python USE flag:
+      eix --installed-with-use python
+  + Show what USE flags are available for a specific package:
+      equery uses chromium
+
+
+
+
+**** XORG SERVER USING XINIT
+- Install:
+    sudo pacman -S xorg-xinit
+    sudo emerge -av x11-apps/xinit
+- xserverrc
+  + In order to correctly setup xinit, you need to copy the global xserverrc to
+    your home directory and name it as .xserverrc: 
+      cp /etc/X11/xinit/xserverrc ~/.xserverrc
+  + If the problem persists (xauth keeps complaining about missing file
+    /home/user/serverauth):
+      sudo nano /usr/bin/startx
+    Then change 
+      enable_xauth=1
+    to
+      enable_xauth=0 
+
+
 
 
 **** USERS AND GROUPS
 - Add new user:
-    sudo useradd -m -g [initial_group] -G [additional_groups] -s [login_shell] [username]
-    example: sudo useradd -m -g users -s /bin/bash newuser
+    useradd -m -g [initial_group] -G [additional_groups] -s [login_shell] [username]
+    useradd -m -g users -s /bin/bash bvanhai
 - Specify user password:
-    sudo passwd [username]
+    passwd bvanhai
 - Add group bvanhai:
     sudo groupadd bvanhai
 - Rename or change user name
@@ -467,7 +559,10 @@
 
 **** MEDIA PLAYERS
 - Sound is muted by default, so need to unmuted it:
-    sudo pacman -S alsa-lib alsa-utils
+    sudo pacman -S alsa-utils
+    sudo emerge -av alsa-utils
+      rc-update add alsasound boot
+- Sound is muted by default, so need to unmuted it:
     amixer sset Master unmute
 - Control volume
     + sudo pacman -S pulseaudio pulseaudio-alsa
@@ -1256,7 +1351,7 @@
 
 **** CUSTOMIZE COMPILE AND INSTALL THE LINUX KERNEL
 
-**** ARCH ****
+**** ARCH LINUX****
 - Download kernel:
     https://www.kernel.org
 - Wiki:
@@ -1295,7 +1390,8 @@
         make localmodconfig
         make nconfig
 
-**** GENTOO ****
+
+**** GENTOO LINUX****
 - Package need:
     sudo emerge -av sys-libs/ncurses
     sudo emerge -av sys-kernel/genkernel
