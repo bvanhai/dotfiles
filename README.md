@@ -8,7 +8,7 @@
 <br>
 🐧 It is **my personal configuration** and includes all of the features I find necessary for a full WM experience.
 <br>
-🐧 My `.vim` folder is [here](https://github.com/bvanhai/.vim) and `My Arch Linux cheat-sheet` is [here](https://github.com/bvanhai/dotfiles/blob/master/doc/My-Arch-Linux-cheat-sheet.txt).
+🐧 My `.vim` folder is [here](https://github.com/bvanhai/.vim) and `My GNU/Linux cheat-sheet` is [here](https://github.com/bvanhai/dotfiles/blob/master/doc/My-GNU-Linux-cheat-sheet.txt).
 <br>
 
 ## Table of Contents
@@ -91,7 +91,7 @@
 
 ## Requirements
 
-Here is the list of relevant packages/programs that I use in Arch Linux. You don't need to install everything below, just choose what you want and then select which dotfile to be symlinked in the `config` file.
+Here is the list of relevant packages/programs that I use. You don't need to install everything below, just choose what you want and then select which dotfile to be symlinked in the `config` file.
 
 ### General
 * `bspwm`                  (window manager)
@@ -207,8 +207,9 @@ Install the `fontconfig-infinality` package.
 <br>
 
 ## Document
-* [My Arch Linux cheat-sheet - bvanhai](https://github.com/bvanhai/dotfiles/blob/master/doc/My-Arch-Linux-cheat-sheet.txt)
+* [My GNU/Linux cheat-sheet - bvanhai](https://github.com/bvanhai/dotfiles/blob/master/doc/My-GNU-Linux-cheat-sheet.txt)
 * [My Arch Linux install - bvanhai](https://github.com/bvanhai/dotfiles/blob/master/doc/My-Arch-Linux-install.txt)
+* [My Gentoo Linux install - bvanhai](https://github.com/bvanhai/dotfiles/blob/master/doc/My-Gentoo-Linux-install.txt)
 * [Awesome Ubuntu Linux - VoLuong](https://github.com/VoLuong/Awesome-Ubuntu-Linux)
 
 <br>
