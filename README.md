@@ -31,7 +31,7 @@
         - [Auto Suspend](#auto-suspend)
         - [xinitrc](#xinitrc)
         - [Fontconfig Configuration](#fontconfig-configuration)
-- [Manage subtrees](#manage-subtrees)
+- [Kernel Configuration](#kernel-configuration)
 - [Document](#document)
 - [Credits](#credits)
 
@@ -206,11 +206,24 @@ Install the `fontconfig-infinality` package.
 
 <br>
 
+## Kernel Configuration
+
+For those who want my kernel .config (and I don’t recommend that since I extremely configured it to work on my end and it probably will result in several kernel panics before you get your kernel booting on your end) you can see it in `~/dotfiles/linux/boot/config-kernel-bvanhai` (The file is named config-kernel-bvanhai, just be sure to change it to .config and run these commands beforehand:
+
+```bash
+$ make oldconfig && make prepare
+```
+
+> *I’m not responsible for you breaking your system or losing important data.*
+
+<br>
+
 ## Document
 * [My GNU/Linux cheat-sheet - bvanhai](https://github.com/bvanhai/dotfiles/blob/master/doc/My-GNU-Linux-cheat-sheet.txt)
 * [My Arch Linux install - bvanhai](https://github.com/bvanhai/dotfiles/blob/master/doc/My-Arch-Linux-install.txt)
 * [My Gentoo Linux install - bvanhai](https://github.com/bvanhai/dotfiles/blob/master/doc/My-Gentoo-Linux-install.txt)
-* [Awesome Ubuntu Linux - VoLuong](https://github.com/VoLuong/Awesome-Ubuntu-Linux)
+* [Awesome Ubuntu Linux - LewisVo](https://github.com/LewisVo/Awesome-Linux-Software)
+* [The Linux Kernel Configuration Guide - DOTSLASHLINUX](https://dotslashlinux.com/2017/08/24/the-linux-kernel-configuration-guide-part-1)
 
 <br>
 
