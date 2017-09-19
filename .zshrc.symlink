@@ -7,6 +7,13 @@
 #           Press Ctrl+C to kill the cat when you're done
 # ==============================================================================
 
+
+
+
+#
+# HISTORY FILE
+# ______________
+
 # Amount of commands that need to remember in the history list
 SAVEHIST=10000
 
@@ -15,6 +22,31 @@ HISTSIZE=10000
 
 # Set default command history file
 HISTFILE=$HOME/.histfile
+
+# Write to the history file immediately, not when the shell exits
+setopt INC_APPEND_HISTORY
+
+# Share history between all sessions
+setopt SHARE_HISTORY
+
+# Delete old recorded entry if new entry is a duplicate
+setopt HIST_IGNORE_ALL_DUPS
+
+# Don't write duplicate entries in the history file.
+setopt HIST_SAVE_NO_DUPS
+
+# Remove superfluous blanks before recording entry
+setopt HIST_REDUCE_BLANKS
+
+# Don't execute immediately upon history expansion
+setopt HIST_VERIFY
+
+
+
+
+#
+# GENERAL
+# ______________
 
 # Use vi mode (-v)
 bindkey -v
@@ -40,9 +72,6 @@ fpath=( "$HOME/.zsh/zfunctions" $fpath )
 promptinit
 # prompt adam2ltt 8bit
 
-# Don't write duplicate entries in the history file
-setopt HIST_IGNORE_DUPS
-
 # Persistent rehash to automatically find new files in /usr/bin of new
 # installed packages
 setopt nohashdirs
@@ -51,7 +80,7 @@ setopt nohashdirs
 # (default was: Ctrl+s (pause transmission), Ctrl+q (resume transmission))
 setopt noflowcontrol
 
-# Map Ctrl-S to sth usefull other than XOFF (interrupt data flow).
+# Map Ctrl-S to sth usefull other than XOFF (interrupt data flow)
 # search functionality (same as Ctrl+R) in bash
 stty -ixon
 
@@ -128,7 +157,7 @@ case ${TERM} in
 esac
 
 
-# Ensure that the prompt is redrawn when the terminal size changes.
+# Ensure that the prompt is redrawn when the terminal size changes
 TRAPWINCH() {
   zle && { zle reset-prompt; zle -R }
 }
@@ -180,7 +209,6 @@ set_prompt_color() {
 }
 
 
-
 # Change cursor color basing on vi mode
 zle-keymap-select () {
     if [ $KEYMAP = vicmd ]; then
@@ -204,7 +232,21 @@ zle -N zle-line-init
 zle -N zle-line-finish
 
 
-# Plugins
+
+
+#
+# PLUGINS
+# ______________
+
+# Oh my zsh plugin
+ohmyzsh_plugins=(archlinux dirhistory sudo tmux)
+for oplugin ($ohmyzsh_plugins); do
+    if [ -f $HOME/.zsh/oh-my-zsh/$oplugin/$oplugin.plugin.zsh ]; then
+    . $HOME/.zsh/oh-my-zsh/$oplugin/$oplugin.plugin.zsh
+    fi
+done
+
+# Other plugins
 zsh_plugins=(z zaw zsh-autosuggestions zsh-completions zsh-history-substring-search zsh-git-prompt)
 for plugin ($zsh_plugins); do
     if [ -f $HOME/.zsh/plugins/$plugin/$plugin.plugin.zsh ]; then
@@ -216,18 +258,16 @@ for plugin ($zsh_plugins); do
     fi
 done
 
-# oh-my-zsh
-ohmyzsh_plugins=(archlinux dirhistory sudo tmux)
-for oplugin ($ohmyzsh_plugins); do
-    if [ -f $HOME/.zsh/oh-my-zsh/$oplugin/$oplugin.plugin.zsh ]; then
-    . $HOME/.zsh/oh-my-zsh/$oplugin/$oplugin.plugin.zsh
-    fi
-done
-
-# Allow alt-q, alt-delete for zaw-history, zaw-process
+# Allow alt-q, alt-delete for zaw-history, zaw-process (zaw plugins)
 bindkey '^[q' zaw-history
 bindkey '^[^[[3~' zaw-process
 
+
+
+
+#
+# IMPORT FILE
+# ______________
 
 # Load profile definitions
 if [ -f $HOME/.profile ]; then
