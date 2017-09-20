@@ -258,9 +258,9 @@ for plugin ($zsh_plugins); do
     fi
 done
 
-# Allow alt-q, alt-delete for zaw-history, zaw-process (zaw plugins)
+# Allow alt-q, alt-p for zaw-history, zaw-process (zaw plugins)
 bindkey '^[q' zaw-history
-bindkey '^[^[[3~' zaw-process
+bindkey '^[p' zaw-process
 
 
 
