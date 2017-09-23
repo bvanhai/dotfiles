@@ -1,6 +1,6 @@
 #!/bin/sh
 
-SESSION=bvanhai
+SESSION=bvanhai2
 echo "starting $SESSION tmux session"
 
 tmux has-session -t $SESSION
@@ -11,15 +11,10 @@ if [ $? != 0 ]; then
 
     # Create window#2
     tmux new-window -t $SESSION: -n 'misc'
-    tmux split-window -h -p 32 -t $SESSION      # horizontal split
-    tmux send-keys -t $SESSION 'music.sh' C-m   # process in pane#2
-    tmux split-window -v -p 58 -t $SESSION      # vertical split
-    tmux send-keys -t $SESSION 'htop' C-m       # process in pane#3
-    tmux split-window -v -p 74 -t $SESSION      # vertical split
-    tmux send-keys -t $SESSION 'tmux-utility-info.sh && sleep infinity' C-m
-                                                # process in pane#4
+    tmux split-window -h -p 20 -t $SESSION      # horizontal split
+    tmux send-keys -t $SESSION 'gtop' C-m       # process in pane#2
     tmux select-pane -t $SESSION:2.1            # select pane#1 of window#2
-    tmux split-window -v -p 32 -t $SESSION      # vertical split
+    tmux split-window -v -p 30 -t $SESSION      # vertical split
     tmux select-pane -t $SESSION:2.1            # select pane#1 of window#2
 
     # Create window#3
