@@ -1,22 +1,16 @@
-#
-# My GNU/Linux cheat-sheet
-# https://github.com/bvanhai/dotfiles
-#
-
-* ABOUT
-
-- I have kind of short term memory so I like to take note of what I've done.
-  This cheat-sheet log some of the things I've done to my GNU/Linux machine.
-  Lots of these stuffs are based on my personal preference and may not be
-  applicable to you. Also take note that: I'm not responsible if you break your
-  machine by following any of the steps in this file. So before making any
-  changes to your system, please make sure you know what you are doing. This
-  note very messy and is written for my personal reference in mind. I just put
-  it here as some users would like to see it.
-
-- This file based on
-  "My Arch Linux cheat-sheet" <https://gist.github.com/tungel/5948860>
-  of [Tung Le] <https://github.com/tungel>. Thanks for sharing!
+* ==============================================================================
+* File:     My GNU/Linux cheat-sheet
+* Author:   Hai Bui
+* Source:   https://github.com/bvanhai/dotfiles
+*
+* Comment:  This cheat-sheet log some of the things I've done to my machine.
+*           Lots of these stuffs are based on my personal preference and may not
+*           be applicable to you.
+*
+*           This file based on "My Arch Linux cheat-sheet"
+*           <https://gist.github.com/tungel/5948860>
+*           of [Tung Le]
+* ==============================================================================
 
 
 
@@ -137,7 +131,7 @@
     or
       sudo emerge -1 www-client/chromium
   - Remove a package that no other packages depend on:
-      sudo emerge -cav www-client/chromium
+      sudo emerge -av --depclean www-client/chromium
   - Remove a package even if it is needed by other packages:
       sudo emerge -C www-client/chromium
   - Remove packages no longer needed:
@@ -205,8 +199,8 @@
       enable_xauth=1
     to
       enable_xauth=0 
-
-
+- Error: "No outputs have backlight property"
+      sudo emerge -av x11-drivers/xf86-video-intel
 
 
 **** USERS AND GROUPS
@@ -229,6 +223,8 @@
     usermod -u 1000 bvanhai
 - View UID of user bvanhai:
     id -u bvanhai
+- Change file/folder owner and group:
+    sudo chown -R bvanhai:bvanhai /home
 
 
 
@@ -503,7 +499,7 @@
 - Archive Managers:
   + Method:
       sudo pacman -S bzip2 cdrkit cpio gzip lha lrzip lz4 lzop p7zip pixz tar unace unace unrar unzip xz zip zlib zziplib
-      sudo emerge -av app-arch/unzip app-arch/zip app-arch/p7zip app-arch/unace app-arch/arj app-arch/cpio app-arch/dpkg app-cdr/cdrtools app-arch/zip and app-arch/unzip app-arch/lha app-arch/lzop app-arch/lz4 app-arch/unrar app-arch/unar app-arch/rpm app-arch/stuffit app-arch/zoo
+      sudo emerge -av app-arch/unzip app-arch/zip app-arch/p7zip app-arch/unace app-arch/arj app-arch/cpio app-arch/dpkg app-cdr/cdrtools app-arch/zip app-arch/unzip app-arch/lha app-arch/lzop app-arch/lz4 app-arch/unrar app-arch/unar app-arch/rpm app-arch/stuffit app-arch/zoo
   + for the XFCE desktop use:
       yaourt -S engrampa-thunar
   + for the cinnamon desktop use:
@@ -656,6 +652,10 @@
       sudo emerge -av chromium
   + Google Chrome:
       yaourt -S google-chrome
+      sudo emerge -av google-chrome
+  + Fix Chromium, Google Chrome hang:
+      . Disable "chrome://flags/#enable-gpu-rasterization"
+      . Run with --disable-gpu option
   + Firefox:
       sudo pacman -S firefox
       sudo pacman -S flashplugin    # Adobe Flash Player
@@ -746,9 +746,9 @@
       systemctl disable Networkmanager
       systemctl stop Networkmanager
 - Enable profile WIFI:
-    sudo netctl start wlo1-hongphong
-    sudo netctl enable wlo1-hongphong
-    sudo netctl reenable wlo1-hongphong
+    sudo netctl start wlo1-<wifi-name>
+    sudo netctl enable wlo1-<wifi-name>
+    sudo netctl reenable wlo1-<wifi-name>
 
 
 
@@ -783,7 +783,7 @@
   + To unmount a drive use umount:
       umount /dev/sdx1
   + Creating a bootable USB (Drive Needs to be unmounted):
-      sudo dd bs=4M if=/path/to/file.iso of=/dev/sdx && sync
+      sudo dd bs=4M if=/path/to/file.iso of=/dev/sdx status=progress && sync
   + Formatting USB Drive back to factory state (Drive Needs to be unmounted):
       sudo mkfs.vfat /dev/sdx -I
   + To copy a CD/DVD to a .iso:
@@ -888,6 +888,10 @@
     sudo pacman -S htop
     sudo emerge -av htop
     sudo pacman -S lxtask
+- gtop:
+    git clone https://github.com/aksakalli/gtop
+    cd gtop
+    npm install gtop -g
 - Terminal hack (display beautiful Arch Linux logo on terminal):
     sudo pacman -S perl-data-dump alsi
     sudo emerge -av dev-perl/Data-Dump
@@ -1232,6 +1236,17 @@
     ]
 - View temp:
     cat /sys/class/thermal/thermal_zone*/temp
+- Set brightness
+    sudo nano /sys/class/backlight/intel_backlight/brightness
+    echo 648 | sudo tee /sys/class/backlight/intel_backlight/brightness
+- Report file system disk space usage:
+    df -h
+- Removing duplicate lines with sort:
+    sort "file-old" | uniq -u > "file-new"
+- See the command attached to a bash alias:
+    type <command>
+    alias <command>
+    which <command>
 
 
 
@@ -1351,7 +1366,30 @@
 
 **** CUSTOMIZE COMPILE AND INSTALL THE LINUX KERNEL
 
-**** ARCH LINUX****
+**** HARDWARE ****
+- Grab the output of several useful tools and we’ll be using those files later
+  on the pick the right options for our kernel:
+    lshw -short > lshwshort.txt
+    lshw > lshw.txt
+    lspci -kk > lspcikk.txt
+    lspci -nnkkvvv > lspcinnkkvvv.txt
+    lsusb > lsusb.txt
+    lsusb -v > lsusbv.txt
+    lsmod > lsmod.txt
+    dmesg > dmesg.txt
+    cat /proc/cpuinfo > cpuinfo.txt
+    zcat /proc/config.gz > config-kernel
+    dmidecode > dmidecode.txt
+    sensors > sensors.txt
+    tree /proc > treeproc.txt
+    tree /sys > treesys.txt
+    tree /dev > treedev.txt
+- Extracting config from image (if kernel support):
+  cd /kernel-source
+  scripts/extract-ikconfig <link-kernel-image> > .config
+
+
+**** ARCH LINUX ****
 - Download kernel:
     https://www.kernel.org
 - Wiki:
@@ -1360,24 +1398,23 @@
     sudo pacman -S bc
     mkdir ~/kernelbuild
     cd kernelbuild
-    tar -xvJf linux-4.12.11.tar.xz
-    cd linux-4.12.11
+    tar -xvJf linux-*.tar.xz
+    cd linux-*
 - Configure your kernel:
     make clean && make mrproper
     zcat /proc/config.gz > .config    # Copy the .config file from the running kernel
-    make menuconfig    # Menuconfig
+    make oldconfig && make prepare
     make nconfig    # Menuconfig
-    (gentoo nedd)
       lspci -k
       /sbin/lspci
       cat /proc/cpuinfo
 - Compilation and installation:
     make -j2
     sudo make modules_install
-    sudo cp -v arch/x86_64/boot/bzImage /boot/vmlinuz-4.12.11-ARCH
-    sudo mkinitcpio -k 4.12.11-ARCH -g /boot/initramfs-4.12.11-ARCH.img
-    sudo cp System.map /boot/System.map-4.12.11-ARCH
-    sudo ln -sf /boot/System.map-4.12.11-ARCH /boot/System.map
+    sudo cp -v arch/x86_64/boot/bzImage /boot/vmlinuz-4.13.3-ARCH
+    sudo mkinitcpio -k 4.13.3-ARCH -g /boot/initramfs-4.13.3-ARCH.img
+    sudo cp System.map /boot/System.map-4.13.3-ARCH
+    sudo ln -sf /boot/System.map-4.13.3-ARCH /boot/System.map
 - Bootloader configuration:
     sudo grub-mkconfig -o /boot/grub/grub.cfg
 - Keeps track of EVERY kernel module ever used - useful for those of us who make
@@ -1391,17 +1428,21 @@
         make nconfig
 
 
-**** GENTOO LINUX****
+**** GENTOO LINUX ****
 - Package need:
-    sudo emerge -av sys-libs/ncurses
+    sudo emerge -av sys-kernel/gentoo-sources
     sudo emerge -av sys-kernel/genkernel
+    sudo emerge -av sys-libs/ncurses
+    sudo emerge -av app-arch/lz4 app-arch/lzop
 - Set symlink
     eselect kernel list
     sudo eselect kernel set 1
 - Configuration
     su
     cd /usr/src/linux
-    make clean && make mrproper
+    make clean && make distclean && make mrproper
+    cp <link .config file> .config
+    make oldconfig && make prepare
     make nconfig
 - Default configuration
     make defconfig
@@ -1409,11 +1450,8 @@
     make localyesconfig
 - Compilation and installation:
     time make -j2
-    make modules_install
-    make install
+    make modules_install && make install
     genkernel --install initramfs
-    ln -sf /boot/System.map-4.12.5-gentoo /boot/System.map
-
 
 
 
@@ -1421,6 +1459,7 @@
 **** GITHUB
 - Install:
     sudo pacman -S git mercurial
+    sudo emerge -av dev-vcs/git
     git config --global user.name "Hai Bui"
     git config --global user.email "buivnhai@gmail.com"
     git config --list
@@ -1475,12 +1514,12 @@ sudo pacman -Sy               # synchronize repository databases if neccessary
 sudo pacman -Syu              # synchronize with repositories and then upgrade packages that are out of date on the local system.
 sudo pacman -Syy              # force synchronization of repository databases
 
-sudo pacman -Sw xyz           # download package xyz as .tar.xz ball
-sudo pacman -U xyz.tart.xz    # install package xyz.tart.xz not from the repositories but from a file
-
 sudo pacman -S xyz            # install package xyz
 sudo pacman -Sy xyz           # synchronize repo and install xyz
 sudo pacman -Syy xyz          # really synchronize repo and install xyz
+
+sudo pacman -Sw xyz           # download package xyz as .tar.xz ball
+sudo pacman -U xyz.tart.xz    # install package xyz.tart.xz not from the repositories but from a file
 
 sudo pacman -R xyz            # remove package xyz but keep its dependencies installed
 sudo pacman -Rs xyz           # remove package xyz and all its dependencies (if they are not required by any other package)
@@ -1488,6 +1527,7 @@ sudo pacman -Rsc xyz          # remove package xyz, all its dependencies and pac
 sudo pacman -Rns xyz          # remove package xyz, all its dependencies and prevent the creation of these backup files
 sudo pacman -Rdd xyz          # remove package xyz, which is required by another package, without removing the dependent package
 sudo pacman -Rscn xyz         # remove package xyz, all its dependencies, packages that depend on the target package and prevent the creation of these backup files
+sudo pacman -Scc              # clean cache - delete all the package files in the cache
 
 sudo pacman -Si               # display information about a given package in the repositories
 sudo pacman -Ss               # search repository database for packages for xyz
@@ -1496,5 +1536,3 @@ sudo pacman -Qi               # display information about a given package in the
 sudo pacman -Qs               # search for package(s) in the local database
 sudo pacman -Ql xyz           # show all files installed by the package xyz
 sudo pacman -Qo /path         # find the package which installed the file at /pat
-
-sudo pacman -Scc              # clean cache - delete all the package files in the cache
