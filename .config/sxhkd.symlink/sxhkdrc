@@ -344,6 +344,14 @@ super + p
     nohup panel >/dev/null 2>&1; \
     $HOME/.config/bspwm/bspwmrc
 
+# Start panel
+super + shift + p
+    $HOME/.bin/panel/panel
+
+# Kill panel
+super + ctrl + p
+    $HOME/.config/bspwm/bspwmrc
+
 # Caps Lock Indicator
 Caps_Lock
     $HOME/.bin/panel/dzen2-caps-not
