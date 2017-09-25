@@ -307,8 +307,7 @@ super + alt + q
     firefox
 
 super + a
-    pkill ncmpcpp; \
-    urxvt -name ncmpcpp -e ncmpcpp
+    music.sh
 
 super + shift + a
     $HOME/.bin/mpdToggle.sh
