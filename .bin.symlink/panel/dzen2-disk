@@ -6,11 +6,10 @@ realpath=$(cd `dirname "${BASH_SOURCE[0]}"` && pwd)
 
  (
 echo "Disk"
-echo "/: $(df -h / | sed '1d' | awk '{print $3}')/$(df -h / | sed '1d' | awk '{print $2}')"
-echo "/home: $(df -h /home | sed '1d' | awk '{print $3}')/$(df -h /home | sed '1d' | awk '{print $2}')"
-echo "OS: $(df -h /home/OS | sed '1d' | awk '{print $3}')/$(df -h /home/OS | sed '1d' | awk '{print $2}')"
-echo "Data 1: $(df -h /home/Data1 | sed '1d' | awk '{print $3}')/$(df -h /home/Data1 | sed '1d' | awk '{print $2}')"
-echo "Data 2: $(df -h /home/Data2 | sed '1d' | awk '{print $3}')/$(df -h /home/Data2 | sed '1d' | awk '{print $2}')"
+echo "/: $(df -h / | sed '1d' | awk '{print $3}') / $(df -h / | sed '1d' | awk '{print $2}')"
+echo "media: $(df -h /home/media | sed '1d' | awk '{print $3}') / $(df -h /home/media | sed '1d' | awk '{print $2}')"
+echo "OS: $(df -h /home/OS | sed '1d' | awk '{print $3}') / $(df -h /home/OS | sed '1d' | awk '{print $2}')"
+echo "Data: 3$(df -h /home/Data | sed '1d' | awk '{print $3}') / $(df -h /home/Data | sed '1d' | awk '{print $2}')"
  ) | dzen2 \
     -p "5" \
     -x "1310" \
