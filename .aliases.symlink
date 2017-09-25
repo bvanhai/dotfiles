@@ -3,7 +3,8 @@
 # Author:   Hai Bui
 # Source:   https://github.com/bvanhai/dotfiles
 #
-# Comment:
+# Comment:  Alias is a command, which enables a replacement of a word with 
+#           another string
 # ==============================================================================
 
 # Enable color support
@@ -16,20 +17,17 @@ if [ -x /usr/bin/dircolors ]; then
     alias grep='grep --color=auto'
     alias fgrep='fgrep --color=auto'
     alias egrep='egrep --color=auto'
-    alias igrep='grep --color=auto -i'
-    alias ingrep='grep -in --color=auto'
 fi
 
 # Some more ls aliases
-alias ll='ls -l --group-directories-first'
-alias lh='ls -h --color'    # add colors for filetype recognition
+alias ll='ls -l'            # single column output
 alias la='ls -a'            # show hidden files
 alias lx='ls -xb'           # sort by extension
 alias lk='ls -lSr'          # sort by size, biggest last
 alias lc='ls -ltcr'         # sort by and show change time, most recent last
 alias lu='ls -ltur'         # sort by and show access time, most recent last
 alias lt='ls -ltr'          # sort by date, most recent last
-alias lm='ls -al |more'     # pipe through 'more'
+alias lm='ls -al | more'    # pipe through 'more'
 alias lr='ls -lR'           # recursive ls
 
 # Show tree, limit level to 2 automatically
@@ -56,18 +54,23 @@ alias orphans='pacman -Qtdq'
 # Package managers on Gentoo
 alias emi='sudo emerge -av'
 alias emu='sudo emerge -avuDN @world'
-alias emc='sudo emerge -av --depclean'
-alias rrb='sudo revdep-rebuild'
+alias emc='sudo emerge -avc'
+alias rrb='sudo revdep-rebuild -v'
+alias emr='sudo emerge @preserved-rebuild'
 alias emw='sudo emerge-webrsync'
-alias emf='sudo emerge --info'
-alias eml='sudo emerge --list-sets'
-alias eixu='sudo eix-update'
+alias eml='emerge -p @installed'
+alias emf='emerge --info'
+alias eq='equery'
+alias eui='euse -i'
+alias eua='euse -a'
+alias eii='eix --installed-with-use'
+alias eiu='sudo eix-update'
 alias pca='sudo perl-cleaner --allmodules'
-alias etcu='sudo etc-update'
+alias etu='sudo etc-update'
 alias ql='qlop -tHvg'
 alias ecd='eclean -d distfiles'
 alias ecp='eclean -d packages'
-alias tel='sudo tail -f /var/log/emerge-fetch.log'
+alias rcs='rc-status'
 
 # Check bspwm window rules:
 alias bsrl='xprop |awk "/WM_CLASS/{print $4}"'
@@ -77,12 +80,11 @@ alias bsrl='xprop |awk "/WM_CLASS/{print $4}"'
 alias mybspwm='~/.config/bspwm/bspwmrc'
 alias mysxhkd='pkill -USR1 -x sxhkd'
 
-# Permission
-alias scmw='sudo chmod -R go-w'
-
 # System
 alias st='startx'
+alias stl='startx > .Xorg.log 2>&1'
 alias cl='clear'
+alias et='exit'
 alias rb='sudo reboot'
 alias po='sudo poweroff'
 alias sp='sudo s2ram'
@@ -94,10 +96,12 @@ alias pbselect='xclip -selection primary -o'    # paste from highlight, middle c
 
 # Directories
 alias cdr='cd /'
+alias cddt='cd /home/Data'
 alias cdh='cd ~/'
 alias cddl='cd ~/Downloads'
 alias cddf='cd ~/dotfiles/'
 alias cddd='cd ~/dotfiles-d/'
+alias cdmp='cd ~/dotfiles/linux/usr.tmp/src/my-pc-info'
 alias cdv='cd ~/.vim/'
 alias ..='cd ..'
 alias b='cd -'
@@ -110,7 +114,7 @@ alias j='jobs'
 # git:
 alias ga='git add'
 alias gc='git commit -m'
-alias gcu='commit -m 'Update''
+alias gcu='git commit -m "Update"'
 alias gca='git commit -a -m'
 alias gcau='git commit -a -m 'Update''
 
@@ -134,10 +138,10 @@ alias git5hundo='git reset --hard HEAD~5 && git push origin -f'
 
 
 # Google Drive:
-alias cdgd='cd ~/gdrive'
-alias dp='cdgd && drive push'
-alias dpL='cdgd && drive push Linux'
-alias dpu='cdgd && drive pull'
+alias cdgd='cd /home/linux/gdrive'
+alias gdp='drive push'
+alias gdpL='drive push Linux && cdh'
+alias gdu='drive pull'
 
 # Sync time and store to hardware clock
 alias mytime='sudo ntpd -qg && sudo hwclock -w'
@@ -178,6 +182,15 @@ mywifirestart() {
     fi
 }
 
+# wpa_cli
+alias wpas='wpa_cli status'
+alias wpac='wpa_cli scan_results'
+alias wpae='sudo nano -w /etc/wpa_supplicant/wpa_supplicant.conf'
+alias wpar='sudo /etc/init.d/wpa_supplicant restart'
+alias wpap='sudo /etc/init.d/wpa_supplicant stop'
+alias wpat='sudo /etc/init.d/wpa_supplicant start'
+
+
 #alias phoneup='sudo ip link set enp0s29f7u4u4u1 up'
 #alias phoneip='sudo dhcpcd enp0s29f7u4u4u1'
 
@@ -197,17 +210,20 @@ alias onbt='sudo systemctl start bluetooth.service'
 alias topbigdirs='du -h | sort -rh | head -n 20'
 alias topbigfiles='find . -type f -exec du -Sh {} + | sort -rh | head -n 20'
 
-# Mount/unmount USB
-alias usbm='sudo mount /dev/sdb1 /home/USB'
-alias usbu='sudo umount /home/USB'
+# Mount/unmount USB/MMC
+alias usbm='sudo mount /dev/sdb1 /home/usb'
+alias usbu='sudo umount /home/usb'
+alias mmcm='sudo mount /dev/mmcblk0p1 /home/mmc'
+alias mmcu='sudo umount /home/mmc'
 
 # Mount/unmount NTFS partition
-alias osm='sudo mount -t ntfs-3g /dev/sda2 /home/OS'
+alias osm='sudo mount -t ntfs-3g -L OS /home/OS'
 alias osu='sudo umount /home/OS'
-alias d1m='sudo mount -t ntfs-3g -U 5A9EB7CA9EB79D47 /home/Data1'
-alias d1u='sudo umount /home/Data1'
-alias d2m='sudo mount -t ntfs-3g -U 01D31C99042D5490 /home/Data2'
-alias d2u='sudo umount /home/Data2'
+alias dtm='sudo mount -t ntfs-3g -L Data /home/Data'
+alias dtu='sudo umount /home/Data'
+
+# Compile kernel
+alias mkn='make nconfig'
 
 # proc
 alias findproc='ps aux | grep '
@@ -257,9 +273,12 @@ alias grouplist='cut -d: -f1 /etc/group'
 # View time
 alias tnow='date "+%Y.%m.%d-%H.%M"'
 
-# Other
+# Permission
+alias cmw='sudo chmod -R go-w'
 alias chbin='chmod 755'
 alias chord='chmod 644'
+
+# Other
 alias octalrights='stat -c %a'
 alias cal='cal -m'
 alias lsync='rsync -aulv --delete'
@@ -276,3 +295,6 @@ alias fqs='fc-list : family style | grep -i'
 alias fqf='fc-list : family file | grep -i'
 alias dpms='xset q | grep "^ *DPMS is" | awk "{print \$3}" | tr "[:upper:]" "[:lower:]"'
 alias psa='ps -Ao tty,pgrp,ppid,pid,comm'
+
+# wget
+alias wget_entire_web='wget --mirror --convert-links --adjust-extension --page-requisites --no-parent'
