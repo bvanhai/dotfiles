@@ -7,7 +7,7 @@
 # Comment:
 # ==============================================================================
 
-# Load color theme
+# Load color scheme
 . $HOME/.colors/current-sh
 
 # Kill all the bspc process first
@@ -54,18 +54,18 @@ fi
 # Check rules: xprop |awk '/WM_CLASS/{print $4}'
 bspc rule -a URxvt:main follow=on
 bspc rule -a URxvt:tmux desktop='^1' follow=on
-bspc rule -a URxvt:htop desktop='^5' follow=on
+bspc rule -a URxvt:htop desktop='^6' follow=on
 bspc rule -a URxvt:alsamixer desktop='^6' follow=on
+bspc rule -a URxvt:ncmpcpp desktop='^5' follow=on
 #bspc rule -a Subl desktop='^2' follow=on
 bspc rule -a sublime_text desktop='^2' follow=on
-bspc rule -a google-chrome desktop='^3' follow=on
 bspc rule -a Chromium desktop='^3' follow=on
 bspc rule -a Chromium-browser-chromium desktop='^3' follow=on
-bspc rule -a mpv desktop='^4' follow=on
+bspc rule -a mpv desktop='^5' follow=on
 bspc rule -a Firefox desktop='^7' follow=on
-bspc rule -a Gimp desktop='^6' follow=on
-bspc rule -a VirtualBox desktop='^7' follow=on
+bspc rule -a VirtualBox desktop='^8' follow=on
 bspc rule -a File-roller state=floating
+bspc rule -a Gimp desktop='^9' follow=on
 
 # Panel dzen2
 #sh $HOME/.bin/panel/panel &

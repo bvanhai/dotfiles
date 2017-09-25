@@ -4,14 +4,12 @@
 # Source:   https://github.com/bvanhai/dotfiles
 #
 # Comment:  Simple X hotkey daemon
+#
+#           Run: `pkill -USR1 -x sxhkd` after modify this file           
 # ==============================================================================
 
 
 
-
-# Make sxhkd reload its configuration files, run after modify this file
-super + shift + F2
-    pkill -USR1 -x sxhkd
 
 # Make .Xresources reload its configuration files:
 super + F2
@@ -28,12 +26,13 @@ ctrl + shift + alt + Escape
 
 
 
+
 #
 # BSPWM HOTKEYS
 # ______________
 
 # Quit bspwm
-shift + Escape
+ctrl + Escape
     bspc quit
 
 # Close and kill window
@@ -249,7 +248,8 @@ super + shift + space
     $HOME/.bin/dmenu/dmenu-file-manager.sh
 
 ctrl + alt + Delete
-    $HOME/.bin/dmenu/dmenu-power.sh
+#    $HOME/.bin/dmenu/dmenu-power.sh
+    $HOME/.bin/dmenu/dmenu-power-gentoo.sh
 
 super + alt + shift + BackSpace
     dmenu_run
@@ -262,19 +262,21 @@ super + Return
     urxvt -name main
 
 super + w
-    urxvt -name tmux -e tmux-utility.sh
+#    killall urxvt; \
+    urxvt -name tmux -e tmux-utility2.sh
 
 super + ctrl + w
+    tmux kill-session -t bvanhai2
+
+super + alt + w
+#    killall urxvt; \
+    urxvt -name tmux -e tmux-utility.sh
+
+super + alt + ctrl + w
     tmux kill-session -t bvanhai
 
 super + alt + w
     lxterminal
-
-super + shift + w
-    urxvt-tabbed
-
-super + alt + ctrl + w
-    urxvt -pe tabbed
 
 super + d
     subl
@@ -305,7 +307,8 @@ super + alt + q
     firefox
 
 super + a
-    urxvt -e music.sh
+    pkill ncmpcpp; \
+    urxvt -name ncmpcpp -e ncmpcpp
 
 super + shift + a
     $HOME/.bin/mpdToggle.sh
@@ -314,9 +317,11 @@ super + ctrl + a
     killall mpd
 
 super + Delete
+    pkill htop ; \
     urxvt -name htop -e htop
 
 super + v
+    pkill alsamixer; \
     urxvt -name alsamixer -e alsamixer
 
 super + shift + v
