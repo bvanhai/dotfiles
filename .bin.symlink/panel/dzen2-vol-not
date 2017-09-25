@@ -11,9 +11,9 @@ CURVOL="$(amixer get Master | tail -n 1 | cut -d '[' -f 2 | sed 's/%.*//g')"
 echo "Volume"
 echo $CURVOL
  ) | dzen2 \
-    -p "2" \
+    -p "1" \
     -x "5" \
-    -y "27" \
+    -y "5" \
     -w "100" \
     -h "28" \
     -l "1" \
@@ -24,4 +24,3 @@ echo $CURVOL
     -fn "${PANEL_FONT_FAMILY}:pixelsize=${NOT_FONT_SIZE}" \
     -bg "$PANEL_COLOR_BACKGROUND" \
     -fg "$PANEL_COLOR_FOREGROUND" &
-
