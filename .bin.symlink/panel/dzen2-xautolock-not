@@ -15,7 +15,7 @@ echo "☼"
     -l "0" \
     -sa "c" \
     -ta "c" \
-    -title-name "dzen2-xautolock-not \
+    -title-name "dzen2-xautolock-not" \
     -e "onstart=uncollapse" \
     -fn "${PANEL_FONT_FAMILY_2}:pixelsize=44" \
     -bg "$PANEL_COLOR_BACKGROUND" \
