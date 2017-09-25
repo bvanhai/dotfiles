@@ -21,8 +21,8 @@ Xft.lcdfilter: lcddefault
 ! Font default
 URxvt.font: xft:Inconsolata-g:style=Medium:pixelsize=13
 URxvt.boldFont: xft:Inconsolata-g:style=Medium:pixelsize=13
-URxvt.italicFont: xft:Inconsolata-g:style=Medium:pixelsize=13
-URxvt.boldItalicFont: xft:Inconsolata-g:style=Medium:pixelsize=13
+URxvt.italicFont: xft:Consolas:style=Italic:pixelsize=13
+URxvt.boldItalicFont: xft:Consolas:style=Italic:pixelsize=13
 URxvt.letterSpace: -1
 
 ! Scrollback
