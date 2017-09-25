@@ -3,15 +3,16 @@
 # Author:   Hai Bui
 # Source:   https://github.com/bvanhai/dotfiles
 #
-# Comment:  Executed by bash(1) for non-login shells
+# Comment:  Executed by bash for non-login shells
 # ==============================================================================
 
 # Following automatically calls "startx" when you login:
 #[[ -z $DISPLAY && $XDG_VTNR -eq 1 ]] && exec startx -- -keeptty -nolisten tcp > ~/.xorg.log 2>&1
 
-
-# If not running interactively, don't do anything
-[[ $- != *i* ]] && return
+# Test for an interactive shell
+if [[ $- != *i* ]] ; then
+    return
+fi
 
 
 # Prompt
