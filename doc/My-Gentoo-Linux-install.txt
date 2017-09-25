@@ -10,24 +10,23 @@
 
 lsblk
 fdisk /dev/sda
-mkfs.ext4 /dev/sdaX
-mkswap /dev/sdaX && swapon /dev/sdaX
+mkfs.ext4 -L "<label>" /dev/sdaX
+mkswap -L "swap"/dev/sdaX && swapon /dev/sdaX
 mount /dev/sdaX /mnt/gentoo
-mkdir -p /mnt/gentoo/boot
-mount /dev/sdaX /mnt/gentoo/boot
-mkdir -p /mnt/gentoo/home
-mount /dev/sdaX /mnt/gentoo/home
+mkdir /mnt/gentoo/boot && mount /dev/sdaX /mnt/gentoo/boot
+mkdir /mnt/gentoo/home && mount /dev/sdaX /mnt/gentoo/home
 
 date <Mon Oct  3 13:16:22 PDT 2016>
 date 100313162016
 
 cd /mnt/gentoo
-links http://www.gentoo.org
+links www.gentoo.org
 tar xvjpf stage3-*.tar.bz2
-tar xvjf portage-*.tar.bz2 -C /mnt/gentoo/usr
 cp -L /etc/resolv.conf /mnt/gentoo/etc/resolv.conf
 
-mount -t proc /proc /mnt/gentoo/proc && mount --rbind /sys /mnt/gentoo/sys && mount --make-rslave /mnt/gentoo/sys && mount --rbind /dev /mnt/gentoo/dev && mount --make-rslave /mnt/gentoo/dev
+mount -t proc /proc /mnt/gentoo/proc
+mount --rbind /sys /mnt/gentoo/sys && mount --make-rslave /mnt/gentoo/sys
+mount --rbind /dev /mnt/gentoo/dev && mount --make-rslave /mnt/gentoo/dev
 
 
 
@@ -37,15 +36,16 @@ source /etc/profile && export PS1="(chroot) $PS1"
 
 
 nano -w /etc/portage/make.conf
-#==================
+
+# ============================
 CFLAGS="-march=sandybridge -O2 -pipe"
 #CFLAGS="-march=native -O2 -pipe"
 CXXFLAGS="${CFLAGS}"
 CHOST="x86_64-pc-linux-gnu"
 MAKEOPTS="-j2"
 
-LINGUAS="en en_US"
-L10N="en en-US" 
+LINGUAS="en en_GB"
+L10N="en en-GB"
 
 DOUSE="alsa icu infinality python vaapi xft"
 NOUSE="-bindinst -ipv6 -llvm"
@@ -60,13 +60,17 @@ ALSA_CARDS="hda-intel"
 PORTDIR="/usr/portage"
 DISTDIR="${PORTDIR}/distfiles"
 PKGDIR="${PORTDIR}/packages"
-#===================
+
+GENTOO_MIRRORS="http://ftp.jaist.ac.jp/pub/Linux/Gentoo"
+# ============================
+
+
+#emerge -av app-portage/cpuid2cpuflags
+#    cpuinfo2cpuflags-x86
+#gcc -c -Q -march=native --help=target | grep -i 'march=\|mtune='
 
 
 emerge-webrsync
-
-eselect news list
-eselect news read
 eselect profile list
 eselect profile set 3
     desktop
@@ -86,35 +90,28 @@ env-update && source /etc/profile && export PS1="(chroot) $PS1"
 
 
 emerge -av sys-kernel/gentoo-sources sys-apps/pciutils sys-kernel/linux-firmware
+emerge -av app-arch/lz4 app-arch/lzop
 cd /usr/src/linux
 
 sudo emerge -av sys-libs/ncurses
 make nconfig
 
-make clean && make mrproper
-time make -j2
+cp <link .config file> .config
+make oldconfig && make prepare
+time make -j3
 make modules_install && make install
 emerge -av sys-kernel/genkernel
 genkernel --install initramfs
-ln -sf /boot/System.map-*-gentoo /boot/System.map
 
 
 nano -w /etc/fstab
-#============
-# (fs)                                     (mp)  (type) (opts)       (dump/pass)
-
-# /dev/sda6 
-UUID=58a0fc43-4c06-48cc-8fe3-04fc18a7d334  /      ext4  noatime           0 1
-
-# /dev/sda1
-UUID=26cb51b0-e1a1-4dff-917d-466e4aa9116e  /boot  ext4  defaults,noatime  0 2
-
-# /dev/sda10
-UUID=3f4a7563-db6f-4957-b7b8-43514f930dc4  /home  ext4  noatime           0 2
-
-# /dev/sda11
-UUID=8c77bd5b-efec-4700-a9db-e7e4d620104c  none   swap  sw                0 0
-#============
+# ================
+# (fs)         (mountpoint) (type)   (opts)          (dump/pass)
+LABEL=boot          /boot    ext4    defaults,noatime    0 2
+LABEL=swap          none     swap    sw                  0 0
+LABEL=gentoo        /        ext4    noatime             0 1
+LABEL=home          /home    ext4    noatime             0 1
+# ================
 
 
 emerge -av sys-boot/grub:2 sys-boot/os-prober
@@ -122,10 +119,10 @@ grub-install /dev/sda
 grub-mkconfig -o /boot/grub/grub.cfg
 
 
-nano -w /etc/conf.d/hostname
-hostname
-nano -w /etc/hosts
-    127.0.0.1       gentoo.homenetwork gentoo localhost
+#nano -w /etc/conf.d/hostname
+#hostname
+#nano -w /etc/hosts
+#    127.0.0.1       gentoo.homenetwork gentoo localhost
 
 nano -w /etc/rc.conf
 nano -w /etc/conf.d/keymaps
@@ -150,25 +147,31 @@ rc-update add syslog-ng default
 
 emerge -av net-misc/dhcpcd net-wireless/wpa_supplicant net-wireless/wireless-tools net-wireless/iw
 
+
 nano -w /etc/wpa_supplicant/wpa_supplicant.conf
-#=========================
+
+# =============================================
 # Allow users in the 'wheel' group to control wpa_supplicant
 ctrl_interface=DIR=/var/run/wpa_supplicant GROUP=wheel
 
 # Make this file writable for wpa_gui / wpa_cli
 update_config=1
 
+# Connect to wireless access point 
 network={
-        ssid="wifi-name"
-        psk="wifi-password"
-        scan_ssid=1
-        proto=RSN
-        key_mgmt=WPA-PSK
-        group=CCMP TKIP
-        pairwise=CCMP TKIP
-        priority=5
+        ssid="MYSSID"
+        psk="passphrase"
+        priority=100
 }
-#=========================
+
+# Auto-connect to any unsecured network
+network={
+        #ssid="MYSSID"
+        key_mgmt=NONE
+        priority=-999
+}
+# =============================================
+
 
 nano -w /etc/conf.d/wpa_supplicant
     wpa_supplicant_args="-B -M -c/etc/wpa_supplicant/wpa_supplicant.conf"
@@ -201,7 +204,6 @@ nano -w /etc/sudoers
 
 
 rm /stage3-*.tar.bz2
-rm /portage-*.tar.bz2
 exit
 (login new user)
 
@@ -209,9 +211,17 @@ exit
 
 
 emerge -avuDN @world
-emerge -av x11-base/xorg-x11
-emerge -av x11-wm/bspwm x11-misc/sxhkd
+rc-update add dbus default
+emerge -av app-portage/gentoolkit
+emerge -av sys-power/upower
+    s2ram
 
+#emerge -av x11-base/xorg-x11
+emerge -av x11-base/xorg-drivers x11-base/xorg-server
+emerge -av x11-drivers/xf86-video-intel
+emerge -av x11-apps/xsetroot x11-apps/xbacklight x11-apps/xmodmap
+
+emerge -av x11-wm/bspwm x11-misc/sxhkd
 nano -w ~/.xinitrc
     sxhkd &
     exec bspwm
