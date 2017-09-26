@@ -64,7 +64,7 @@ bspc rule -a Chromium-browser-chromium desktop='^3' follow=on
 bspc rule -a mpv desktop='^5' follow=on
 bspc rule -a Firefox desktop='^7' follow=on
 bspc rule -a VirtualBox desktop='^8' follow=on
-bspc rule -a File-roller state=floating
+bspc rule -a Engrampa state=floating
 bspc rule -a Gimp desktop='^9' follow=on
 
 
