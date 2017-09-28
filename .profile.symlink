@@ -17,7 +17,7 @@ export GUI_EDITOR=subl
 export EDITOR=nvim
 export PAGER=less
 export BROWSER=/usr/bin/chromium
-export MANWIDTH=78
+export MANWIDTH=140
 export KEYTIMEOUT=15
 export TERM=rxvt-unicode
 
