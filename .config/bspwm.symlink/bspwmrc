@@ -53,7 +53,9 @@ fi
 # Rules Settings
 # Check rules: xprop |awk '/WM_CLASS/{print $4}'
 bspc rule -a URxvt:main follow=on
-bspc rule -a URxvt:tmux desktop='^1' follow=on
+bspc rule -a URxvt:tmux1 follow=on
+bspc rule -a URxvt:tmux2 follow=on
+bspc rule -a URxvt:tmux3 desktop='^1' follow=on
 bspc rule -a URxvt:htop desktop='^6' follow=on
 bspc rule -a URxvt:alsamixer desktop='^6' follow=on
 bspc rule -a URxvt:ncmpcpp desktop='^5' follow=on

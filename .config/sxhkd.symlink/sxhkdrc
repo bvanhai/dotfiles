@@ -258,22 +258,26 @@ super + alt + shift + BackSpace
 
 
 # RUN APPLICATIONS
-super + Return
+super + shift + Return
     urxvt -name main
 
+super + Return
+    urxvt -name tmux1 -e tmux-utility1.sh
+
+super + ctrl + Return
+    tmux kill-session -t bvanhai1
+
 super + w
-#    killall urxvt; \
-    urxvt -name tmux -e tmux-utility2.sh
+    urxvt -name tmux3 -e tmux-utility3.sh
 
 super + ctrl + w
-    tmux kill-session -t bvanhai2
+    tmux kill-session -t bvanhai3
 
 super + alt + w
-#    killall urxvt; \
-    urxvt -name tmux -e tmux-utility.sh
+    urxvt -name tmux2 -e tmux-utility2.sh
 
 super + alt + ctrl + w
-    tmux kill-session -t bvanhai
+    tmux kill-session -t bvanhai2
 
 super + alt + w
     lxterminal
