@@ -307,7 +307,7 @@ super + q
 #    google-chrome-stable
     chromium
 
-super + alt + q
+super + shift + q
     firefox
 
 super + a
