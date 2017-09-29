@@ -320,7 +320,7 @@ super + ctrl + a
     killall mpd
 
 super + Delete
-    pkill htop ; \
+    pkill htop; \
     urxvt -name htop -e htop
 
 super + v
@@ -328,6 +328,7 @@ super + v
     urxvt -name alsamixer -e alsamixer
 
 super + shift + v
+    pkill lxappearance; \
     lxappearance
 
 super + x
