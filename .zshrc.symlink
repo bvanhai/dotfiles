@@ -247,7 +247,7 @@ for oplugin ($ohmyzsh_plugins); do
 done
 
 # Other plugins
-zsh_plugins=(z zaw zsh-autosuggestions zsh-completions zsh-history-substring-search zsh-git-prompt)
+zsh_plugins=(z zaw zsh-autosuggestions zsh-completions zsh-git-prompt zsh-history-substring-search zsh-syntax-highlighting)
 for plugin ($zsh_plugins); do
     if [ -f $HOME/.zsh/plugins/$plugin/$plugin.plugin.zsh ]; then
         . $HOME/.zsh/plugins/$plugin/$plugin.plugin.zsh
