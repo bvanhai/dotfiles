@@ -48,17 +48,13 @@ tmp
 
 # Other
 
-xautolock.state
-
-.config/ranger.symlink/colorschemes/__init__.py
-.config/ranger.symlink/colorschemes/__pycache__/
+.config/ranger.symlink/colorschemes/_*
 .config/ranger.symlink/history
-.config/ranger.symlink/cheatsheet.png
+.config/ranger.symlink/cheatsheet.svg
 
 .mpd/playlists
 .mpd.symlink/database
 .mpd.symlink/log
-.mpd.symlink/socket
 .mpd.symlink/state
 .mpd.symlink/pid
 .ncmpcpp.symlink/.lyrics
@@ -70,10 +66,3 @@ bookmarks
 .scrot.symlink/screenshot
 .bin.symlink/mbackup.sh
 .gtkrc-2.0
-.conky.symlink/.votd/votd_raw
-
-linux/boot/grub/grub.cfg
-linux/etc/hosts
-linux/etc/modules-load.d
-
-.config/sublime-text-2.symlink/Packages/User
