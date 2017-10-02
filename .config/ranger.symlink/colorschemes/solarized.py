@@ -8,6 +8,7 @@
 from ranger.gui.colorscheme import ColorScheme
 from ranger.gui.color import *
 
+
 class Solarized(ColorScheme):
     progress_bar_color = 33
 
@@ -79,6 +80,9 @@ class Solarized(ColorScheme):
                     bg = magenta
                 else:
                     fg = magenta
+
+            if context.inactive_pane:
+                fg = 241
 
         elif context.in_titlebar:
             attr |= bold
