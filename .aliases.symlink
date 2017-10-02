@@ -97,6 +97,7 @@ alias pbselect='xclip -selection primary -o'    # paste from highlight, middle c
 # Directories
 alias cdr='cd /'
 alias cddt='cd /home/Data'
+alias cdmd='cd /home/media'
 alias cdh='cd ~/'
 alias cddl='cd ~/Downloads'
 alias cddf='cd ~/dotfiles/'
@@ -136,21 +137,24 @@ alias git2hundo='git reset --hard HEAD~2 && git push origin -f'
 alias git5undo='git reset HEAD~5 && git push origin -f'
 alias git5hundo='git reset --hard HEAD~5 && git push origin -f'
 
+alias gitr='git reset'
+
 
 # Google Drive:
-alias cdgd='cd /home/linux/gdrive'
-alias gdp='drive push'
-alias gdpL='drive push Linux && cdh'
-alias gdu='drive pull'
+alias cddg='cd /home/media/gdrive'
+alias dgp='drive push'
+alias dgpL='cddg && drive push Linux && cdh'
+alias dgu='drive pull'
 
 # Sync time and store to hardware clock
 alias mytime='sudo ntpd -qg && sudo hwclock -w'
 
-# Kill tmux session <seassion-name>
-alias tks='tmux kill-session -t'
-
-# alias tmux='TERM=screen-256color-bce tmux' <- not very nice
-#alias tmux='tmux -2' # force tmux to use 256 colors
+# tmux
+alias tmn='tmux new-session -d -s'
+alias tma='tmux attach-session -d -t'
+alias tmk='tmux kill-session -t'
+#alias tmux='TERM=screen-256color-bce tmux'     # <- not very nice
+alias tmux='tmux -2'    # force tmux to use 256 colors
 
 # LAN network
 alias pong='ping -c 3 www.google.com'
@@ -297,4 +301,4 @@ alias dpms='xset q | grep "^ *DPMS is" | awk "{print \$3}" | tr "[:upper:]" "[:l
 alias psa='ps -Ao tty,pgrp,ppid,pid,comm'
 
 # wget
-alias wget_entire_web='wget --mirror --convert-links --adjust-extension --page-requisites --no-parent'
+alias wwget='wget --mirror --convert-links --adjust-extension --page-requisites --no-parent'
