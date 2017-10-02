@@ -3,7 +3,7 @@
 # Author:   Hai Bui
 # Source:   https://github.com/bvanhai/dotfiles
 #
-# Comment:
+# Comment:  For default bindings see `tmux list-keys`
 # ==============================================================================
 
 # Fix problem with vim colorscheme in tmux
@@ -74,7 +74,7 @@ bind - split-window -v -c "#{pane_current_path}"
 unbind '"'
 unbind %
 
-# moving between panes with vim movement keys
+# Moving between panes with vim movement keys
 bind h select-pane -L
 bind j select-pane -D
 bind k select-pane -U
@@ -127,7 +127,7 @@ bind -r M-l resize-pane -R 5
 #---End Window and Pane shortcut keys
 # ==============================================================================
 
-# Mouse on
+# Mouse
 set -g mouse on
 
 # Window title:
@@ -161,3 +161,6 @@ set -g escape-time 10
 # Allow Neovim in tmux to change cursor shape to vertical bar in insert mode
 # previously it worked fine, but after neovim commit 0e546d8 we need the below
 set -ga terminal-overrides ',*:Ss=\E[%p1%d q:Se=\E[2 q'
+
+# Automatically renumber window numbers on closing a pane
+#set -g renumber-windows on
