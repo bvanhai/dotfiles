@@ -85,7 +85,8 @@ pathAdd() {
         PATH="${PATH:+"$PATH:"}$1"
     fi
 }
-
+pathAdd /usr/sbin
+pathAdd /sbin
 pathAdd $HOME/.bin
 pathAdd $HOME/.bin/colorscheme
 pathAdd $HOME/.bin/dmenu
