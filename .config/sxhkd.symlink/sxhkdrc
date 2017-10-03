@@ -5,7 +5,7 @@
 #
 # Comment:  Simple X hotkey daemon
 #
-#           Run: `pkill -USR1 -x sxhkd` after modify this file           
+#           Run: `pkill -USR1 -x sxhkd` after modify this file
 # ==============================================================================
 
 
@@ -232,27 +232,27 @@ ctrl + shift + bracket{right}
 # ______________
 
 # Program launcher
-super + BackSpace
-    $HOME/.bin/dmenu/dmenu-running-apps.sh
+#super + BackSpace
+#    $HOME/.bin/dmenu/dmenu-running-apps.sh
 
-super + shift + BackSpace
-    $HOME/.bin/dmenu/dmenu-recent.sh
+#super + shift + BackSpace
+#    $HOME/.bin/dmenu/dmenu-recent.sh
 
-super + alt + BackSpace
-    rofi -show window
+#super + alt + BackSpace
+#    rofi -show
 
-super + space
-    $HOME/.bin/dmenu/dmenu-launch.sh
+#super + space
+#    $HOME/.bin/dmenu/dmenu-launch.sh
 
-super + shift + space
-    $HOME/.bin/dmenu/dmenu-file-manager.sh
+#super + shift + space
+#    $HOME/.bin/dmenu/dmenu-file-manager.sh
 
 ctrl + alt + Delete
 #    $HOME/.bin/dmenu/dmenu-power.sh
     $HOME/.bin/dmenu/dmenu-power-gentoo.sh
 
-super + alt + shift + BackSpace
-    dmenu_run
+#super + alt + shift + BackSpace
+#    dmenu_run
 
 
 
@@ -431,7 +431,7 @@ super + Right
     $HOME/.bin/panel/dzen2-blight-not
 
 XF86Battery
-    xset dpms force off
+    $HOME/.bin/xautolockToggle.sh
 
 super + XF86Battery
     xset dpms 0 0 0 && xset s off
@@ -441,6 +441,9 @@ super + shift + XF86Battery
 
 super + alt + XF86Battery
     xset dpms 3 6 9
+
+XF86Sleep
+    xset dpms force off
 
 
 # Take screenshot 
@@ -468,26 +471,3 @@ alt + F12
     xrandr --output LVDS1 --rotate normal
 ctrl + F12
     xrandr --output LVDS1 --rotate right
-
-
-
-
-#
-# POWER KEYS
-# ______________
-
-# Suspend
-XF86Sleep
-    systemctl suspend
-
-# Toggle auto suspend
-shift + XF86Sleep
-    $HOME/.bin/xautolockToggle.sh
-
-# Reboot
-alt + XF86Sleep
-    systemctl reboot
-
-# Poweroff
-ctrl + XF86Sleep
-    systemctl poweroff
