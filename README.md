@@ -41,7 +41,7 @@
 
 ## Screenshots
 
-### Version 5
+### Version 5: 2017-08-27
 
 <br>
 
@@ -49,7 +49,7 @@
 
 <br>
 
-### Version 4
+### Version 4: 2017-04-22
 
 <br>
 
@@ -59,7 +59,7 @@
 
 <br>
 
-### Version 3
+### Version 3: 2016-01-13
 
 <br>
 
@@ -69,7 +69,7 @@
 
 <br>
 
-### Version 2
+### Version 2: 2014-12-26
 
 <br>
 
@@ -77,7 +77,7 @@
 
 <br>
 
-### Version 1
+### Version 1: 2014-09-07
 
 <br>
 
