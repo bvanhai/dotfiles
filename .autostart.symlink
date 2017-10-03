@@ -75,9 +75,8 @@ xset r rate 200 30
 #xcompmgr -c &
 
 # Wallpaper
-#sh $HOME/.fehbg &
-#feh --bg-center /home/Data/Wallpapers/A &
-#feh --randomize --bg-scale /home/Data/Wallpapers/* &
+sh $HOME/.fehbg &
+#feh --randomize --bg-scale /home/media/Wallpaper/* &
 
 # Conky
 #$HOME/.conky/4-conky.sh &
