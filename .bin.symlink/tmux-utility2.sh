@@ -16,7 +16,7 @@ if [ $? != 0 ]; then
     tmux split-window -v -p 58 -t $SESSION      # vertical split
     tmux send-keys -t $SESSION 'htop' C-m       # process in pane#3
     tmux split-window -v -p 74 -t $SESSION      # vertical split
-    tmux send-keys -t $SESSION 'tmux-utility-info.sh && sleep infinity' C-m
+    tmux send-keys -t $SESSION 'tmux-info.sh && sleep infinity' C-m
                                                 # process in pane#4
     tmux select-pane -t $SESSION:2.1            # select pane#1 of window#2
     tmux split-window -v -p 32 -t $SESSION      # vertical split

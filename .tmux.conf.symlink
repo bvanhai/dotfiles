@@ -182,7 +182,7 @@ set -g pane-active-border-bg default
 # Status line
 set -g status-bg default
 set -g status-left ""
-set -g status-right "#[fg=colour176,bg=colour236] %b-%d #[fg=colour234,bg=colour12] %R "
+set -g status-right "#[fg=colour176,bg=colour236] #(tmux-battery.sh) #[fg=colour176,bg=colour236]| %b-%d #[fg=colour234,bg=colour12] %R "
 
 # Window list
 setw -g window-status-format "#[fg=colour176,bg=colour236] #I  #W:#P "
