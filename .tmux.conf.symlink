@@ -59,6 +59,8 @@ bind -Tcopy-mode-vi 'y' send -X copy-pipe-and-cancel 'xclip -in -selection clipb
 bind -Tcopy-mode-vi 'Space' send -X halfpage-down
 bind -Tcopy-mode-vi 'Bspace' send -X halfpage-up
 
+# Mouse
+set -g mouse on
 
 # ==============================================================================
 #---Begin Window and Pane shortcut keys
@@ -127,9 +129,6 @@ bind -r M-l resize-pane -R 5
 #---End Window and Pane shortcut keys
 # ==============================================================================
 
-# Mouse
-set -g mouse on
-
 # Window title:
 set-option -g set-titles on
 set-option -g set-titles-string '[#S:#I] #W'
@@ -144,14 +143,12 @@ set -g pane-border-fg default
 set -g pane-active-border-fg blue
 set -g pane-active-border-bg default
 
-# http://man.cx/tmux
-# http://man.cx/strftime%283%29
+# Status
 set -g status-left ""
-#  Temp: #(sensors | grep -i 'Physical' | awk '{print $4+0}')°C'
-set -g status-right "#[fg=colour176,bold,bg=colour236,bold] #(whoami) #[fg=default] #[fg=colour234,bold,bg=colour12,bold] %R "
+set -g status-right "#[fg=colour176,bold,bg=colour236,bold] %b-%d #[fg=colour234,bold,bg=colour12,bold] %R "
 set -g status-right-length 100
 set -g status-bg default
-# #P: the pane number
+
 setw -g window-status-format "#[fg=colour176,bg=colour236] #I #[fg=colour176,bg=colour236] #W:#P "
 setw -g window-status-current-format "#[fg=colour176,bold,bg=colour236,bold] #I #[fg=colour234,bold,bg=colour12,bold] #W:#P "
 
@@ -164,3 +161,9 @@ set -ga terminal-overrides ',*:Ss=\E[%p1%d q:Se=\E[2 q'
 
 # Automatically renumber window numbers on closing a pane
 #set -g renumber-windows on
+
+# Inserts a new window at position x when window x exists, and moves windows above that one up
+#bind i command-prompt -p 'Insert window at:' 'new-window -a -t %1; swap-window -t -1'
+
+# Creates a new window at position x when window x doesn't exist
+#bind I command-prompt -p 'New window at:' 'new-window -t %1'
