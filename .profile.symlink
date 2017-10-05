@@ -94,6 +94,5 @@ pathAdd $HOME/.bin/media
 pathAdd $HOME/.bin/other
 pathAdd $HOME/.bin/panel
 pathAdd $HOME/.bin/system-info
+pathAdd $HOME/.bin/tmux
 pathAdd $HOME/.conky
-pathAdd $HOME/dotfiles
-pathAdd $HOME/Downloads
