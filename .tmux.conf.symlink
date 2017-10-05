@@ -6,31 +6,57 @@
 # Comment:  For default bindings see `tmux list-keys`
 # ==============================================================================
 
-# Fix problem with vim colorscheme in tmux
-#set -g default-terminal "screen-256color"
+
+
+#
+# SETTINGS
+# ______________
+
+# Enable 256 colors in the terminal emulator
 #set -g default-terminal "tmux-256color"
-set-option -g default-terminal "xterm-256color"
+set -g default-terminal "xterm-256color"
 
 # Needs this line also to overrides the default color, so that the neovim color
 # themes work correctly
-set-option -ga terminal-overrides ",xterm-256color:Tc"
+set -ga terminal-overrides ",xterm-256color:Tc"
 
-set-option -g default-shell /bin/zsh
-set-option -g default-command /bin/zsh
-set-option -g status-keys vi
-set-window-option -g mode-keys vi
+# Allow Neovim in tmux to change cursor shape to vertical bar in insert mode
+# previously it worked fine, but after neovim commit 0e546d8 we need the below
+set -ga terminal-overrides ',*:Ss=\E[%p1%d q:Se=\E[2 q'
 
-# Change prefix to Ctrl+a
-unbind C-b
-set -g prefix C-a
-bind C-a send-prefix
+# Pass xterm-style keys to make key combinations work as expected
+#setw -g xterm-keys on
 
-# Address vim mode switching delay (http://superuser.com/a/252717/65504)
-# https://github.com/tmux-plugins/tmux-sensible
-set -s escape-time 0
+# Disable the delay between an escape key press and subsequent characters
+# This increases Vim responsiveness
+set -sg escape-time 0
+
+# Start window/pane numbering from 1 instead of 0
+set -g base-index 1
+setw -g pane-base-index 1
+
+# Shell default
+set -g default-shell /bin/zsh
+set -g default-command /bin/zsh
 
 # Increase scrollback buffer size
 set -g history-limit 50000
+
+# Set window notifications
+setw -g monitor-activity off
+set -g visual-activity off
+
+# Enable vi keys
+set -g status-keys vi
+setw -g mode-keys vi
+
+# Window title:
+set -g set-titles on
+set -g set-titles-string '[#S:#I] #W'
+setw -g automatic-rename on
+
+# Automatically renumber windows after one of them is closed
+#set -g renumber-windows on
 
 # Tmux messages are displayed for 3 seconds
 set -g display-time 3000
@@ -44,49 +70,48 @@ set -g focus-events on
 # Super useful when using "grouped sessions" and multi-monitor setup
 setw -g aggressive-resize on
 
-# y and p as in vim
-bind Escape copy-mode
-unbind p
-bind p paste-buffer
-
-bind -Tcopy-mode-vi 'v' send -X begin-selection
-bind -Tcopy-mode-vi 'V' send -X select-line
-bind -Tcopy-mode-vi 'Escape' send -X cancel
-bind -Tcopy-mode-vi 'r' send -X rectangle-toggle
-
-# Copy selection to system clipboard (make sure xclip is installed)
-bind -Tcopy-mode-vi 'y' send -X copy-pipe-and-cancel 'xclip -in -selection clipboard >/dev/null'
-bind -Tcopy-mode-vi 'Space' send -X halfpage-down
-bind -Tcopy-mode-vi 'Bspace' send -X halfpage-up
-
 # Mouse
-set -g mouse on
+setw -g mouse on
 
-# ==============================================================================
-#---Begin Window and Pane shortcut keys
-# easy-to-remember split pane commands
 
-# Start windows and panes at 1, not 0, to match with vim and bspwm
-set -g base-index 1
-setw -g pane-base-index 1
 
-# Split/create new pane with current directory
+#
+# KEY BINDINGS
+# ______________
+
+# Change prefix to Ctrl+a
+unbind C-b
+set -g prefix C-a
+bind C-a send-prefix
+
+# Pane switching
+bind h select-pane -L
+bind j select-pane -D
+bind k select-pane -U
+bind l select-pane -R
+
+# Pane resizing
+bind -r M-h resize-pane -L 5
+bind -r M-j resize-pane -D 5
+bind -r M-k resize-pane -U 5
+bind -r M-l resize-pane -R 5
+
+# Pane splitting
 bind | split-window -h -c "#{pane_current_path}"
 bind - split-window -v -c "#{pane_current_path}"
 unbind '"'
 unbind %
 
-# Moving between panes with vim movement keys
-bind h select-pane -L
-bind j select-pane -D
-bind k select-pane -U
-bind l select-pane -R
+# Create a new window starting in the current working directory rather than in
+# the default directory
+bind C new-window -c "#{pane_current_path}"
 
 # Make the current window the first window
 #bind T swap-window -t 1
 
 # Move the current pane TO become a new window
 bind T break-pane
+
 # Move the current window BACK to a window to join as a pane
 bind B command-prompt -p "Send pane BACK to: " "join-pane -h -t '%%'"
 
@@ -118,50 +143,53 @@ bind -n C-7 select-window -t :7
 bind -n C-8 select-window -t :8
 bind -n C-9 select-window -t :9
 bind -n C-0 select-window -t :10
-bind -n C-Tab last-window
-bind -n M-Tab next-window
+#bind -n C-Tab last-window
+#bind -n M-Tab next-window
 
-# Resize panes with similar key binding with my vim settings
-bind -r M-h resize-pane -L 5
-bind -r M-j resize-pane -D 5
-bind -r M-k resize-pane -U 5
-bind -r M-l resize-pane -R 5
-#---End Window and Pane shortcut keys
-# ==============================================================================
+# Copy mode
+bind Escape copy-mode
+bind -T copy-mode-vi 'v' send -X begin-selection
+bind -T copy-mode-vi 'V' send -X select-line
+bind -T copy-mode-vi 'Escape' send -X cancel
+bind -T copy-mode-vi 'r' send -X rectangle-toggle
 
-# Window title:
-set-option -g set-titles on
-set-option -g set-titles-string '[#S:#I] #W'
-set-window-option -g automatic-rename on
+# Copy selection to system clipboard (make sure xclip is installed)
+bind -T copy-mode-vi 'y' send -X copy-pipe-and-cancel 'xclip -in -selection clipboard >/dev/null'
+bind -T copy-mode-vi 'Space' send -X halfpage-down
+bind -T copy-mode-vi 'Bspace' send -X halfpage-up
 
-# Set window notifications
-set -g monitor-activity off
-set -g visual-activity off
-
-# Split pane border style
-set -g pane-border-fg default
-set -g pane-active-border-fg blue
-set -g pane-active-border-bg default
-
-# Status
-set -g status-left ""
-set -g status-right "#[fg=colour176,bold,bg=colour236,bold] %b-%d #[fg=colour234,bold,bg=colour12,bold] %R "
-set -g status-bg default
-setw -g window-status-format "#[fg=colour176,bg=colour236] #I #[fg=colour176,bg=colour236] #W:#P "
-setw -g window-status-current-format "#[fg=colour176,bold,bg=colour236,bold] #I #[fg=colour234,bold,bg=colour12,bold] #W:#P "
-
-# Faster Command Sequences, fix neovim switching to command mode problem?
-set -g escape-time 10
-
-# Allow Neovim in tmux to change cursor shape to vertical bar in insert mode
-# previously it worked fine, but after neovim commit 0e546d8 we need the below
-set -ga terminal-overrides ',*:Ss=\E[%p1%d q:Se=\E[2 q'
-
-# Automatically renumber window numbers on closing a pane
-#set -g renumber-windows on
+# Paste buffer
+unbind p
+bind p paste-buffer
 
 # Inserts a new window at position x when window x exists, and moves windows above that one up
 #bind i command-prompt -p 'Insert window at:' 'new-window -a -t %1; swap-window -t -1'
 
 # Creates a new window at position x when window x doesn't exist
 #bind I command-prompt -p 'New window at:' 'new-window -t %1'
+
+
+
+#
+# STYLING
+# ______________
+
+# Panes
+set -g pane-border-fg default
+set -g pane-active-border-fg blue
+set -g pane-active-border-bg default
+
+# Status line
+set -g status-bg default
+set -g status-left ""
+set -g status-right "#[fg=colour176,bg=colour236] %b-%d #[fg=colour234,bg=colour12] %R "
+
+# Window list
+setw -g window-status-format "#[fg=colour176,bg=colour236] #I  #W:#P "
+setw -g window-status-current-format "#[fg=colour176,bg=colour236] #I #[fg=colour234,bg=colour12] #W:#P "
+
+# Make the window list appear (left|centre|right)
+set -g status-justify left
+
+# Status update interval
+set -g status-interval 60
