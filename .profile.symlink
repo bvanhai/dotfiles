@@ -19,32 +19,41 @@ export PAGER=less
 export BROWSER=/usr/bin/chromium
 export MANWIDTH=140
 export KEYTIMEOUT=15
-#export TERM=xterm-256color
+export TERM=xterm-256color
 
 # Input method framework to enter foreign characters
 export GTK_IM_MODULE=ibus
 export XMODIFIERS=@im=ibus
 export QT_IM_MODULE=ibus
 
-# Linux console colors (jwr dark)
+# Man page colours
+export LESS_TERMCAP_mb=$'\E[01;31m'
+export LESS_TERMCAP_md=$'\E[01;35m'
+export LESS_TERMCAP_me=$'\E[0m'
+export LESS_TERMCAP_se=$'\E[0m'
+export LESS_TERMCAP_so=$'\E[01;30;03;36m'
+export LESS_TERMCAP_ue=$'\E[0m'
+export LESS_TERMCAP_us=$'\E[01;34m'
+
+# Linux console colors (jwrdark)
 if [ "$TERM" = "linux" ]; then
-    echo -en "\e]P0242424" #black
-    echo -en "\e]P8474747" #darkgrey
-    echo -en "\e]P18a2f58" #darkred
-    echo -en "\e]P9cf4f88" #red
-    echo -en "\e]P2287373" #darkgreen
-    echo -en "\e]PA53a6a6" #green
-    echo -en "\e]P3914e89" #darkyellow
-    echo -en "\e]PBbf85cc" #yellow
-    echo -en "\e]P4395573" #darkblue
-    echo -en "\e]PC4779b3" #blue
-    echo -en "\e]P55e468c" #darkmagenta
-    echo -en "\e]PD7f62b3" #magenta
-    echo -en "\e]P62b7694" #darkcyan
-    echo -en "\e]PE47959e" #cyan
-    echo -en "\e]P7899ca1" #lightgrey
-    echo -en "\e]PFc0c0c0" #white
-    clear # Bring us back to default input colours
+    echo -en "\e]P0000000" # black
+    echo -en "\e]P85e5e5e" # darkgrey
+    echo -en "\e]P18a2f58" # darkred
+    echo -en "\e]P9cf4f88" # red
+    echo -en "\e]P2287373" # darkgreen
+    echo -en "\e]PA53a6a6" # green
+    echo -en "\e]P3914e89" # darkyellow
+    echo -en "\e]PBbf85cc" # yellow
+    echo -en "\e]P4395573" # darkblue
+    echo -en "\e]PC4779b3" # blue
+    echo -en "\e]P55e468c" # darkmagenta
+    echo -en "\e]PD7f62b3" # magenta
+    echo -en "\e]P62b7694" # darkcyan
+    echo -en "\e]PE47959e" # cyan
+    echo -en "\e]P7899ca1" # lightgrey
+    echo -en "\e]PFc0c0c0" # white
+#    clear # bring us back to default input colors
 fi
 
 #export SSH_KEY_PATH="~/.ssh/rsa_id"
