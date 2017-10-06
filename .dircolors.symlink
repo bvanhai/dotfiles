@@ -143,8 +143,10 @@ STICKY                  01;34       # dir with the sticky bit set (+t) and not o
 .sh                     01;32
 .csh                    01;32
 
- # archives or compressed (bright red)
-.tar                    01;33
+ # Archives or compressed
+.tar                    01;33       # archives or compressed (bright yellow)
+.tar.xz                 00;33
+.tar.gz                 00;33
 .tgz                    01;33
 .arc                    01;33
 .arj                    01;33
@@ -186,8 +188,7 @@ STICKY                  01;34       # dir with the sticky bit set (+t) and not o
 .rz                     01;33
 .cab                    01;33
 
-# image formats
-.jpg                    01;36
+.jpg                    01;36       # image formats
 .jpeg                   01;36
 .gif                    01;36
 .bmp                    01;36
@@ -199,13 +200,16 @@ STICKY                  01;34       # dir with the sticky bit set (+t) and not o
 .xpm                    01;36
 .tif                    01;36
 .tiff                   01;36
+.xcf                    00;36
+.xcf.gz                 00;36
 .png                    01;36
 .svg                    01;36
 .svgz                   01;36
 .mng                    01;36
+.blend                  00;36
 .pcx                    01;36
 
-.mov                    01;35
+.mov                    01;35       # movies (magenta)
 .mpg                    01;35
 .mpeg                   01;35
 .m2v                    01;35
@@ -228,17 +232,17 @@ STICKY                  01;34       # dir with the sticky bit set (+t) and not o
 .flv                    01;35
 .gl                     01;35
 .dl                     01;35
-.xcf                    01;35
 .xwd                    01;35
 .yuv                    01;35
 .cgm                    01;35
 .emf                    01;35
 # http://wiki.xiph.org/index.php/MIME_Types_and_File_Extensions
 .ogv                    01;35
-.ogx                    01;35
-# audio formats
-.aac                    00;32
+.axv                    01;35
+
+.aac                    00;32       # audio (green)
 .au                     00;32
+.fla                    00;32
 .flac                   00;32
 .m4a                    00;32
 .mid                    00;32
@@ -250,20 +254,25 @@ STICKY                  01;34       # dir with the sticky bit set (+t) and not o
 .ra                     00;32
 .wav                    00;32
 # http://wiki.xiph.org/index.php/MIME_Types_and_File_Extensions
+.axa                    00;32
 .oga                    00;32
 .opus                   00;32
 .spx                    00;32
 .xspf                   00;32
 
-.nes                    00;31
-.smc                    00;31
-.fig                    00;31
-.sfc                    00;31
-.smc.gz                 00;31
-.fig.gz                 00;31
-.sfc.gz                 00;31
+.anx                    01;32
+.ogx                    01;32
 
-# all of the rest
+.nes                    00;32
+.smc                    00;32
+.fig                    00;32
+.pls                    00;32
+.sfc                    00;32
+.smc.gz                 00;32
+.fig.gz                 00;32
+.sfc.gz                 00;32
+
+# All of the rest
 .PL                     00;36
 .asm                    00;36
 .apvlvrc                00;32
@@ -279,13 +288,16 @@ STICKY                  01;34       # dir with the sticky bit set (+t) and not o
 .profile                00;31
 .bak                    01;31
 .c                      00;36
+.calc_history           01;34
 .cfg                    00;36
+.cgorc                  01;34
 .coffee                 00;36
 .conf                   00;36
 .cpp                    00;36
 .cs                     00;36
 .css                    00;36
 .csv                    00;36
+.curlrc                 01;34
 .db                     00;32
 .deb                    00;36
 .diff                   01;33
@@ -305,7 +317,7 @@ STICKY                  01;34       # dir with the sticky bit set (+t) and not o
 .fonts                  00;36
 .gemrc                  00;32
 .git                    00;36
-.gitconfig              01;34
+.gitconfig              01;35
 .gitignore              00;36
 .hgrc                   00;35
 .hgignore               00;35
@@ -393,21 +405,28 @@ STICKY                  01;34       # dir with the sticky bit set (+t) and not o
 .urlview                01;35
 .vim                    01;35
 .vimrc                  00;32
+.wget-hsts              00;35
+.xbindkeysrc            01;33
 .xinitrc                00;33 
 .Xauthority             01;31
+.XCompose               01;33
 .Xmodmap                00;31
 .Xresources             01;33
+.xsel.log               01;31
+.z                      00;31
 .zcompdump              00;31
 .zlogin                 00;31
 .zprofile               00;31
 .zsh_history            00;31
+.history                00;31
 .zshenv                 00;31
 .zshrc                  00;31
 
-# sysd file types
+# Sysd file types
 *.mount                 01;32
 *.path                  01;33
 *.rules                 00;34
 *.socket                00;35
 *.service               00;33
-*.target                00;35
+*.target                00;36
+*.timer                 00;36
