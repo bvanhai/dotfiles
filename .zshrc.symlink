@@ -21,7 +21,7 @@ SAVEHIST=10000
 HISTSIZE=10000
 
 # Set default command history file
-HISTFILE=$HOME/.histfile
+HISTFILE=$HOME/.history
 
 # Write to the history file immediately, not when the shell exits
 #setopt INC_APPEND_HISTORY

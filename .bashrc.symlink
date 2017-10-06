@@ -48,7 +48,7 @@ HISTSIZE=10000
 HISTFILESIZE=10000
 
 # Set default command history file
-HISTFILE=$HOME/.histfile
+HISTFILE=$HOME/.history
 
 # For the protection and ability for future analyzing
 #HISTTIMEFORMAT="%h %d %H:%M:%S "
