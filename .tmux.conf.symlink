@@ -13,8 +13,7 @@
 # ______________
 
 # Enable 256 colors in the terminal emulator
-#set -g default-terminal "tmux-256color"
-set -g default-terminal "xterm-256color"
+set -g default-terminal "tmux-256color"
 
 # Needs this line also to overrides the default color, so that the neovim color
 # themes work correctly
