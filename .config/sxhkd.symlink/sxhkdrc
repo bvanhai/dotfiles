@@ -16,7 +16,7 @@ super + F2
     xrdb -merge ~/.Xresources
 
 # Kill all active background programs that started with user bvanhai
-ctrl + shift + Escape
+ctrl + alt + Escape
      killall -u bvanhai
 
 # Logout user bvanhai
@@ -32,7 +32,7 @@ ctrl + shift + alt + Escape
 # ______________
 
 # Quit bspwm
-ctrl + Escape
+ctrl + shift + Escape
     bspc quit
 
 # Close and kill window
