@@ -19,7 +19,6 @@ export PAGER=less
 export BROWSER=/usr/bin/chromium
 export MANWIDTH=140
 export KEYTIMEOUT=15
-export TERM=rxvt-unicode
 
 # Input method framework to enter foreign characters
 export GTK_IM_MODULE=ibus
@@ -54,6 +53,8 @@ if [ "$TERM" = "linux" ]; then
     echo -en "\e]P7899ca1" # lightgrey
     echo -en "\e]PFc0c0c0" # white
 #    clear # bring us back to default input colors
+else
+    export TERM=rxvt-unicode
 fi
 
 #export SSH_KEY_PATH="~/.ssh/rsa_id"
