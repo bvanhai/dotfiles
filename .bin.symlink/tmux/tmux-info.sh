@@ -58,7 +58,7 @@ IP=$(ifconfig -a | awk '/broadcast/ {print $2; exit}')
 today=$(date +%Y.%m.%d)
 
 root="$(df -h / | sed '1d' | awk '{print $3}') / $(df -h / | sed '1d' | awk '{print $2}')"
-media="$(df -h /home/media | sed '1d' | awk '{print $3}') / $(df -h /home/media | sed '1d' | awk '{print $2}')"
+home="$(df -h /home | sed '1d' | awk '{print $3}') / $(df -h /home | sed '1d' | awk '{print $2}')"
 
 # Shell
 shell+="$("$SHELL" --version)"
@@ -89,6 +89,6 @@ cat << EOF
              ${c06}▉▉  | ${f1}Font ${f0}......... $f2$termfn
              ${c14}  ▉▉|
              ${c07}▉▉  | ${f1}Root ${f0}......... $f2$root
-             ${c15}  ▉▉| ${f1}Media ${f0}........ $f2$media
+             ${c15}  ▉▉| ${f1}Home ${f0}..... ... $f2$home
 
 EOF
