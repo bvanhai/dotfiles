@@ -56,7 +56,7 @@ set -g set-titles-string '[#S:#I] #W'
 setw -g automatic-rename on
 
 # Automatically renumber windows after one of them is closed
-set -g renumber-windows on
+#set -g renumber-windows on
 
 # Tmux messages are displayed for 3 seconds
 set -g display-time 3000
