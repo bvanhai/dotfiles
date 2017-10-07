@@ -17,7 +17,8 @@ print_battery_state() {
     if [ "$state" == 'charging' ] || [ "$state" == 'fully-charged' ]; then
         echo -n ""
     else
-        echo -n " #[fg=colour82]▼"
+        echo -n "#[fg=colour82]▼"
+        #notify-send "Using battery"
     fi
 }
 
