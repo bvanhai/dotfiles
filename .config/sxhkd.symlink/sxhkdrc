@@ -258,10 +258,10 @@ ctrl + alt + Delete
 
 
 # RUN APPLICATIONS
-super + shift + Return
+super + Return
     urxvt -name main
 
-super + Return
+super + shift + Return
     urxvt -name tmux1 -e tmux-utility1.sh
 
 super + ctrl + Return
