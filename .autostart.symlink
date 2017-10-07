@@ -24,11 +24,15 @@
 # Set the cursor icon
 xsetroot -cursor_name left_ptr
 
-# Turn off the laptop LCD panel
-#xrandr    # See what resolution available
-#xrandr --output LVDS1 --off
-#xrandr --output VGA1 --mode 1920x1080
-#xrandr --auto    # Auto adjust monitors
+# External monitor
+external=$(xrandr -q | awk '/HDMI1/ {print $2}')
+if [ "$external" = connected ]; then
+    xrandr --output LVDS1 --off    # turn off the laptop LCD panel
+    xrandr --output eDP1 --mode 1600x900 --pos 0x0 --below HDMI1 \
+    --output HDMI1 --mode 1680x1050 --pos 0x900
+    --output VGA1 --mode 1920x1080
+    #xrandr --auto    # auto adjust monitors
+fi
 
 # Set dim LCD brightness
 xbacklight -set 100
