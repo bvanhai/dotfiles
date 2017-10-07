@@ -123,7 +123,7 @@ while [[ true ]]; do
 done &
 
 while [[ true ]]; do
-    disk_usage="$(df -h /home|sed '1d'|awk '{print $5}' | sed 's/\(.*\)%/\1/')"
+    disk_usage="$(df -h /|sed '1d'|awk '{print $5}' | sed 's/\(.*\)%/\1/')"
     printf "DISK: %3s%%\n" "$disk_usage" > "$PANEL_FIFO"
     sleep 15s;
 done &
