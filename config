@@ -9,8 +9,8 @@
 # ==============================================================================
 # The most common dot files
 .vimrc
-.vimrc-mini
-.vimrc-minimal
+.vimrc-extended
+.vimrc-plugins
 .profile
 .bashrc
 .zshrc
