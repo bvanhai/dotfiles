@@ -17,6 +17,8 @@ if [ -x /usr/bin/dircolors ]; then
     alias grep='grep --color=auto'
     alias fgrep='fgrep --color=auto'
     alias egrep='egrep --color=auto'
+
+    alias diff='diff --color=auto'
 fi
 
 # Some more ls aliases
@@ -72,6 +74,10 @@ alias ecd='eclean -d distfiles'
 alias ecp='eclean -d packages'
 alias rcs='rc-status'
 
+# mlocate (search file/folder)
+alias dbu='sudo updatedb'
+alias ff='dbu && locate'
+
 # Check bspwm window rules:
 alias bsrl='xprop |awk "/WM_CLASS/{print $4}"'
 
@@ -81,13 +87,13 @@ alias mybspwm='~/.config/bspwm/bspwmrc'
 alias mysxhkd='pkill -USR1 -x sxhkd'
 
 # System
-alias st='startx'
-alias stl='startx > .Xorg.log 2>&1'
-alias cl='clear'
-alias et='exit'
+alias sa='startx'
+alias sal='startx > .Xorg.log 2>&1'
+alias c='clear'
+alias e='exit'
 alias rb='sudo reboot'
 alias po='sudo poweroff'
-alias sp='sudo s2ram'
+alias sr='sudo s2ram'
 
 # xclip
 alias pbcopy='xclip -selection clipboard'   # copy to clipboard, ctrl+c, ctrl+shift+c
@@ -96,23 +102,23 @@ alias pbselect='xclip -selection primary -o'    # paste from highlight, middle c
 
 # Directories
 alias cdr='cd /'
-alias cddt='cd /home/Data'
-alias cdmd='cd /home/media'
+alias cdt='cd /home/Data'
+alias cdm='cd /home/media'
 alias cdh='cd ~/'
-alias cddl='cd ~/Downloads'
-alias cddf='cd ~/dotfiles/'
+alias cdd='cd ~/Downloads'
+alias cdf='cd ~/dotfiles/'
 alias cddd='cd ~/dotfiles-d/'
-alias cdmp='cd ~/dotfiles/linux/usr.tmp/src/my-pc-info'
+alias cdi='cd ~/dotfiles/linux/usr.tmp/src/my-pc-info'
 alias cdv='cd ~/.vim/'
 alias ..='cd ..'
 alias b='cd -'
 alias cp='cp -i'
 alias mv='mv -i'
 alias cpr='cp -r'
-alias x='xargs -d "\n"'
-alias j='jobs'
+#alias x='xargs -d "\n"'
+#alias j='jobs'
 
-# git:
+# Git
 alias ga='git add'
 alias gc='git commit -m'
 alias gcu='git commit -m "Update"'
@@ -121,30 +127,27 @@ alias gcau='git commit -a -m 'Update''
 
 alias gp='git push -u origin master'
 alias gpu='git pull'
-alias gitprb='git stash && git pull && git rebase && git stash apply && git stash drop'
+alias gprb='git stash && git pull && git rebase && git stash apply && git stash drop'
 
-alias gits='git status'
-alias gitsb='git status -sb'
-alias gitco='git checkout '
-alias gitcom='git checkout master'
+alias gs='git status'
+alias gsb='git status -sb'
+alias gco='git checkout '
+alias gcom='git checkout master'
 
-alias gitundo='git reset HEAD~1 && git push origin -f'
-alias githundo='git reset --hard HEAD~1 && git push origin -f'
+alias gpf='git push origin -f'
+alias gr='git reset'
+alias gr1='git reset HEAD~1 && git push origin -f'
+alias grh='git reset --hard'
+alias grh1='git reset --hard HEAD~1 && git push origin -f'
 
-alias git2undo='git reset HEAD~2 && git push origin -f'
-alias git2hundo='git reset --hard HEAD~2 && git push origin -f'
-
-alias git5undo='git reset HEAD~5 && git push origin -f'
-alias git5hundo='git reset --hard HEAD~5 && git push origin -f'
-
-alias gitr='git reset'
-
+alias ls-subtrees='git log | grep git-subtree-dir | awk "{ print $2 }"'
+alias ggp='git gc --prune=now'
 
 # Google Drive:
-alias cddg='cd /home/media/gdrive'
-alias dgp='drive push'
-alias dgpL='cddg && drive push Linux && cdh'
-alias dgu='drive pull'
+alias cdgd='cd /home/media/gdrive'
+alias dp='drive push'
+alias dpL='cdgd && drive push Linux && cdh'
+alias dpu='drive pull'
 
 # Sync time and store to hardware clock
 alias mytime='sudo ntpd -qg && sudo hwclock -w'
