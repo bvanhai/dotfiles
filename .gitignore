@@ -45,6 +45,8 @@ Thumbs.db
 # Temporary file
 tmp
 *.tmp
+*.bak
+*~
 
 # Other
 
@@ -61,8 +63,6 @@ tmp
 
 .gitconfig.symlink
 bookmarks
-.vim.symlink
 .colors.symlink/current*
 .scrot.symlink/screenshot
-.bin.symlink/mbackup.sh
 .gtkrc-2.0
