@@ -1,20 +1,28 @@
 " ==============================================================================
-" File:     ~/.vimrc-minimal
-" Author:   Tung Le
-" Source:   https://github.com/tungel/dotfiles
+" File:     ~/.vimrc
+" Author:   Hai Bui
+" Source:   https://github.com/bvanhai/dotfiles
+" Based:    https://github.com/tungel/dotfiles
 "
-" Comment:  Minimal setup for vim
-"
-"           The purpose of this file is to configure vim to work with general
+" Comment:  The purpose of this file is to configusre vim to work with general
 "           text file such that it doesn't change the format of the text (like:
 "           remove trailing white space, change tab to space,...)
 " 
 "           So that, we can use this Vim's configuration file to work with other
-"           projects which contains non-standard text format ("Death to the
-"           Space Infidels!" - Coding Horror)
+"           projects which contains non-standard text format
 " ==============================================================================
 
-" disable compatibility to vi because it's annoying.
+" Read essential configuration from the extended/plugin file
+source ~/.vimrc-extended
+source ~/.vimrc-plugins
+
+" Directory default
+autocmd VimEnter * :cd ~/dotfiles
+
+" Enable mouse usage
+set mouse=a
+
+" Disable compatibility to vi because it's annoying.
 " compatibility with vi make `imap jk <ESC>` doesn't work
 set nocompatible
 
@@ -25,15 +33,13 @@ filetype plugin on
 " set line number
 set nu
 
-" Mouse usage
-"set mouse=a
-
 "display status bar at the bottom which shows file name and cursor position
 set laststatus=2
 
 "display title bar of the current vim window
 set title
 
+" Enable vim's syntax highlighting
 syntax on
 
 " Rebind <Leader> key. when you pressed the Leader key, the cursor
@@ -66,7 +72,6 @@ set smartcase
 set nobackup
 set nowritebackup
 set noswapfile
-
 
 " Use F5 to refresh the current buffer if it's changed outside Vim
 map <F5> :checktime<CR>

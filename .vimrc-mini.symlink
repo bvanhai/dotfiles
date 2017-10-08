@@ -1,27 +1,21 @@
 " ==============================================================================
-" File:     ~/.vimrc-mini
-" Author:   Tung Le
-" Source:   https://github.com/tungel/dotfiles
+" File:     ~/.vimrc-extended
+" Author:   Hai Bui
+" Source:   https://github.com/bvanhai/dotfiles
+" Based:    https://github.com/tungel/dotfiles
 "
-" Comment:  Mini .vimrc setting for Vim
-"
-"           The purpose of this file is to provide some basic functionalities
+" Comment:  The purpose of this file is to provide some basic functionalities
 "           to edit text with Vim without any plugin dependent. This is best
 "           suited for light-editing works.
 "
 "           This file can also be used as a stand-alone .vimrc file
 " ==============================================================================
 
-" Read essential configuration from the mini file
-source ~/.vimrc-minimal
-
 " use system clipboard for normal yank/paste
 " set clipboard=unnamedplus
 
-
 " Set number of color for the terminal emulator
 set t_Co=256
-
 
 " treat all numerals as decimal, regardless whether they are padded with zeros
 " for use with <C-a> and <C-x>
@@ -173,7 +167,7 @@ endif
 " auto unfold everything when open a file
 autocmd BufWinEnter * silent! :%foldopen!
 
-" Setting Cut/Copy/Paste with "standard" hotkeys (paste only works in Visual
+" Setting Copy/Cut/Paste with "standard" hotkeys (paste only works in Visual
 " and insert mode)
 vmap <C-c> "+yi
 vmap <C-x> "+c
@@ -388,7 +382,6 @@ set more
 " set timeout ttimeoutlen=50
 "---end make Alt key work on vim
 " ==============================================================================
-
 
 " ==============================================================================
 "---begin handling cursorline highlight
