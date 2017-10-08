@@ -1,30 +1,27 @@
+# ==============================================================================
+# File:     My-Arch-Linux-install.txt
+# Author:   Hai Bui
+# Source:   https://github.com/bvanhai/dotfiles
 #
-# My Arch Linux Install
-# https://github.com/bvanhai/dotfiles
-# 
+# Comment:  My Arch Linux Install
+# ==============================================================================
 
-# https://wiki.archlinux.org/index.php/installation_guide
 
-lsblk
-cfdisk
-mkfs.ext4 /dev/sdaX
-mkswap /dev/sdaX
-swapon /dev/sdaX
+
+fdisk -l
+fdisk /dev/sda
+mkfs.ext4 -L "<label>" /dev/sdaX
+mkfs.ext4 -L "<label>" /dev/sdaX && swapon /dev/sdaX
 mount /dev/sdaX /mnt
-mkdir -p /mnt/boot
-mount /dev/sdaX /mnt/boot
-mkdir -p /mnt/home
-mount /dev/sdaX /mnt/home
-
+mkdir /mnt/boot && mount /dev/sdaX /mnt/boot
+mkdir /mnt/home && mount /dev/sdaX /mnt/home
 
 nano /etc/pacman.d/mirrorlist
 wifi-menu
 ping -c 3 google.com
 
-
 pacstrap -i /mnt base base-devel
-genfstab -U /mnt > /mnt/etc/fstab
-
+genfstab -U /mnt >> /mnt/etc/fstab
 
 
 
@@ -34,30 +31,24 @@ nano /etc/locale.gen
 locale-gen
 echo LANG=en_US.UTF-8 > /etc/locale.conf
 
-
-    #tzselect
+tzselect
 ln -sf /usr/share/zoneinfo/Asia/Ho_Chi_Minh /etc/localtime
 hwclock --systohc --utc
     #timedatectl set-ntp true
-
 
 pacman -S grub os-prober
 grub-install --target=i386-pc --recheck /dev/sda
 grub-mkconfig -o /boot/grub/grub.cfg
 
-
 echo arch > /etc/hostname
 nano /etc/hosts
     arch
-
 
 pacman -S iw wpa_supplicant dialog
 passwd
 exit
 umount -R /mnt
 reboot
-(login root)
-
 
 
 
@@ -65,20 +56,18 @@ useradd -m -G wheel -s /bin/bash bvanhai
 passwd bvanhai
 nano /etc/sudoers
     bvanhai ALL = (All) ALL
-exit 
-(login new user)
+exit
 
 
 
-
-sudo wifi-menu
+wifi-menu
     #ip addr
     #systemctl start dhcpcd@enp0s25.service
     #systemctl enable dhcpcd@enp0s25.service
-sudo pacman -S xorg
-sudo pacman -S xorg-drivers
-sudo pacman -S xorg-xinit xterm
-sudo pacman -S bspwm sxhkd
+pacman -S xorg
+pacman -S xorg-drivers
+pacman -S xorg-xinit xterm
+pacman -S bspwm sxhkd
 nano ~/.xinitrc
     sxhkd &
     exec bspwm

@@ -1,14 +1,15 @@
+# ==============================================================================
+# File:     My-Gentoo-Linux-install.txt
+# Author:   Hai Bui
+# Source:   https://github.com/bvanhai/dotfiles
 #
-# My Gentoo Linux Install
-# https://github.com/bvanhai/dotfiles
-# 
-
-# https://wiki.gentoo.org/wiki/Handbook:Main_Page
+# Comment:   My Gentoo Linux Install
+# ==============================================================================
 
 
 
 
-lsblk
+fdisk -l
 fdisk /dev/sda
 mkfs.ext4 -L "<label>" /dev/sdaX
 mkswap -L "swap"/dev/sdaX && swapon /dev/sdaX
@@ -20,7 +21,7 @@ date <Mon Oct  3 13:16:22 PDT 2016>
 date 100313162016
 
 cd /mnt/gentoo
-links www.gentoo.org
+links gentoo.org
 tar xvjpf stage3-*.tar.bz2
 cp -L /etc/resolv.conf /mnt/gentoo/etc/resolv.conf
 
@@ -34,9 +35,7 @@ mount --rbind /dev /mnt/gentoo/dev && mount --make-rslave /mnt/gentoo/dev
 chroot /mnt/gentoo /bin/bash
 source /etc/profile && export PS1="(chroot) $PS1"
 
-
 nano -w /etc/portage/make.conf
-
 # ============================
 CFLAGS="-march=sandybridge -O2 -pipe"
 #CFLAGS="-march=native -O2 -pipe"
@@ -64,7 +63,6 @@ PKGDIR="${PORTDIR}/packages"
 GENTOO_MIRRORS="http://ftp.jaist.ac.jp/pub/Linux/Gentoo"
 # ============================
 
-
 #emerge -av app-portage/cpuid2cpuflags
 #    cpuinfo2cpuflags-x86
 #gcc -c -Q -march=native --help=target | grep -i 'march=\|mtune='
@@ -74,7 +72,6 @@ emerge-webrsync
 eselect profile list
 eselect profile set 3
     desktop
-
 
 ls /usr/share/zoneinfo
 cp /usr/share/zoneinfo/Asia/Ho_Chi_Minh /etc/localtime
@@ -86,33 +83,34 @@ nano -w /etc/locale.gen
 locale-gen
 eselect locale list
 eselect locale set 2
+    en_US.utf8
 env-update && source /etc/profile && export PS1="(chroot) $PS1"
 
 
 emerge -av sys-kernel/gentoo-sources sys-apps/pciutils sys-kernel/linux-firmware
+emerge -av sys-kernel/genkernel
 emerge -av app-arch/lz4 app-arch/lzop
 cd /usr/src/linux
 
-sudo emerge -av sys-libs/ncurses
+emerge -av sys-libs/ncurses
 make nconfig
 
 cp <link .config file> .config
 make oldconfig && make prepare
 time make -j3
 make modules_install && make install
-emerge -av sys-kernel/genkernel
 genkernel --install initramfs
 
 
 nano -w /etc/fstab
 # ================
-# (fs)         (mountpoint) (type)   (opts)          (dump/pass)
-LABEL=boot          /boot    ext4    defaults,noatime    0 2
-LABEL=swap          none     swap    sw                  0 0
-LABEL=gentoo        /        ext4    noatime             0 1
-LABEL=home          /home    ext4    noatime             0 1
+# <fs>         <mountpoint>   <type>    <opts>         <dump/pass>
+LABEL=gentoo   /              ext4      noatime            0 1
+LABEL=boot     /boot          ext4      defaults,noatime   0 2
+LABEL=home     /home          ext4      noatime            0 1
+LABEL=Data     /home/Data     ntfs-3g   defaults           0 0
+LABEL=swap     none           swap      sw                 0 0
 # ================
-
 
 emerge -av sys-boot/grub:2 sys-boot/os-prober
 grub-install /dev/sda
@@ -125,31 +123,31 @@ grub-mkconfig -o /boot/grub/grub.cfg
 #    127.0.0.1       gentoo.homenetwork gentoo localhost
 
 nano -w /etc/rc.conf
-nano -w /etc/conf.d/keymaps
+    rc_interactive="YES"
 nano -w /etc/conf.d/hwclock
     clock="local"
 
-emerge -av app-admin/syslog-ng
+emerge -av app-admin/syslog-ng sys-process/cronie sys-apps/mlocate
 rc-update add syslog-ng default
+rc-update add cronie default
+rc-update add sshd default
 
 
 
 
-#emerge -av net-misc/netifrc sys-apps/net-tools
-#ifconfig
-#nano -w /etc/conf.d/net
-#    config_emp0s3="dhcp"
-#cd /etc/init.d
-#ln -s net.lo net.enp0s25
-#/etc/init.d/net.enp0s25 start
-#rc-update add net.enp0s25 default
+    #emerge -av net-misc/netifrc sys-apps/net-tools
+    #ifconfig
+    #nano -w /etc/conf.d/net
+    #    config_emp0s3="dhcp"
+    #cd /etc/init.d
+    #ln -s net.lo net.enp0s25
+    #/etc/init.d/net.enp0s25 start
+    #rc-update add net.enp0s25 default
 
 
-emerge -av net-misc/dhcpcd net-wireless/wpa_supplicant net-wireless/wireless-tools net-wireless/iw
-
+emerge -av net-misc/dhcpcd net-wireless/wpa_supplicant
 
 nano -w /etc/wpa_supplicant/wpa_supplicant.conf
-
 # =============================================
 # Allow users in the 'wheel' group to control wpa_supplicant
 ctrl_interface=DIR=/var/run/wpa_supplicant GROUP=wheel
@@ -172,7 +170,6 @@ network={
 }
 # =============================================
 
-
 nano -w /etc/conf.d/wpa_supplicant
     wpa_supplicant_args="-B -M -c/etc/wpa_supplicant/wpa_supplicant.conf"
 
@@ -183,15 +180,14 @@ nano -w /etc/conf.d/net
 rc-update add dhcpcd default && rc-update add wpa_supplicant default
 
 
+
+
 passwd
 exit
 cd /
 umount -l /mnt/gentoo/dev{/shm,/pts,}
 umount -R /mnt/gentoo
 reboot
-(login root)
-
-
 
 
 useradd -m -G users,wheel,audio,portage,usb,video -s /bin/bash bvanhai
@@ -200,12 +196,9 @@ passwd bvanhai
 emerge -av app-admin/sudo
 nano -w /etc/sudoers
     bvanhai ALL=(ALL) ALL
-    %wheel ALL=(ALL) NOPASSWD: /usr/sbin/s2ram, /sbin/reboot, /sbin/halt, /sbin/poweroff, /usr/bin/urxvt, /usr/bin/subl
-
 
 rm /stage3-*.tar.bz2
 exit
-(login new user)
 
 
 
@@ -216,7 +209,7 @@ emerge -av app-portage/gentoolkit
 emerge -av sys-power/upower
     s2ram
 
-#emerge -av x11-base/xorg-x11
+    #emerge -av x11-base/xorg-x11
 emerge -av x11-base/xorg-drivers x11-base/xorg-server
 emerge -av x11-drivers/xf86-video-intel
 emerge -av x11-apps/xsetroot x11-apps/xbacklight x11-apps/xmodmap

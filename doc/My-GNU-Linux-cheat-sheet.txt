@@ -180,6 +180,8 @@
       eix --installed-with-use python
   + Show what USE flags are available for a specific package:
       equery uses chromium
+- Add path to #PATH:
+    export PATH=$PATH:/sbin:/usr/sbin
 
 
 
@@ -204,7 +206,7 @@
 
 
 **** USERS AND GROUPS
-- Add new user:
+- Add new user: 
     useradd -m -g [initial_group] -G [additional_groups] -s [login_shell] [username]
     useradd -m -g users -s /bin/bash bvanhai
 - Specify user password:
@@ -224,7 +226,7 @@
 - View UID of user bvanhai:
     id -u bvanhai
 - Change file/folder owner and group:
-    sudo chown -R bvanhai:bvanhai /home
+    sudo chown -R bvanhai:user /home
 
 
 
@@ -241,9 +243,10 @@
     sudo pacman -S sxhkd
     sudo emerge -av sxhkd
 - Panel:
-    sudo pacman -S dzen2    # panel clickable
-    sudo emerge -av dzen    # panel clickable
+    sudo pacman -S dzen2
     yaourt -S acpi xtitle lm_sensors bind-tools dunst bc wireless_tools
+    sudo emerge -av dzen
+    sudo emerge -av xtitle lm_sensors
       acpi              # battery
       xtitle-git        # window title
       lm_sensors        # cpu temp
@@ -270,7 +273,8 @@
     sudo emerge -av gksu
 - Digital clock in ncurses:
     yaourt -S tty-clock
-
+- To run 'notify-send':
+    sudo emerge -av libnotify
 
 
 
@@ -497,16 +501,12 @@
           map <DELETE>  shell trash-put %s
         ]
 - Archive Managers:
+  + Graphical:
+      sudo pacman -S engrampa
+      sudo emerge -av engrampa
   + Method:
       sudo pacman -S bzip2 cdrkit cpio gzip lha lrzip lz4 lzop p7zip pixz tar unace unace unrar unzip xz zip zlib zziplib
-      sudo emerge -av app-arch/unzip app-arch/zip app-arch/p7zip app-arch/unace app-arch/arj app-arch/cpio app-arch/dpkg app-cdr/cdrtools app-arch/zip app-arch/unzip app-arch/lha app-arch/lzop app-arch/lz4 app-arch/unrar app-arch/unar app-arch/rpm app-arch/stuffit app-arch/zoo
-  + for the XFCE desktop use:
-      yaourt -S engrampa-thunar
-  + for the cinnamon desktop use:
-      sudo pacman -S nemo-fileroller
-  + for Gnome Desktop:
-      sudo pacman -S file-roller
-      sudo emerge -av file-roller
+      sudo emerge -av app-arch/p7zip app-arch/lzop app-arch/lz4 emerge app-cdr/cdrtools
 - A directory listing program displaying a depth indented list of files:
     sudo pacman -S tree
 
@@ -520,6 +520,7 @@
     sudo emerge -av gpicview
 - Desktop wallpaper:
     sudo pacman -S feh
+    sudo emerge -av feh
     feh --bg-center /home/Data/Wallpapers/A
 - Support more file formats:
     sudo pacman -S imagemagick
@@ -653,6 +654,8 @@
   + Google Chrome:
       yaourt -S google-chrome
       sudo emerge -av google-chrome
+  + Chromium, Google Chrome alway ask default browser
+      xdg-settings set default-web-browser chromium-browser-chromium.desktop
   + Fix Chromium, Google Chrome hang:
       . Disable "chrome://flags/#enable-gpu-rasterization"
       . Run with --disable-gpu option
@@ -803,8 +806,8 @@
   3) Edit file fstab:
        nano /etc/fstab:
          [
-           # /dev/sda23
-           UUID=B2003C30003BF9C5 /home/OS/  ntfs-3g defaults,locale=en_US.utf8 0 0
+           # /dev/sda2
+           LABEL=Data  /home/Data  ntfs-3g  defaults,locale=en_US.utf8  0 0
          ]
 - Mount Android phone:
   + Install:
@@ -905,7 +908,7 @@
 
 
 **** VIRTUALBOX
-- Install:
+- Install - Arch Linux:
     sudo pacman -S virtualbox qt4 virtualbox-host-dkms
       vde2: Virtual Distributed Ethernet support
       virtualbox-guest-iso: Guest Additions CD image
@@ -913,6 +916,15 @@
       virtualbox-sdk: Developer kit
       virtualbox-host-dkms: Build kernel modules with DKMS
       net-tools: Host-only or bridged networking support
+-Install - Gentoo Linux:
+    sudo emerge -av virtualbox
+      sudo gpasswd -a bvanhai vboxusers
+      nano /etc/conf.d/modules
+        modules="vboxdrv vboxnetadp vboxnetflt vboxpci"
+    sudo emerge -av virtualbox-additions
+    sudo emerge -av virtualbox-guest-additions
+      sudo gpasswd -a bvanhai vboxguest
+      sudo rc-update add /etc/init.d/virtualbox-guest-additions default
 - Oracle VM VirtualBox Extension Pack:
     yaourt -S virtualbox-ext-oracle
 - Kernel driver not installed (rc=-1908) - VirtualBox Error
@@ -971,6 +983,7 @@
     nano /etc/pacman.conf
 - Install wine:
     yaourt -S wine
+    sudo emerge -av wine
 
 
 
@@ -1236,6 +1249,7 @@
     ]
 - View temp:
     cat /sys/class/thermal/thermal_zone*/temp
+    acpi -t
 - Set brightness
     sudo nano /sys/class/backlight/intel_backlight/brightness
     echo 648 | sudo tee /sys/class/backlight/intel_backlight/brightness
@@ -1247,6 +1261,9 @@
     type <command>
     alias <command>
     which <command>
+- Run echo with sudo:
+    sudo sh -c 'echo "a b" >> /location'
+
 
 
 
@@ -1411,10 +1428,10 @@
 - Compilation and installation:
     make -j2
     sudo make modules_install
-    sudo cp -v arch/x86_64/boot/bzImage /boot/vmlinuz-4.13.3-ARCH
-    sudo mkinitcpio -k 4.13.3-ARCH -g /boot/initramfs-4.13.3-ARCH.img
-    sudo cp System.map /boot/System.map-4.13.3-ARCH
-    sudo ln -sf /boot/System.map-4.13.3-ARCH /boot/System.map
+    sudo cp -v arch/x86_64/boot/bzImage /boot/vmlinuz-4.13.5-ARCH
+    sudo mkinitcpio -k 4.13.5-ARCH -g /boot/initramfs-4.13.5-ARCH.img
+    sudo cp System.map /boot/System.map-4.13.5-ARCH
+    sudo ln -sf /boot/System.map-4.13.5-ARCH /boot/System.map
 - Bootloader configuration:
     sudo grub-mkconfig -o /boot/grub/grub.cfg
 - Keeps track of EVERY kernel module ever used - useful for those of us who make
@@ -1499,13 +1516,21 @@
   directory":
        git rebase --abort
        git pull
-- git subtree add
-  git subtree add --prefix=zzz --squash https://github.com/yyy/zzz.git master
-
-
-
-
-
+- Git subtree
+  + Add:
+      git subtree add --prefix=zzz --squash https://github.com/yyy/zzz.git master
+  + View list:
+      git log | grep git-subtree-dir | awk '{ print $2 }'
+- Completely remove files from Git repo and remote on GitHub
+      git filter-branch --index-filter \
+      'git rm -r --cached --ignore-unmatch <file/dir>' --prune-empty -f HEAD
+      rm -rf .git/refs/original/ && \
+      git reflog expire --expire=now --all && \
+      git gc --aggressive --prune=now
+      git filter-branch --index-filter \
+      'git update-index --remove filename' <introduction-revision-sha1>..HEAD
+      git push --force --verbose --dry-run
+      git push --force
 
 
 
