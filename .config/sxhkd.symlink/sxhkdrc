@@ -233,23 +233,23 @@ ctrl + shift + bracket{right}
 
 # Program launcher
 #super + BackSpace
-#    $HOME/.bin/dmenu/dmenu-running-apps.sh
+#    dmenu-running-apps.sh
 
 #super + shift + BackSpace
-#    $HOME/.bin/dmenu/dmenu-recent.sh
+#    dmenu-recent.sh
 
 #super + alt + BackSpace
 #    rofi -show
 
 #super + space
-#    $HOME/.bin/dmenu/dmenu-launch.sh
+#    dmenu-launch.sh
 
 #super + shift + space
-#    $HOME/.bin/dmenu/dmenu-file-manager.sh
+#    dmenu-file-manager.sh
 
 ctrl + alt + Delete
-#    $HOME/.bin/dmenu/dmenu-power.sh
-    $HOME/.bin/dmenu/dmenu-power-gentoo.sh
+#    dmenu-power.sh
+    dmenu-power-gentoo.sh
 
 #super + alt + shift + BackSpace
 #    dmenu_run
