@@ -14,8 +14,23 @@
 " use system clipboard for normal yank/paste
 " set clipboard=unnamedplus
 
-" Set number of color for the terminal emulator
-set t_Co=256
+" Open the help in a vertical split
+augroup vimrc_help
+  autocmd!
+  autocmd BufEnter *.txt if &buftype == 'help' | wincmd L | endif
+augroup END
+
+"match Todo /^ \+/
+
+" Quickly edit/reload the vimrc file
+"nmap <silent> <leader>ev :e $MYVIMRC<CR>
+"nmap <silent> <leader>sv :so $MYVIMRC<CR>
+
+" automatic reloading of .vimrc, so we don't need to close the .vimrc
+" for vim to apply new settings in that file
+" currently, this interfeer with identLine and vim-airline (after save the
+" .vimrc file, those plugin lost their visual.
+"autocmd! bufwritepost .vimrc source %
 
 " treat all numerals as decimal, regardless whether they are padded with zeros
 " for use with <C-a> and <C-x>

@@ -12,26 +12,31 @@
 "           projects which contains non-standard text format
 " ==============================================================================
 
-" Read essential configuration from the extended/plugin file
-source ~/.vimrc-extended
-source ~/.vimrc-plugins
-
 " Directory default
-autocmd VimEnter * :cd ~/dotfiles
+autocmd VimEnter * :cd ~/mylinux/dotfiles
 
 " Enable mouse usage
 set mouse=a
 
-" Disable compatibility to vi because it's annoying.
-" compatibility with vi make `imap jk <ESC>` doesn't work
+" Disable compatibility to vi because it's annoying compatibility with vi
+" make `imap jk <ESC>` doesn't work.
+" This must be first, because it changes other options as side effect
 set nocompatible
 
 imap jk <ESC>
 
-filetype plugin on
+" Filetype
+filetype plugin indent on
+
+" Enable vim's syntax highlighting
+syntax on
 
 " set line number
 set nu
+
+" Opening a new file when the current buffer has unsaved changes causes files
+" to be hidden instead of closed
+set hidden
 
 "display status bar at the bottom which shows file name and cursor position
 set laststatus=2
@@ -39,10 +44,7 @@ set laststatus=2
 "display title bar of the current vim window
 set title
 
-" Enable vim's syntax highlighting
-syntax on
-
-" Rebind <Leader> key. when you pressed the Leader key, the cursor
+" Rebind <Leader> key from "\"" to ",". when you pressed the Leader key, the cursor
 " will wait for 1s for user to press another key
 let mapleader = ","
 
@@ -100,3 +102,8 @@ vnoremap > >gv
 
 " set autoindent
 set ai
+
+
+" Read essential configuration from the extended/plugin file
+source ~/.vimrc-extended
+source ~/.vimrc-plugins

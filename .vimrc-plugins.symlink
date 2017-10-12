@@ -9,13 +9,27 @@
 
 
 " ==============================================================================
-"---begin pathogen plugin
+" ---begin pathogen {{{
+" If you have "syntax on", "filetype plugin indent on" or something like in your
+" ~/.vimrc, be sure to put them after the pathogen line this must be put above
 execute pathogen#infect()
 
-" If you want to be able to access the documentation from within vim, you'll
-" also need to generate helptags
+" Generate help to tags access the documentation from within vim
 call pathogen#helptags()
-"---end pathogen plugin
+
+" ---end pathogen }}}
+" ==============================================================================
+
+
+" ==============================================================================
+" ---begin colorscheme {{{
+" Number of color for the terminal emulator
+set t_Co=256
+
+" Colorscheme default
+color space-vim-dark
+
+" ---end colorscheme }}}
 " ==============================================================================
 
 
@@ -95,12 +109,18 @@ let g:EasyMotion_startofline = 0 " keep cursor colum when JK motion
 
 
 " ==============================================================================
-"---begin nerdtree {{{
+" ---begin nerdtree {{{
 " Use Ctrl+n to open nerdtree
 map <C-n> :NERDTreeToggle<CR>
 
 " Use Ctrl+b to bookmark target
 map <C-b> :Bookmark<CR>
+
+" Open a NERDTree automatically when vim starts up
+"autocmd Vimenter * NERDTree
+
+" Auto split window
+"autocmd VimEnter * wincmd w | wincmd v | wincmd h
 
 " Display hidden files by default
 let NERDTreeShowHidden=1
@@ -130,12 +150,6 @@ map <silent> <Leader>r :NERDTreeFind<cr>
 let g:NERDTreeDirArrowExpandable = '▸'
 let g:NERDTreeDirArrowCollapsible = '▾'
 
-" Open a NERDTree automatically when vim starts up
-"autocmd Vimenter * NERDTree
-
-" Auto split window
-"autocmd VimEnter * wincmd w | wincmd v | wincmd h
-
 " Shares an existing NERD tree, from another tab, in the current tab
 "autocmd BufWinEnter * NERDTreeMirror
 
@@ -147,25 +161,8 @@ nmap <buffer> <expr>- g:NERDTreeMapUpdir
 
 " Close vim if the only window left open is a NERDTree
 "autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
-"---end nerdtree }}}
+" ---end nerdtree }}}
 " ==============================================================================
-
-
-"match Todo /^ \+/
-
-"highlight current line
-color molokai
-"color Monokai-Refined
-
-
-"set linespace=2
-
-
-" automatic reloading of .vimrc, so we don't need to close the .vimrc
-" for vim to apply new settings in that file
-" currently, this interfeer with identLine and vim-airline (after save the
-" .vimrc file, those plugin lost their visual.
-"autocmd! bufwritepost .vimrc source %
 
 
 " ==============================================================================
@@ -508,7 +505,6 @@ nmap <leader>il :IndentLinesToggle<cr>
 
 " ==============================================================================
 "---begin vim-latex plugin {{{
-filetype plugin indent on "REQUIRED. This makes vim invoke Latex-Suite when you open a tex file.
 set grepprg=grep\ -nH\ $*
 let g:tex_flavor = "latex"
 let g:Tex_DefaultTargetFormat = 'pdf'
@@ -987,6 +983,7 @@ func! CallCtrlP()
         CtrlPLastMode
     else
         let s:called_ctrlp = 1
+"        CtrlP
         CtrlPMRU
     endif
 endfunc
@@ -1274,15 +1271,6 @@ endif
 " ==============================================================================
 
 
-" ==============================================================================
-"--- begin colorscheme {{{
-set background=dark
-
-colorscheme space-vim-dark
-"--- end colorscheme }}}
-" ==============================================================================
-
-
 let g:ragtag_global_maps = 1
 
 " show quote character in json file!!!
@@ -1382,7 +1370,6 @@ endif
 set completeopt-=preview
 
 " Rust
-set hidden
 let g:racer_cmd = "~/.cargo/bin/racer"
 let $RUST_SRC_PATH="/usr/src/rust/src"
 
