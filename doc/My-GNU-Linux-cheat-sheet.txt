@@ -8,8 +8,7 @@
 *           be applicable to you.
 *
 *           This file based on "My Arch Linux cheat-sheet"
-*           <https://gist.github.com/tungel/5948860>
-*           of [Tung Le]
+*           by Tung Le - https://gist.github.com/tungel/5948860
 * ==============================================================================
 
 
@@ -181,7 +180,7 @@
   + Show what USE flags are available for a specific package:
       equery uses chromium
 - Add path to #PATH:
-    export PATH=$PATH:/sbin:/usr/sbin
+    export PATH="$PATH:/sbin:/usr/sbin"
 
 
 
@@ -1500,7 +1499,7 @@
     git push -u origin master
 - If it is asking you for a username and password, your origin remote is
   pointing at the https url rather than the ssh url:
-  1) Run.
+  1) Run:
        git remote set-url origin git@github.com:bvanhai/dotfiles.git
        sudo pacman -S openssh
   2) Test SSH key on your conputer:
@@ -1521,16 +1520,19 @@
       git subtree add --prefix=zzz --squash https://github.com/yyy/zzz.git master
   + View list:
       git log | grep git-subtree-dir | awk '{ print $2 }'
-- Completely remove files from Git repo and remote on GitHub
+- Remove files from Git repo and remote on GitHub
       git filter-branch --index-filter \
       'git rm -r --cached --ignore-unmatch <file/dir>' --prune-empty -f HEAD
       rm -rf .git/refs/original/ && \
       git reflog expire --expire=now --all && \
       git gc --aggressive --prune=now
+- Remove a file from all revisions (introduction-revision-sha1 = SHA1 of first 
+  committed to the repository):
       git filter-branch --index-filter \
       'git update-index --remove filename' <introduction-revision-sha1>..HEAD
-      git push --force --verbose --dry-run
+      git push --force --verbose --dry-run && \
       git push --force
+
 
 
 

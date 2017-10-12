@@ -3,7 +3,7 @@
 # Author:   Hai Bui
 # Source:   https://github.com/bvanhai/dotfiles
 #
-# Comment:   My Gentoo Linux Install
+# Comment:  My Gentoo Linux Install
 # ==============================================================================
 
 
@@ -63,9 +63,9 @@ PKGDIR="${PORTDIR}/packages"
 GENTOO_MIRRORS="http://ftp.jaist.ac.jp/pub/Linux/Gentoo"
 # ============================
 
-#emerge -av app-portage/cpuid2cpuflags
-#    cpuinfo2cpuflags-x86
-#gcc -c -Q -march=native --help=target | grep -i 'march=\|mtune='
+    #emerge -av app-portage/cpuid2cpuflags
+    #    cpuinfo2cpuflags-x86
+    #gcc -c -Q -march=native --help=target | grep -i 'march=\|mtune='
 
 
 emerge-webrsync
@@ -117,10 +117,10 @@ grub-install /dev/sda
 grub-mkconfig -o /boot/grub/grub.cfg
 
 
-#nano -w /etc/conf.d/hostname
-#hostname
-#nano -w /etc/hosts
-#    127.0.0.1       gentoo.homenetwork gentoo localhost
+    #nano -w /etc/conf.d/hostname
+    #hostname
+    #nano -w /etc/hosts
+    #    127.0.0.1       gentoo.homenetwork gentoo localhost
 
 nano -w /etc/rc.conf
     rc_interactive="YES"
@@ -153,7 +153,7 @@ nano -w /etc/wpa_supplicant/wpa_supplicant.conf
 ctrl_interface=DIR=/var/run/wpa_supplicant GROUP=wheel
 
 # Make this file writable for wpa_gui / wpa_cli
-update_config=1
+update_config=0
 
 # Connect to wireless access point 
 network={
