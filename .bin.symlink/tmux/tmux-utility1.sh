@@ -7,7 +7,7 @@ tmux has -t $SESSION
 
 if [ $? != 0 ]; then
     # Create new session
-    tmux new -d -s $SESSION
+    tmux new -d -x 198 -y 52 -s $SESSION
 fi
 
 tmux attach -d -t $SESSION
