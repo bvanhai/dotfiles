@@ -1,14 +1,15 @@
 ! ==============================================================================
-! File:     ~/.colors/jwrdark.xr
-! Author:   Jason Ryan
-! Source:   http://jasonwryan.com/
+! File:     ~/.colors/bvhdark.xr
+! Author:   Hai Bui
+! Source:   https://github.com/bvanhai/dotfiles
 !
-! Comment:
+! Comment:  This file based on "dark" color scheme
+!           by Jason Ryan - http://jasonwryan.com
 ! ==============================================================================
 
-! Added by bvanhai - edit background and foreground colors
-*background: #0D100E
-*foreground: #929292
+*background:#0D100E
+*foreground:#929292
+*fadeColor:#453e40
 
 ! Black
 *color0:#333333
