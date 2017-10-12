@@ -1,10 +1,12 @@
 #!/bin/bash
 
+# https://github.com/tmux-plugins/tmux-battery
+
 # Script used by tmux to display the battery state
 
 command_exists() {
-  local command="$1"
-  type "$command" >/dev/null 2>&1
+    local command="$1"
+    type "$command" >/dev/null 2>&1
 }
 
 print_battery_state() {
@@ -17,8 +19,11 @@ print_battery_state() {
     if [ "$state" == 'charging' ] || [ "$state" == 'fully-charged' ]; then
         echo -n ""
     else
-        echo -n "#[fg=colour82]▼"
         #notify-send "Using battery"
+        echo -n "#[fg=colour83]▼ "
+        if command_exists "acpi"; then
+            acpi -b | grep -m 1 -Eo "[0-9]+%"
+        fi
     fi
 }
 
