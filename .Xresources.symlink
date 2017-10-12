@@ -3,77 +3,74 @@
 ! Author:   Hai Bui
 ! Source:   https://github.com/bvanhai/dotfiles
 !
-! Comment:  Run: `xrdb -merge ~/.Xresources` after modify this file
+! Comment:  Run `xrdb -merge ~/.Xresources` after modify this file
 ! ==============================================================================
 
 ! Load color scheme
-#include "/home/bvanhai/.colors/current-xr"
+#include ".colors/current-xr"
 
 ! Rendering settings
-Xft.dpi: 96
-Xft.antialias: true
-Xft.rgba: rgb
-Xft.hinting: true
-Xft.hintstyle: hintfull
-Xft.autohint: false
-Xft.lcdfilter: lcddefault
+Xft.dpi:96
+Xft.antialias:true
+Xft.rgba:rgb
+Xft.hinting:true
+Xft.hintstyle:hintfull
+Xft.autohint:false
+Xft.lcdfilter:lcddefault
 
 ! Font default
-URxvt.font: xft:Inconsolata-g:style=Medium:pixelsize=13
-URxvt.boldFont: xft:Inconsolata-g:style=Medium:pixelsize=13
-URxvt.italicFont: xft:Consolas:style=Italic:pixelsize=13
-URxvt.boldItalicFont: xft:Consolas:style=Italic:pixelsize=13
-URxvt.letterSpace: -1
+URxvt.font:xft:Inconsolata-g:style=Medium:pixelsize=13
+URxvt.boldFont:xft:Inconsolata-g:style=Medium:pixelsize=13
+URxvt.italicFont:xft:Consolas:style=Italic:pixelsize=13
+URxvt.boldItalicFont:xft:Consolas:style=Italic:pixelsize=13
+URxvt.letterSpace:-1
 
 ! Scrollback
-URxvt.scrollTtyOutput: false
-URxvt.scrollWithBuffer: true
-URxvt.scrollTtyKeypress: true
-URxvt.secondaryScreen: true
-URxvt.secondaryScroll: false
+URxvt.scrollTtyOutput:false
+URxvt.scrollWithBuffer:true
+URxvt.scrollTtyKeypress:true
+URxvt.secondaryScreen:true
+URxvt.secondaryScroll:false
 
 ! Cursor
-URxvt.cursorColor: #287373
-URxvt.cursorBlink: false
-URxvt.cursorUnderline: false
+URxvt.cursorBlink:false
+URxvt.cursorUnderline:false
 
 ! Other
-URxvt.fading: 24
-URxvt.fadeColor: #453e40
-URxvt.saveLines: 50000
-URxvt.internalBorder: 6
+URxvt.fading:24
+URxvt.saveLines:50000
+URxvt.internalBorder:6
 URxvt.geometry:100x30
-URxvt.scrollBar: false
-URxvt.termName: tmux-256color
-URxvt.intensityStyles: false
+URxvt.scrollBar:false
+URxvt.intensityStyles:false
 
 ! Perl extension
-URxvt.perl-ext-common: default,clipboard,keyboard-select,url-select
+URxvt.perl-ext-common:default,clipboard,keyboard-select,url-select
 
 ! Copy and paste
-URxvt.iso14755: false
-URxvt.iso14755_52: false
-URxvt.keysym.C-c: perl:clipboard:copy
-URxvt.keysym.C-v: perl:clipboard:paste
-URxvt.keysym.C-M-v: perl:clipboard:paste_escaped
-URxvt.keysym.M-Escape: perl:keyboard-select:activate
-URxvt.keysym:M-s: perl:keyboard-select:search
-URxvt.clipboard.autocopy: true
+URxvt.iso14755:false
+URxvt.iso14755_52:false
+URxvt.keysym.C-c:perl:clipboard:copy
+URxvt.keysym.C-v:perl:clipboard:paste
+URxvt.keysym.C-M-v:perl:clipboard:paste_escaped
+URxvt.keysym.M-Escape:perl:keyboard-select:activate
+URxvt.keysym:M-s:perl:keyboard-select:search
+URxvt.clipboard.autocopy:true
 
 ! URLs
-URxvt.keysym.M-u: perl:url-select:select_next
-URxvt.url-select.launcher: /usr/bin/xdg-open
-URxvt.url-select.underline: true
+URxvt.keysym.M-u:perl:url-select:select_next
+URxvt.url-select.launcher:/usr/bin/xdg-open
+URxvt.url-select.underline:true
 
-! Use Ctrl+[0..9] to select window in tmux
-URxvt.keysym.C-1: \033[27;5;49~
-URxvt.keysym.C-2: \033[27;5;50~
-URxvt.keysym.C-3: \033[27;5;51~
-URxvt.keysym.C-4: \033[27;5;52~
-URxvt.keysym.C-5: \033[27;5;53~
-URxvt.keysym.C-6: \033[27;5;54~
-URxvt.keysym.C-7: \033[27;5;55~
-URxvt.keysym.C-8: \033[27;5;56~
-URxvt.keysym.C-9: \033[27;5;57~
-URxvt.keysym.C-0: \033[27;5;48~
-URxvt.keysym.C-Tab: \033[27;5;9~
+! Use Ctrl+[0..9], Tab to select window in tmux
+URxvt.keysym.C-1:\033[27;5;49~
+URxvt.keysym.C-2:\033[27;5;50~
+URxvt.keysym.C-3:\033[27;5;51~
+URxvt.keysym.C-4:\033[27;5;52~
+URxvt.keysym.C-5:\033[27;5;53~
+URxvt.keysym.C-6:\033[27;5;54~
+URxvt.keysym.C-7:\033[27;5;55~
+URxvt.keysym.C-8:\033[27;5;56~
+URxvt.keysym.C-9:\033[27;5;57~
+URxvt.keysym.C-0:\033[27;5;48~
+URxvt.keysym.C-Tab:\033[27;5;9~
