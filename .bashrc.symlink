@@ -3,43 +3,13 @@
 # Author:   Hai Bui
 # Source:   https://github.com/bvanhai/dotfiles
 #
-# Comment:  Executed by bash for non-login shells
+# Comment:  Executed by bash
 # ==============================================================================
 
-# Following automatically calls "startx" when you login:
-#[[ -z $DISPLAY && $XDG_VTNR -eq 1 ]] && exec startx -- -keeptty -nolisten tcp > ~/.xorg.log 2>&1
-
 # Test for an interactive shell
-if [[ $- != *i* ]] ; then
+if [[ $- != *i* ]]; then
     return
 fi
-
-
-# Prompt
-PROMPT_HOSTNAME='arch'
-PROMPT_COLOR='0;34m'
-PROMPT_COLOR2='0m'
-USER_NAME='bvanhai'
-
-PS1='\[\e]1;${PROMPT_HOSTNAME}\a\e]2;in \w\a\
-\[\e[0;34m\]$ \[\e[0m\]'
-
-
-# Append to the history file, don't overwrite it
-shopt -s histappend
-
-# Check the window size after each command and, if necessary, update the
-# values of LINES and COLUMNS.
-shopt -s checkwinsize
-
-# Save all strings of multiline commands in the same history entry
-shopt -s cmdhist
-
-# Bash can automatically prepend cd when entering just a path in the shell
-shopt -s autocd
-
-# Don't put duplicate lines or lines starting with space in the history.
-HISTCONTROL=ignoreboth:erasedups
 
 # Amount of commands that need to remember in the history list
 HISTSIZE=10000
@@ -50,8 +20,21 @@ HISTFILESIZE=10000
 # Set default command history file
 HISTFILE=$HOME/.history
 
-# For the protection and ability for future analyzing
-#HISTTIMEFORMAT="%h %d %H:%M:%S "
+# Don't put duplicate lines or lines starting with space in the history
+HISTCONTROL=ignoreboth:erasedups
+
+# Append to the history file, don't overwrite it
+shopt -s histappend
+
+# Check the window size after each command and, if necessary, update the values
+# of LINES and COLUMNS
+shopt -s checkwinsize
+
+# Save all strings of multiline commands in the same history entry
+shopt -s cmdhist
+
+# Bash can automatically prepend cd when entering just a path in the shell
+shopt -s autocd
 
 # Don't log some frequent commands and commands starting with whitespace
 HISTIGNORE="[ \t]*:ls:bg:fg:jobs:pwd"
@@ -60,28 +43,17 @@ HISTIGNORE="[ \t]*:ls:bg:fg:jobs:pwd"
 PROMPT_COMMAND='history -a'
 
 # Visual bell (none, visible, audible)
-#set bell-style visible
+set bell-style visible
 
-# If set, the pattern "**" used in a pathname expansion context will atch all
-# files and zero or more directories and subdirectories
-#shopt -s globstar
+# Prompt
+PS1='\[\033[1;34m\]$(whoami) \[\033[0m\]at \033[0;33m\]$(uname -n) \[\033[0m\]in \[\033[1;32m\]\w \n\[\033[1;30m\]>>> \[\033[0m\]'
 
-
-# Load profile definitions.
+# Load profile
 if [ -f $HOME/.profile ]; then
     . $HOME/.profile
 fi
 
-# Load alias definitions.
+# Load aliases
 if [ -f $HOME/.aliases ]; then
     . $HOME/.aliases
-fi
-
-# Enable programmable completion features
-if ! shopt -oq posix; then
-    if [ -f /usr/share/bash-completion/bash_completion ]; then
-        . /usr/share/bash-completion/bash_completion
-    elif [ -f /etc/bash_completion ]; then
-        . /etc/bash_completion
-    fi
 fi

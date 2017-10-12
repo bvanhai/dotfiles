@@ -3,234 +3,41 @@
 # Author:   Hai Bui
 # Source:   https://github.com/bvanhai/dotfiles
 #
-# Comment:  Alias is a command, which enables a replacement of a word with 
-#           another string
+# Comment:  Enables a replacement of a word with another string
 # ==============================================================================
 
 # Enable color support
 if [ -x /usr/bin/dircolors ]; then
-    test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
+    test -r $HOME/.dircolors && eval "$(dircolors -b $HOME/.dircolors)" || eval "$(dircolors -b)"
     alias ls='ls --color=auto'
     alias dir='dir --color=auto'
     alias vdir='vdir --color=auto'
 
     alias grep='grep --color=auto'
-    alias fgrep='fgrep --color=auto'
     alias egrep='egrep --color=auto'
+    alias fgrep='fgrep --color=auto'
 
     alias diff='diff --color=auto'
 fi
 
-# Some more ls aliases
-alias ll='ls -l'            # single column output
-alias la='ls -a'            # show hidden files
-alias lx='ls -xb'           # sort by extension
-alias lk='ls -lSr'          # sort by size, biggest last
-alias lc='ls -ltcr'         # sort by and show change time, most recent last
-alias lu='ls -ltur'         # sort by and show access time, most recent last
-alias lt='ls -ltr'          # sort by date, most recent last
-alias lm='ls -al | more'    # pipe through 'more'
-alias lr='ls -lR'           # recursive ls
+# Find out which distro we are using
+alias mydistro='cat /etc/*-release'
 
-# Show tree, limit level to 2 automatically
-alias tree='tree -L 2'
-
-# Nice alternative to 'recursive ls'
-alias lsr='tree -Csu'
-
-# View text files
-alias less='less -FX'
-
-# Query the systemd journal:
-alias jncl='journalctl -xrb'
-
-# Package managers on Arch Linux
-alias ya='yaourt'
-alias yy='yaourt -Syua'
-alias ys='yaourt -S'
-alias yr='yaourt -Rs'
-alias yq='yaourt -Q'
-alias yc='yaourt -Sc'
-alias orphans='pacman -Qtdq'
-
-# Package managers on Gentoo
-alias emi='sudo emerge -av'
-alias emu='sudo emerge -avuDN @world'
-alias emc='sudo emerge -avc'
-alias rrb='sudo revdep-rebuild -v'
-alias emr='sudo emerge @preserved-rebuild'
-alias emw='sudo emerge-webrsync'
-alias eml='emerge -p @installed'
-alias emf='emerge --info'
-alias eq='equery'
-alias eui='euse -i'
-alias eua='euse -a'
-alias eii='eix --installed-with-use'
-alias eiu='sudo eix-update'
-alias pca='sudo perl-cleaner --allmodules'
-alias etu='sudo etc-update'
-alias ql='qlop -tHvg'
-alias ecd='eclean -d distfiles'
-alias ecp='eclean -d packages'
-alias rcs='rc-status'
-
-# mlocate (search file/folder)
-alias dbu='sudo updatedb'
-alias ff='dbu && locate'
-
-# Check bspwm window rules:
-alias bsrl='xprop |awk "/WM_CLASS/{print $4}"'
-
-
-# Reload bspwm, sxhkd config:
-alias mybspwm='~/.config/bspwm/bspwmrc'
+# Reload bspwm, sxhkd config
+alias mybspwm='$HOME/.config/bspwm/bspwmrc'
 alias mysxhkd='pkill -USR1 -x sxhkd'
 
-# System
-alias sa='startx'
-alias sal='startx > .Xorg.log 2>&1'
-alias c='clear'
-alias e='exit'
-alias rb='sudo reboot'
-alias po='sudo poweroff'
-alias sr='sudo s2ram'
+# Check bspwm window rules
+alias bsrl='xprop |awk "/WM_CLASS/{print $4}"'
 
 # xclip
-alias pbcopy='xclip -selection clipboard'   # copy to clipboard, ctrl+c, ctrl+shift+c
-alias pbpaste='xclip -selection clipboard -o'   # paste from clipboard, ctrl+v, ctrl+shift+v
-alias pbselect='xclip -selection primary -o'    # paste from highlight, middle click, shift+insert
-
-# Directories
-alias cdr='cd /'
-alias cdt='cd /home/Data'
-alias cdm='cd /home/media'
-alias cdh='cd ~/'
-alias cdd='cd ~/Downloads'
-alias cdf='cd ~/dotfiles/'
-alias cddd='cd ~/dotfiles-d/'
-alias cdi='cd ~/dotfiles/linux/usr.tmp/src/my-pc-info'
-alias cdv='cd ~/.vim/'
-alias ..='cd ..'
-alias b='cd -'
-alias cp='cp -i'
-alias mv='mv -i'
-alias cpr='cp -r'
-#alias x='xargs -d "\n"'
-#alias j='jobs'
-
-# Git
-alias ga='git add'
-alias gc='git commit -m'
-alias gcu='git commit -m "Update"'
-alias gca='git commit -a -m'
-alias gcau='git commit -a -m 'Update''
-
-alias gp='git push -u origin master'
-alias gpu='git pull'
-alias gprb='git stash && git pull && git rebase && git stash apply && git stash drop'
-
-alias gs='git status'
-alias gsb='git status -sb'
-alias gco='git checkout '
-alias gcom='git checkout master'
-
-alias gpf='git push origin -f'
-alias gr='git reset'
-alias gr1='git reset HEAD~1 && git push origin -f'
-alias grh='git reset --hard'
-alias grh1='git reset --hard HEAD~1 && git push origin -f'
-
-alias ls-subtrees='git log | grep git-subtree-dir | awk "{ print $2 }"'
-alias ggp='git gc --prune=now'
-
-# Google Drive:
-alias cdgd='cd /home/media/gdrive'
-alias dp='drive push'
-alias dpL='cdgd && drive push Linux && cdh'
-alias dpu='drive pull'
-
-# Sync time and store to hardware clock
-alias mytime='sudo ntpd -qg && sudo hwclock -w'
-
-# tmux
-alias tmn='tmux new-session -d -s'
-alias tma='tmux attach-session -d -t'
-alias tmk='tmux kill-session -t'
-#alias tmux='TERM=screen-256color-bce tmux'     # <- not very nice
-alias tmux='tmux -2'    # force tmux to use 256 colors
-
-# LAN network
-alias pong='ping -c 3 www.google.com'
-alias lanup='sudo ip link set enp0s25 up'
-alias lanip='sudo dhcpcd enp0s25'
-
-# WiFi
-alias wifiup='sudo ip link set wlo1 up'
-alias wificonnect='sudo wpa_supplicant -i wlo1 -c /etc/wpa_supplicant.conf -B'
-alias wifiwep='sudo iwconfig wlo1 essid "wifi-id" key s:password'
-alias wifiip='sudo dhcpcd wlo1'
-alias wifimn='sudo wifi-menu'
-
-# Print the wireless driver in use
-mywifidriver() {
-    wireless=$(sudo lspci | grep -i "Network controller" | awk '{ print $1  }')
-    if [ $wireless ]; then
-        sudo lspci -vv -s $wireless | grep -iP 'kernel driver in use' | awk -F: '{ gsub(/[ \t]+/, ""); print $2;  }'
-    fi
-}
-
-# Restart wifi driver as it's broken sometimes after waking up from suspend
-mywifirestart() {
-    wirelessDriver=$(mywifidriver)
-    if [ $wirelessDriver ]; then
-        echo "Restarting wireless driver: $wirelessDriver"
-        sudo modprobe -r $wirelessDriver
-        sudo modprobe $wirelessDriver
-    fi
-}
-
-# wpa_cli
-alias wpas='wpa_cli status'
-alias wpac='wpa_cli scan_results'
-alias wpae='sudo nano -w /etc/wpa_supplicant/wpa_supplicant.conf'
-alias wpar='sudo /etc/init.d/wpa_supplicant restart'
-alias wpap='sudo /etc/init.d/wpa_supplicant stop'
-alias wpat='sudo /etc/init.d/wpa_supplicant start'
-
-
-#alias phoneup='sudo ip link set enp0s29f7u4u4u1 up'
-#alias phoneip='sudo dhcpcd enp0s29f7u4u4u1'
-
-# Android USB tethering: connect to the usb port beside the HDMI
-alias phoneip='sudo dhcpcd enp0s29f7u2'
-
-# Fix the DNS problem of the new router
-alias jurong='echo "nameserver 165.21.100.88" | sudo tee /etc/resolv.conf'
-
-# Touchpad Toggle
-alias padtog='synclient TouchpadOff=$(synclient -l | grep -c "TouchpadOff.*=.*0")'
-
-# Bluetooth
-alias onbt='sudo systemctl start bluetooth.service'
+alias pbcopy='xclip -selection clipboard'
+alias pbpaste='xclip -selection clipboard -o'
+alias pbselect='xclip -selection primary -o'
 
 # Top file, folder
 alias topbigdirs='du -h | sort -rh | head -n 20'
 alias topbigfiles='find . -type f -exec du -Sh {} + | sort -rh | head -n 20'
-
-# Mount/unmount USB/MMC
-alias usbm='sudo mount /dev/sdb1 /home/usb'
-alias usbu='sudo umount /home/usb'
-alias mmcm='sudo mount /dev/mmcblk0p1 /home/mmc'
-alias mmcu='sudo umount /home/mmc'
-
-# Mount/unmount NTFS partition
-alias osm='sudo mount -t ntfs-3g -L OS /home/OS'
-alias osu='sudo umount /home/OS'
-alias dtm='sudo mount -t ntfs-3g -L Data /home/Data'
-alias dtu='sudo umount /home/Data'
-
-# Compile kernel
-alias mkn='make nconfig'
 
 # proc
 alias findproc='ps aux | grep '
@@ -241,67 +48,35 @@ alias pgg='pgrep -g'
 alias pkx='pkill -x'
 alias pkg='pkill -g'
 
-# Find out which distro we are using
-alias mydistro='cat /etc/*-release'
-
-# project to external HDMI screen/monitor
-alias hdmi='xrandr --output HDMI1 --mode 1920x1080'
-
-# project to external VGA monitor
-alias vga='xrandr --output VGA1 --mode 1920x1080'
-alias vga2='xrandr --output VGA2 --mode 1920x1080'
-
 # Delete lock vim's session
-alias rmvim='rm $NOGIT/vimdata/sessions/default.vim.lock ; \
-             rm $NOGIT/vimdata/sessions/default.vim ; \
-             rm $NOGIT/vimdata/sessions/last-session.txt'
+alias rmvim='rm $HOME/.cache/vim/session/default.vim.lock ; \
+             rm $HOME/.cache/vim/session/default.vim ; \
+             rm $HOME/.cache/vim/session/last-session.txt'
 
-# To enable various useful stuff for Arch Linux guest in VirtualBox machine
-alias myvirtualbox='sudo modprobe -a vboxguest vboxsf vboxvideo ; \
-                    sudo VBoxClient-all & ; \
-                    sudo systemctl start vboxservice.service'
-
-
-# Add an "alert" alias for long running commands.  Use like so:
-# sleep 10; alert
-alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
-
-
-# For zathura and vim for latex
-# zathura -s -x 'gvim --servername SYNCTEX --remote +%{line} %{input}' thesis.pdf
-alias zavim='zathura -s -x "gvim --servername SYNCTEX --remote +%{line} %{input}"'
-
-# List all users
+# List all users, groups
 alias userlist='cut -d: -f1 /etc/passwd'
-
-# List all groups
 alias grouplist='cut -d: -f1 /etc/group'
-
-# View time
-alias tnow='date "+%Y.%m.%d-%H.%M"'
 
 # Permission
 alias cmw='sudo chmod -R go-w'
 alias chbin='chmod 755'
 alias chord='chmod 644'
 
-# Other
-alias octalrights='stat -c %a'
-alias cal='cal -m'
-alias lsync='rsync -aulv --delete'
-alias beep='printf "\a"'
+# Force tmux to use 256 colors
+alias tmux='tmux -2'
 
-alias rmrf='rm -rf'
-alias rmnn='rm -iv -- "$(nn)"'
-alias rmrfnn='rmrf -v -- "$(nn)"'
-alias ded='find . -type d -empty -print -delete'
-alias duffr='duff -f "%n" -r .'
-
-alias fq='fc-list : family | grep -i'
-alias fqs='fc-list : family style | grep -i'
-alias fqf='fc-list : family file | grep -i'
-alias dpms='xset q | grep "^ *DPMS is" | awk "{print \$3}" | tr "[:upper:]" "[:lower:]"'
-alias psa='ps -Ao tty,pgrp,ppid,pid,comm'
-
-# wget
+# Make offline mirror of a site using `wget`
 alias wwget='wget --mirror --convert-links --adjust-extension --page-requisites --no-parent'
+
+# WPA command line client
+alias wpas='wpa_cli status'
+alias wpac='wpa_cli scan_results'
+alias wpae="sudo $EDITOR /etc/wpa_supplicant/wpa_supplicant.conf"
+alias wpar='sudo /etc/init.d/wpa_supplicant restart'
+alias wpap='sudo /etc/init.d/wpa_supplicant stop'
+alias wpat='sudo /etc/init.d/wpa_supplicant start'
+
+# Load alias definitions local
+if [ -f $HOME/.aliases.local ]; then
+    . $HOME/.aliases.local
+fi

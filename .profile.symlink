@@ -3,85 +3,17 @@
 # Author:   Hai Bui
 # Source:   https://github.com/bvanhai/dotfiles
 #
-# Comment:
+# Comment:  Load environment settings
 # ==============================================================================
 
-# Make less more friendly for non-text input files, see lesspipe(1)
-#[ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
-
-# General
-export GTK2_RC_FILES="$HOME/.gtkrc-2.0"
-export DMENUFONT="Consolas-11"
-export TERMINAL=urxvt
-export GUI_EDITOR=subl
+# Some environment variables
 export EDITOR=nvim
-export PAGER=less
-export BROWSER=/usr/bin/chromium
-export MANWIDTH=140
-export KEYTIMEOUT=15
+export EDITOR_GUI=subl
+export VISUAL=$EDITOR
 
-# Input method framework to enter foreign characters
-export GTK_IM_MODULE=ibus
-export XMODIFIERS=@im=ibus
-export QT_IM_MODULE=ibus
+# Default permission
+umask 022
 
-# Man page colours
-export LESS_TERMCAP_mb=$'\E[01;31m'
-export LESS_TERMCAP_md=$'\E[01;35m'
-export LESS_TERMCAP_me=$'\E[0m'
-export LESS_TERMCAP_se=$'\E[0m'
-export LESS_TERMCAP_so=$'\E[01;30;03;36m'
-export LESS_TERMCAP_ue=$'\E[0m'
-export LESS_TERMCAP_us=$'\E[01;34m'
-
-# Linux console colors (jwrdark)
-if [ "$TERM" = "linux" ]; then
-    echo -en "\e]P0000000" # black
-    echo -en "\e]P85e5e5e" # darkgrey
-    echo -en "\e]P18a2f58" # darkred
-    echo -en "\e]P9cf4f88" # red
-    echo -en "\e]P2287373" # darkgreen
-    echo -en "\e]PA53a6a6" # green
-    echo -en "\e]P3914e89" # darkyellow
-    echo -en "\e]PBbf85cc" # yellow
-    echo -en "\e]P4395573" # darkblue
-    echo -en "\e]PC4779b3" # blue
-    echo -en "\e]P55e468c" # darkmagenta
-    echo -en "\e]PD7f62b3" # magenta
-    echo -en "\e]P62b7694" # darkcyan
-    echo -en "\e]PE47959e" # cyan
-    echo -en "\e]P7899ca1" # lightgrey
-    echo -en "\e]PFc0c0c0" # white
-#    clear # bring us back to default input colors
-else
-    export TERM=rxvt-unicode
-fi
-
-#export SSH_KEY_PATH="~/.ssh/rsa_id"
-
-# Language
-#export LANGUAGE=en_US:en
-#export LANG=en_US.UTF-8
-#export LC_ALL=en_US.UTF-8
-
-# Better yaourt colors
-export YAOURT_COLORS="nb=1:pkg=1:ver=1;32:lver=1;45:installed=1;42:grp=1;34:od=1;41;5:votes=1;44:dsc=0:other=1;35"
-
-# Non-root user: set umask to `077` to increase security, so that the default
-# permission: new file is 600, new directory is 700
-# Root: umask to `022`, so that default permission: new file is 644, new
-# directory is 755
-if (( $EUID != 0 )); then
-    # non-root user
-#    umask 077
-    umask 022
-else
-    # root
-    umask 022
-fi
-
-# Use `umask 022` for sudo command to allow root user to create new file with
-# 755 permission, which allows reading and executing permissions to all users
 sudo() {
     old=$(umask)
     umask 022
@@ -95,14 +27,12 @@ pathAdd() {
         PATH="${PATH:+"$PATH:"}$1"
     fi
 }
-pathAdd /usr/sbin
-pathAdd /sbin
+
 pathAdd $HOME/.bin
-pathAdd $HOME/.bin/colorscheme
-pathAdd $HOME/.bin/dmenu
-pathAdd $HOME/.bin/media
-pathAdd $HOME/.bin/other
 pathAdd $HOME/.bin/panel
-pathAdd $HOME/.bin/system-info
 pathAdd $HOME/.bin/tmux
-pathAdd $HOME/.conky
+
+# Load profile local
+if [ -f $HOME/.profile.local ]; then
+    . $HOME/.profile.local
+fi
