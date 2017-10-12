@@ -1,14 +1,14 @@
-# My Linux dotfiles
+# My GNU/Linux dotfiles
 
 <br>
 
 <img src="/.scrot.symlink/tux.jpg" data-canonical-src="https://github.com/bvanhai/dotfiles" width="512" height="192" />
 
-🐧 This is a collection of **dotfiles** for use with **BSPWM** or any other **window manager** that requires the use of a **dzen panel**.
+:penguin: This is a collection of **dotfiles** for use with **BSPWM** or any other **window manager** that requires the use of a **dzen panel**.
 <br>
-🐧 It is **my personal configuration** and includes all of the features I find necessary for a full WM experience.
+:penguin: It is **my personal configuration** and includes all of the features I find necessary for a full WM experience.
 <br>
-🐧 My `.vim` folder is [here](https://github.com/bvanhai/.vim) and `My GNU/Linux cheat-sheet` is [here](https://github.com/bvanhai/dotfiles/blob/master/doc/My-GNU-Linux-cheat-sheet.txt).
+:penguin: My `.vim` folder is [here](https://github.com/bvanhai/.vim) and `My GNU/Linux cheat-sheet` is [here](https://github.com/bvanhai/dotfiles/blob/master/doc/My-GNU-Linux-cheat-sheet.txt).
 <br>
 
 ## Table of Contents
@@ -45,7 +45,8 @@
 
 <br>
 
-![Version5](/.scrot.symlink/v5.png)
+![Version5](/.scrot.symlink/v5a.png)
+![Version5](/.scrot.symlink/v5b.png)
 
 <br>
 
@@ -59,7 +60,7 @@
 
 <br>
 
-### Version 3: 2016-01-13
+### Version 3: 2016-01-11
 
 <br>
 
@@ -91,7 +92,7 @@
 
 ## Requirements
 
-Here is the list of relevant packages/programs that I use. You don't need to install everything below, just choose what you want and then select which dotfile to be symlinked in the `config` file.
+Here is the list of relevant packages/programs that I use. You don't need to install everything below, just choose what you want and then select which dotfiles to be symlinked in the `config` file.
 
 ### General
 * `bspwm`                  (window manager)
@@ -222,7 +223,7 @@ $ make oldconfig && make prepare
 * [My GNU/Linux cheat-sheet - bvanhai](https://github.com/bvanhai/dotfiles/blob/master/doc/My-GNU-Linux-cheat-sheet.txt)
 * [My Arch Linux install - bvanhai](https://github.com/bvanhai/dotfiles/blob/master/doc/My-Arch-Linux-install.txt)
 * [My Gentoo Linux install - bvanhai](https://github.com/bvanhai/dotfiles/blob/master/doc/My-Gentoo-Linux-install.txt)
-* [Awesome Ubuntu Linux - LewisVo](https://github.com/LewisVo/Awesome-Linux-Software)
+* [Awesome Linux Software - LewisVo](https://github.com/LewisVo/Awesome-Linux-Software)
 * [The Linux Kernel Configuration Guide - DOTSLASHLINUX](https://dotslashlinux.com/2017/08/24/the-linux-kernel-configuration-guide-part-1)
 
 <br>
@@ -237,6 +238,12 @@ Acknowledgment; I established this dotfiles referring to the following user's re
 * *Conky* based on [@dobbie03's conky](https://dobbie03.deviantart.com/) and [@satya164's conky](https://satya164.deviantart.com/art/Conky-Google-Now-366545753) - [deviantart](http://www.deviantart.com/browse/all/customization/skins/linuxutil/applications/conky/)
 
 Many thanks to the [dotfiles community](http://dotfiles.github.io/) and the creators of the incredibly useful tools.
+
+<br>
+
+## License
+
+Licensed under the [MIT license](/doc/LICENSE.md).
 
 <br>
 
