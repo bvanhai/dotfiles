@@ -40,7 +40,7 @@ URxvt.cursorUnderline:false
 URxvt.fading:24
 URxvt.saveLines:50000
 URxvt.internalBorder:6
-URxvt.geometry:100x30
+!URxvt.geometry:100x30
 URxvt.scrollBar:false
 URxvt.intensityStyles:false
 
