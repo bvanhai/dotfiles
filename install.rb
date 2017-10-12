@@ -1,11 +1,10 @@
 #!/usr/bin/env ruby
-
 # ==============================================================================
 # File:     install.rb
 # Author:   Tung Le
 # Source:   https://github.com/tungel/dotfiles
 #
-# Comment:
+# Comment:  Make dotfiles to be symlinked, work with 'config' file
 # ==============================================================================
 
 require 'io/console' # for STDIN.getch
@@ -147,7 +146,6 @@ end
 
 CONFIG_FILE = "config"
 TARGET = File.expand_path('~') # user's home dir
-# TARGET = "/home/tung/mytemp/test" # for testing
 
 # Get absolute path of the dotfiles repo
 SOURCE_DIR = File.expand_path File.dirname(__FILE__)

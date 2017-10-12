@@ -3,27 +3,26 @@
 # Author:   Tung Le
 # Source:   https://github.com/tungel/dotfiles
 #
-# Comment:  Define which dotfiles to be symlinked
+# Comment:  Define which dotfiles to be symlinked, work with 'install.rb' file
 # ==============================================================================
+
 
 # ==============================================================================
 # The most common dot files
+.bashrc
+.profile
 .vimrc
 .vimrc-extended
 .vimrc-plugins
-.profile
-.bashrc
-.zshrc
 .tmux.conf
 .yaourtrc
+.zshrc
 
 # Common directories
 .bin
 .zsh
 .vim
 # ==============================================================================
-
-
 
 
 # ==============================================================================
@@ -40,7 +39,6 @@
 .xinitrc
 .Xmodmap
 .Xresources
-
 
 # Other directories
 .aria2
