@@ -13,15 +13,13 @@
 # ______________
 
 # Enable 256 colors in the terminal emulator
-#set -g default-terminal 'tmux-256color'
-set -g default-terminal 'xterm-256color'
+set -g default-terminal 'tmux-256color'
 
 # Needs this line also to overrides the default color, so that the neovim color
 # themes work correctly
 set -ga terminal-overrides ',xterm-256color:Tc'
 
 # Allow Neovim in tmux to change cursor shape to vertical bar in insert mode
-# previously it worked fine, but after neovim commit 0e546d8 we need the below
 set -ga terminal-overrides ',*:Ss=\E[%p1%d q:Se=\E[2 q'
 
 # Pass xterm-style keys to make key combinations work as expected
@@ -51,9 +49,7 @@ set -g status-keys vi
 setw -g mode-keys vi
 
 # Window title:
-set -g set-titles on
-set -g set-titles-string '[#S:#I] #W'
-setw -g automatic-rename on
+set -g allow-rename off
 
 # Automatically renumber windows after one of them is closed
 #set -g renumber-windows on
