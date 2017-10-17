@@ -40,13 +40,13 @@ setopt HIST_REDUCE_BLANKS
 # GENERAL
 # ________________
 
+# Load functions, this must be put above compinit and promptinit
+fpath=($HOME/.zsh/functions $fpath)
+
 # Completion
 zstyle :compinstall filename '$HOME/.zshrc'
 autoload -Uz compinit promptinit
 compinit
-
-# Load functions, this must be put above promptinit
-fpath=($HOME/.zsh/functions $fpath)
 promptinit
 
 # Use cache for the completions
