@@ -49,6 +49,9 @@ set -g status-keys vi
 setw -g mode-keys vi
 
 # Window title:
+set -g set-titles on
+set -g set-titles-string '[#S:#I] #W'
+setw -g automatic-rename on
 set -g allow-rename off
 
 # Automatically renumber windows after one of them is closed
