@@ -41,7 +41,10 @@ setopt HIST_REDUCE_BLANKS
 # ________________
 
 # Load functions, this must be put above compinit and promptinit
-fpath=($HOME/.zsh/functions $fpath)
+zfunctions=(gentoo-zsh-completions zsh-completions zsh-prompt)
+for function ($zfunctions); do
+    fpath=($HOME/.zsh/functions/$function/src $fpath)
+done
 
 # Completion
 zstyle :compinstall filename '$HOME/.zshrc'
@@ -163,7 +166,6 @@ bindkey '^[p' zaw-process
 # ________________
 
 # Prompt with git status
-
 PS1=$'%{\e[1;34m%}%n %{\e[0m%}at %{\e[0;33m%}%M %{\e[0m%}in %{\e[1;32m%}%~ %b$(git_super_status) $prompt_newline%{\e[1;30m%}>>> %{\e[0m%}'
 
 # Ensure that the prompt is redrawn when the terminal size changes
@@ -198,7 +200,20 @@ zle-keymap-select () {
 zle-line-finish() {
     set_prompt_color $INSERT_PROMPT
 }
-
+# Load plugins
+zplugins=(archlinux dirhistory sudo tmux z zaw zsh-autosuggestions zsh-git-prompt zsh-syntax-highlighting zsh-history-substring-search)
+# Note: zsh-syntax-highlighting must load before zsh-history-substring-search
+for plugin ($zplugins); do
+    if [ -f $HOME/.zsh/plugins/$plugin/$plugin.plugin.zsh ]; then
+        . $HOME/.zsh/plugins/$plugin/$plugin.plugin.zsh
+    elif [ -f $HOME/.zsh/plugins/$plugin/$plugin.zsh ]; then
+        . $HOME/.zsh/plugins/$plugin/$plugin.zsh
+    elif [ -f $HOME/.zsh/plugins/$plugin/$plugin.sh ]; then
+        . $HOME/.zsh/plugins/$plugin/$plugin.sh
+    elif [ -f $HOME/.zsh/plugins/$plugin/*.sh ]; then
+        . $HOME/.zsh/plugins/$plugin/*.sh
+    fi
+done
 zle-line-init () {
     zle -K viins
     set_prompt_color $INSERT_PROMPT
@@ -215,7 +230,7 @@ zle -N zle-line-init
 #
 
 # Load plugins
-plugins=(archlinux dirhistory sudo tmux z zaw zsh-autosuggestions zsh-completions zsh-git-prompt zsh-syntax-highlighting zsh-history-substring-search)
+plugins=(archlinux dirhistory sudo tmux z zaw zsh-autosuggestions zsh-git-prompt zsh-syntax-highlighting zsh-history-substring-search)
 # Note: zsh-syntax-highlighting must load before zsh-history-substring-search
 for plugin ($plugins); do
     if [ -f $HOME/.zsh/plugins/$plugin/$plugin.plugin.zsh ]; then
