@@ -3,7 +3,8 @@
 # Author:   Hai Bui
 # Source:   https://github.com/bvanhai/dotfiles
 #
-# Comment:  Run: `pkill -USR1 -x sxhkd` after modify this file to reload
+# Comment:  Run: `pkill -USR1 -x sxhkd` after modify this file to make sxhkd
+#           reload its configuration files
 # ==============================================================================
 
 
@@ -27,23 +28,20 @@ ctrl + shift + alt + Escape
 # DEFAULT
 # ______________
 
-# Quit bspwm
+# Quit bspwm normally
 ctrl + shift + Escape
     bspc quit
 
-# Close and kill window
+# Close and kill
 super + {_,shift + }Escape
     bspc node -{c,k}
-
-# Refresh all windows
-super + ctrl + alt + r
-    xrefresh
 
 # Alternate between the tiled and monocle layout
 super + m
     bspc desktop -l next
 
-# If the current node is automatic, send it to the last manual, otherwise pull the last leaf
+# If the current node is automatic, send it to the last manual, otherwise pull the
+# last leaf
 super + y
     bspc query -N -n focused.automatic && bspc node -n last.!automatic || bspc node last.leaf -n focused
 
@@ -92,33 +90,21 @@ super + shift + b
 super + {_,shift + }{h,j,k,l}
     bspc node -{f,s} {west,south,north,east}
 
-# focus the node for the given path jump
+# Focus the node for the given path jump
 super + {shift + comma,shift + period,comma,period}
     bspc node -f @{parent,brother,first,second}
 
-# Circulate the leaves of the tree of the selected desktop
-super + ctrl + {grave,Tab}
-    bspc node @/ -C {backward,forward}
-
-# Focus the next/previous node
-super + shift + {grave,Tab}
-    bspc node -f {prev,next}
-
-# Switch windows sequentially (like an app/task switcher)
+# Focus the next/previous node in the current desktop
 super + {grave,Tab}
     bspc node -f {prev,next}.local
 
-# Focus the next/previous desktop
+# Focus the next/previous desktop in the current monitor
 super + bracket{left,right}
-    bspc desktop -f {prev,next}
+    bspc desktop -f {prev,next}.local
 
 # Focus the last node/desktop
 super + alt + {grave,Tab}
     bspc {node,desktop} -f last
-
-# Switches Window w/ Previous Window 
-super + apostrophe
-    bspc node -s last
 
 # Focus the older or newer node in the focus history
 super + {o,i}
@@ -152,6 +138,8 @@ super + ctrl + space
 super + ctrl + shift + space
     bspc query -N -d | xargs -I id -n 1 bspc node id -p cancel
 
+
+
 #
 # MOVE/RESIZE
 # ______________
@@ -160,19 +148,17 @@ super + ctrl + shift + space
 super + alt + {h,j,k,l}
     bspc node -z {left -20 0,bottom 0 20,top 0 -20,right 20 0}
 
-#super + alt + {h,j,k,l}
-#    bspc node {@west -r -10,@south -r +10,@north -r -10,@east -r +10}
-
 # Contract a window by moving one of its side inward
 super + alt + shift + {h,j,k,l}
     bspc node -z {right -20 0,top 0 20,bottom 0 -20,left 20 0}
 
-#super + alt + shift + {h,j,k,l}
-#    bspc node {@east -r -10,@north -r +10,@south -r -10,@west -r +10}
-
 # Move a floating window
 super + alt + ctrl + {h,j,k,l}
     bspc node -v {-20 0,0 20,0 -20,20 0}
+
+# Circulate the leaves of the tree of the selected desktop
+super + ctrl + {grave,Tab}
+    bspc node @/ -C {backward,forward}
 
 
 
@@ -180,8 +166,8 @@ super + alt + ctrl + {h,j,k,l}
 # ADD REMOVE GAPS/PADDING
 # ______________
 
-#ctrl + bracket{left,right}
-#    bspc config -m focused window_gap {33,6}
+ctrl + bracket{left,right}
+    bspc config -m focused window_gap {40,4}
 
 ctrl + shift + bracket{left}
     bspc config right_padding 40;\
@@ -190,10 +176,10 @@ ctrl + shift + bracket{left}
     bspc config bottom_padding 40
 
 ctrl + shift + bracket{right}
-    bspc config right_padding 0;\
-    bspc config left_padding 0 ;\
-    bspc config top_padding 25 ;\
-    bspc config bottom_padding 0
+    bspc config right_padding -4;\
+    bspc config left_padding -4 ;\
+    bspc config top_padding -4 ;\
+    bspc config bottom_padding -4
 
 
 
@@ -217,8 +203,6 @@ ctrl + shift + bracket{right}
 #super + !button{1-3}
 #    bspc pointer -t %i %i
 
-# ==============================================================================
-
 
 
 
@@ -229,7 +213,7 @@ ctrl + shift + bracket{right}
 # ==============================================================================
 
 #
-# LAUNCHERS
+# PROGRAM LAUNCHER
 # ______________
 
 #super + BackSpace
@@ -351,16 +335,20 @@ super + shift + z
 #
 
 # Toggle panel
-super + p
-    nohup panel >/dev/null 2>&1; \
+super + apostrophe
+    nohup panel > /dev/null 2>&1; \
     $HOME/.config/bspwm/bspwmrc
 
 # Start panel
-super + shift + p
+super + shift + apostrophe
     panel
 
+# Kill panel
+super + ctrl + apostrophe
+    pkill -x panel
+
 # Reload bspwmrc file
-super + ctrl + p
+alt + apostrophe
     $HOME/.config/bspwm/bspwmrc
 
 # Caps Lock Indicator
@@ -490,5 +478,3 @@ shift + @Print
     cd $HOME/.scrot/screenshot/; \
     scrot -s; \
     aplay $HOME/.scrot/sound/camera-shutter-click-02.wav
-
-# ==============================================================================
