@@ -132,8 +132,8 @@ while read -r line ; do
       ;;
   esac
   left_side="$wm_infos$title"
-#  right_side="$vol $net $cpu $bat $mem $disk $temp $clock"
-  right_side="$vol $net $cpu $mem $disk $temp $clock"
+  right_side="$vol $net $cpu $bat $mem $disk $temp $clock"
+#  right_side="$vol $net $cpu $mem $disk $temp $clock"
   left_indent=0
   right_indent=$COMPUTED_INDENT
   printf "%s\n" "^pa($left_indent)$left_side^pa($right_indent)$right_side"
