@@ -1,6 +1,6 @@
 #!/bin/sh
 
-SESSION=bvanhai1
+SESSION=tmux1
 echo "starting $SESSION tmux session"
 
 tmux has -t $SESSION
