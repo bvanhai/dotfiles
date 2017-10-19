@@ -50,7 +50,7 @@ setw -g mode-keys vi
 
 # Window title:
 set -g set-titles on
-set -g set-titles-string '[#S:#I] #W'
+set -g set-titles-string '#W'
 setw -g automatic-rename on
 set -g allow-rename off
 
