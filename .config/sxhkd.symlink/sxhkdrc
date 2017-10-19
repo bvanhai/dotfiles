@@ -3,17 +3,10 @@
 # Author:   Hai Bui
 # Source:   https://github.com/bvanhai/dotfiles
 #
-# Comment:  Simple X hotkey daemon
-#
-#           Run: `pkill -USR1 -x sxhkd` after modify this file
+# Comment:  Run: `pkill -USR1 -x sxhkd` after modify this file to reload
 # ==============================================================================
 
 
-
-
-# Make .Xresources reload its configuration files:
-super + F2
-    xrdb -merge ~/.Xresources
 
 # Kill all active background programs that started with user bvanhai
 ctrl + alt + Escape
@@ -26,9 +19,12 @@ ctrl + shift + alt + Escape
 
 
 
+# ==============================================================================
+#                                BSPWM HOTKEYS
+# ==============================================================================
 
 #
-# BSPWM HOTKEYS
+# DEFAULT
 # ______________
 
 # Quit bspwm
@@ -54,7 +50,6 @@ super + y
 # Swap the current node and the biggest node
 super + g
     bspc node -s biggest
-
 
 
 
@@ -86,6 +81,7 @@ super + b
 # Undo balancing (equalize windows)
 super + shift + b
     bspc node @/ -E 
+
 
 
 #
@@ -134,6 +130,8 @@ super + {o,i}
 super + {_,shift + }{1-9,0}
     bspc {desktop -f,node -d} '^{1-9,10}'
 
+
+
 #
 # PRESELECT
 # ______________
@@ -178,7 +176,6 @@ super + alt + ctrl + {h,j,k,l}
 
 
 
-
 #
 # ADD REMOVE GAPS/PADDING
 # ______________
@@ -220,18 +217,21 @@ ctrl + shift + bracket{right}
 #super + !button{1-3}
 #    bspc pointer -t %i %i
 
+# ==============================================================================
 
 
 
 
 
 
+# ==============================================================================
+#                            WM INDEPENDENT HOTKEYS
+# ==============================================================================
 
 #
-# WM INDEPENDENT HOTKEYS
+# LAUNCHERS
 # ______________
 
-# Program launcher
 #super + BackSpace
 #    dmenu-running-apps.sh
 
@@ -256,8 +256,10 @@ ctrl + alt + Delete
 
 
 
-
+#
 # RUN APPLICATIONS
+#
+
 super + Return
     urxvt -name main
 
@@ -276,7 +278,7 @@ super + ctrl + w
 super + alt + w
     urxvt -name tmux2 -e tmux-utility2.sh
 
-super + alt + ctrl + w
+super + shift + w
     tmux kill-session -t bvanhai2
 
 super + alt + w
@@ -304,7 +306,6 @@ super + alt + shift + e
     sudo pcmanfm
 
 super + q
-#    google-chrome-stable
     chromium
 
 super + shift + q
@@ -314,7 +315,7 @@ super + a
     music.sh
 
 super + shift + a
-    $HOME/.bin/mpdToggle.sh
+    mpdToggle.sh
 
 super + ctrl + a
     killall mpd
@@ -343,6 +344,12 @@ super + z
 super + shift + z
     gksu 'sudo modprobe vboxdrv'
 
+
+
+#
+# PANEL, DZEN2 CONTROL
+#
+
 # Toggle panel
 super + p
     nohup panel >/dev/null 2>&1; \
@@ -350,88 +357,78 @@ super + p
 
 # Start panel
 super + shift + p
-    $HOME/.bin/panel/panel
+    panel
 
-# Kill panel
+# Reload bspwmrc file
 super + ctrl + p
     $HOME/.config/bspwm/bspwmrc
 
 # Caps Lock Indicator
 Caps_Lock
-    $HOME/.bin/panel/dzen2-caps-not
+    dzen2-caps-not
 
 # Toggle trayer
 super + shift + F5
-    $HOME/.bin/trayerToggle.sh
+    trayerToggle.sh
 
-# Show clock
+# Toggle clock
 super + F5
-    $HOME/.bin/clockToggle.sh
-
+    clockToggle.sh
 
 
 
 #
-# MEDIA KEYS
+# VOLUME CONTROL
 # ______________
 
-# Volume Control
 super + Down
     amixer set Master 5%- unmute; \
-    $HOME/.bin/panel/dzen2-vol-not
-
-super + Up
-    amixer set Master 5%+ unmute; \
-    $HOME/.bin/panel/dzen2-vol-not
+    dzen2-vol-not
 
 XF86AudioLowerVolume
     amixer set Master 5%- unmute; \
-    $HOME/.bin/panel/dzen2-vol-not
+    dzen2-vol-not
+
+super + Up
+    amixer set Master 5%+ unmute; \
+    dzen2-vol-not
 
 XF86AudioRaiseVolume
     amixer set Master 5%+ unmute; \
-    $HOME/.bin/panel/dzen2-vol-not
+    dzen2-vol-not
 
 XF86AudioMute
     amixer set Master toggle; \
-#    amixer set Headphone toggle; \
-#    amixer set Speaker+LO toggle; \
-    $HOME/.bin/panel/dzen2-vol-mute-not
+    dzen2-vol-mute-not
 
 XF86AudioMicMute
     amixer set Master toggle; \
-#    amixer set Headphone toggle; \
-#    amixer set Speaker+LO toggle; \
-    $HOME/.bin/panel/dzen2-vol-mute-not
+    dzen2-vol-mute-not
 
 
-# Touchpad Toggle
-XF86TouchpadToggle
-    synclient TouchpadOff=$(synclient -l | grep -c 'TouchpadOff.*=.*0')
 
-shift + F12
-    synclient TouchpadOff=$(synclient -l | grep -c 'TouchpadOff.*=.*0')
+#
+# BRIGHTNESS CONTROL
+# ______________
 
-
-# Brightness Xkeys
 XF86MonBrightnessDown
     xbacklight -dec 10%; \
-    $HOME/.bin/panel/dzen2-blight-not
+    dzen2-blight-not
 
 XF86MonBrightnessUp
     xbacklight -inc 10%; \
-    $HOME/.bin/panel/dzen2-blight-not
+    dzen2-blight-not
 
 super + Left
     xbacklight -dec 10%; \
-    $HOME/.bin/panel/dzen2-blight-not
+    dzen2-blight-not
 
 super + Right
     xbacklight -inc 10%; \
-    $HOME/.bin/panel/dzen2-blight-not
+    dzen2-blight-not
 
 XF86Battery
-    $HOME/.bin/xautolockToggle.sh
+    xautolockToggle.sh
 
 super + XF86Battery
     xset dpms 0 0 0 && xset s off
@@ -446,28 +443,52 @@ XF86Sleep
     xset dpms force off
 
 
-# Take screenshot 
-Print
-    cd ~/.scrot/screenshot/; \
-    scrot; \
-    aplay ~/.scrot/sound/camera-shutter-click-01.wav
 
-# Take screenshot window
-shift + @Print
-    cd ~/.scrot/screenshot/; \
-    scrot -s; \
-    aplay ~/.scrot/sound/camera-shutter-click-02.wav
+#
+# TOUCHPAD CONTROL
+# ______________
+
+XF86TouchpadToggle
+    synclient TouchpadOff=$(synclient -l | grep -c 'TouchpadOff.*=.*0')
+
+ctrl + shift + F12
+    synclient TouchpadOff=$(synclient -l | grep -c 'TouchpadOff.*=.*0')
+
+
+
+#
+# SCREEN ROTATE
+# ______________
+
+alt + F12
+    xrandr --output LVDS1 --rotate normal
+
+ctrl + F12
+    xrandr --output LVDS1 --rotate right
+
+
+
+#
+# SCREENSHOT
+# ______________
+
+# Take screenshot
+Print
+    cd $HOME/.scrot/screenshot/; \
+    scrot; \
+    aplay $HOME/.scrot/sound/camera-shutter-click-01.wav
 
 # Take screenshot after 5 second
 ctrl + Print
-    cd ~/.scrot/screenshot/; \
-    aplay ~/.scrot/sound/camera-focusing-02.wav; \
+    cd $HOME/.scrot/screenshot/; \
+    aplay $HOME/.scrot/sound/camera-focusing-02.wav; \
     scrot -d 1; \
-    aplay ~/.scrot/sound/camera-shutter-click-01.wav
+    aplay $HOME/.scrot/sound/camera-shutter-click-01.wav
 
+# Take screenshot of window
+shift + @Print
+    cd $HOME/.scrot/screenshot/; \
+    scrot -s; \
+    aplay $HOME/.scrot/sound/camera-shutter-click-02.wav
 
-# Screen rotate
-alt + F12
-    xrandr --output LVDS1 --rotate normal
-ctrl + F12
-    xrandr --output LVDS1 --rotate right
+# ==============================================================================
