@@ -20,12 +20,31 @@ if [ -x /usr/bin/dircolors ]; then
     alias diff='diff --color=auto'
 fi
 
+# Some more ls aliases
+alias la='ls -a'           # show hidden
+alias ll='la -l'           # single column output
+alias lx='la -xb'          # sort by extension
+alias lk='la -lSr'         # sort by size, biggest last
+alias lc='la -ltcr'        # sort by and show change time, most recent last
+alias lu='la -ltur'        # sort by and show access time, most recent last
+alias lt='la -ltr'         # sort by date, most recent last
+alias lm='la -l | more'    # pipe through 'more'
+alias lr='ls -lR'          # recursive ls
+alias lf='ls -ld *(-/DN)'  # show directories
+alias lh='ls -ld .*'       # show beginning with "."
+
+# Some more tree aliases
+alias tra='tree -L 2 -a'  # limit level to 2, show hidden
+alias trd='tra -d'        # list directories only 
+alias trr='tra -su'       # nice alternative to 'recursive ls'
+
 # Find out which distro we are using
 alias mydistro='cat /etc/*-release'
 
-# Reload bspwm, sxhkd config
+# Reload bspwm, sxhkd, xrdb config
 alias mybspwm='$HOME/.config/bspwm/bspwmrc'
 alias mysxhkd='pkill -USR1 -x sxhkd'
+alias myxrdb='xrdb -merge ~/.Xresources'
 
 # Check bspwm window rules
 alias bsrl='xprop |awk "/WM_CLASS/{print $4}"'
@@ -75,6 +94,9 @@ alias wpae="sudo $EDITOR /etc/wpa_supplicant/wpa_supplicant.conf"
 alias wpar='sudo /etc/init.d/wpa_supplicant restart'
 alias wpap='sudo /etc/init.d/wpa_supplicant stop'
 alias wpat='sudo /etc/init.d/wpa_supplicant start'
+
+# Test network
+alias pong='ping -c 3 www.google.com'
 
 # Load alias definitions local
 if [ -f $HOME/.aliases.local ]; then
