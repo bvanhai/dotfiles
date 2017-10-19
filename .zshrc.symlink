@@ -200,20 +200,7 @@ zle-keymap-select () {
 zle-line-finish() {
     set_prompt_color $INSERT_PROMPT
 }
-# Load plugins
-zplugins=(archlinux dirhistory sudo tmux z zaw zsh-autosuggestions zsh-git-prompt zsh-syntax-highlighting zsh-history-substring-search)
-# Note: zsh-syntax-highlighting must load before zsh-history-substring-search
-for plugin ($zplugins); do
-    if [ -f $HOME/.zsh/plugins/$plugin/$plugin.plugin.zsh ]; then
-        . $HOME/.zsh/plugins/$plugin/$plugin.plugin.zsh
-    elif [ -f $HOME/.zsh/plugins/$plugin/$plugin.zsh ]; then
-        . $HOME/.zsh/plugins/$plugin/$plugin.zsh
-    elif [ -f $HOME/.zsh/plugins/$plugin/$plugin.sh ]; then
-        . $HOME/.zsh/plugins/$plugin/$plugin.sh
-    elif [ -f $HOME/.zsh/plugins/$plugin/*.sh ]; then
-        . $HOME/.zsh/plugins/$plugin/*.sh
-    fi
-done
+
 zle-line-init () {
     zle -K viins
     set_prompt_color $INSERT_PROMPT
@@ -230,8 +217,8 @@ zle -N zle-line-init
 #
 
 # Load plugins
-plugins=(archlinux dirhistory sudo tmux z zaw zsh-autosuggestions zsh-git-prompt zsh-syntax-highlighting zsh-history-substring-search)
 # Note: zsh-syntax-highlighting must load before zsh-history-substring-search
+plugins=(archlinux dirhistory sudo tmux z zaw zsh-autosuggestions zsh-git-prompt zsh-syntax-highlighting zsh-history-substring-search)
 for plugin ($plugins); do
     if [ -f $HOME/.zsh/plugins/$plugin/$plugin.plugin.zsh ]; then
         . $HOME/.zsh/plugins/$plugin/$plugin.plugin.zsh
