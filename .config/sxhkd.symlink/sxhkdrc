@@ -251,19 +251,19 @@ super + shift + Return
     urxvt -name tmux1 -e tmux-utility1.sh
 
 super + ctrl + Return
-    tmux kill-session -t bvanhai1
+    tmux kill-session -t tmux1
 
 super + w
     urxvt -name tmux3 -e tmux-utility3.sh
 
 super + ctrl + w
-    tmux kill-session -t bvanhai3
+    tmux kill-session -t tmux3
 
 super + alt + w
     urxvt -name tmux2 -e tmux-utility2.sh
 
 super + shift + w
-    tmux kill-session -t bvanhai2
+    tmux kill-session -t tmux2
 
 super + alt + w
     lxterminal
