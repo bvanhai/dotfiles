@@ -4,7 +4,7 @@
 # Author:   Hai Bui
 # Source:   https://github.com/bvanhai/dotfiles
 #
-# Comment:
+# Comment:  Executed by bspwm
 # ==============================================================================
 
 # Load color scheme
@@ -44,8 +44,7 @@ bspc config bottom_padding                $PADDING
 if [ $(bspc query -M | wc -l) -eq 2 ]; then
     bspc monitor LVDS1 -d VI VII VIII IX X
     bspc monitor VGA1 -d I II III IV V
-    # Move the focus to the main monitor
-    bspc monitor -f primary
+    bspc monitor -f primary  # move the focus to the main monitor
 else
     bspc monitor -d I II III IV V VI VII VIII IX X
 fi
@@ -56,22 +55,23 @@ bspc rule -a URxvt:main follow=on
 bspc rule -a URxvt:tmux1 follow=on
 bspc rule -a URxvt:tmux2 follow=on
 bspc rule -a URxvt:tmux3 desktop='^1' follow=on
-bspc rule -a URxvt:htop desktop='^6' follow=on
-bspc rule -a URxvt:alsamixer desktop='^6' follow=on
-bspc rule -a URxvt:ncmpcpp desktop='^5' follow=on
-#bspc rule -a Subl desktop='^2' follow=on
 bspc rule -a sublime_text desktop='^2' follow=on
+#bspc rule -a Subl desktop='^2' follow=on
 bspc rule -a Chromium desktop='^3' follow=on
 bspc rule -a Chromium-browser-chromium desktop='^3' follow=on
 bspc rule -a mpv desktop='^5' follow=on
+bspc rule -a URxvt:ncmpcpp desktop='^5' follow=on
+bspc rule -a URxvt:htop desktop='^6' follow=on
+bspc rule -a URxvt:alsamixer desktop='^6' follow=on
 bspc rule -a Firefox desktop='^7' follow=on
 bspc rule -a Lxappearance desktop='^8' follow=on
+bspc rule -a Gimp desktop='^8' follow=on
 bspc rule -a VirtualBox desktop='^9' follow=on
 bspc rule -a Engrampa state=floating
-bspc rule -a Gimp desktop='^8' follow=on
 
 
-# Kill panel
+
+# Kill panel, trayer
 if [ $(pgrep -cx panel) -gt 0 ]; then
     kill -9 $(ps aux | grep panel | sed 's/\s\+/ /g' | cut -d' ' -f2 | xargs)
 fi
@@ -84,13 +84,12 @@ if [ $(pgrep -cx xtitle) -gt 0 ]; then
     kill -9 $(ps aux | grep xtitle | sed 's/\s\+/ /g' | cut -d' ' -f2 | xargs)
 fi
 
-# Tray icon
 if [ $(pgrep -cx trayer) -gt 0 ]; then
     kill -9 $(ps aux | grep trayer | sed 's/\s\+/ /g' | cut -d' ' -f2 | xargs)
 fi
 
 # Start panel dzen2
-#sh $HOME/.bin/panel/panel &
+#$HOME/.bin/panel/panel &
 
 # Wait for panel to show up first (bar or dzen2)
 #sleep 2 &
