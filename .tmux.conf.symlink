@@ -3,7 +3,7 @@
 # Author:   Hai Bui
 # Source:   https://github.com/bvanhai/dotfiles
 #
-# Comment:  For default bindings see `tmux list-keys`
+# Comment:
 # ==============================================================================
 
 
@@ -34,8 +34,8 @@ set -g base-index 1
 setw -g pane-base-index 1
 
 # Shell default
-set -g default-shell /bin/zsh
-set -g default-command /bin/zsh
+#set -g default-shell /bin/zsh
+#set -g default-command /bin/zsh
 
 # Increase scrollback buffer size
 set -g history-limit 50000
@@ -74,6 +74,8 @@ setw -g mouse on
 #
 # KEY BINDINGS
 # ______________
+
+# For default bindings see `tmux list-keys`
 
 # Change prefix to Ctrl+a
 unbind C-b
