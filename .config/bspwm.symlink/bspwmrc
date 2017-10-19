@@ -50,7 +50,7 @@ else
 fi
 
 # Rules Settings
-# Check rules: xprop |awk '/WM_CLASS/{print $4}'
+# To check rules, run: xprop |awk '/WM_CLASS/{print $4}'
 bspc rule -a URxvt:main follow=on
 bspc rule -a URxvt:tmux1 follow=on
 bspc rule -a URxvt:tmux2 follow=on
@@ -65,7 +65,7 @@ bspc rule -a URxvt:htop desktop='^6' follow=on
 bspc rule -a URxvt:alsamixer desktop='^6' follow=on
 bspc rule -a Firefox desktop='^7' follow=on
 bspc rule -a Lxappearance desktop='^8' follow=on
-bspc rule -a Gimp desktop='^8' follow=on
+bspc rule -a Gimp desktop='^8' state=floating follow=on
 bspc rule -a VirtualBox desktop='^9' follow=on
 bspc rule -a Engrampa state=floating
 
@@ -91,5 +91,5 @@ fi
 # Start panel dzen2
 #$HOME/.bin/panel/panel &
 
-# Wait for panel to show up first (bar or dzen2)
+# Wait for panel dzen2 to show up first
 #sleep 2 &
