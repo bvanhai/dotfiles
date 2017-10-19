@@ -1,5 +1,4 @@
 #!/bin/sh
-
 # ==============================================================================
 # File:     ~/.bin/panel/panel
 # Author:   Benjamin Ghaemmaghami
@@ -24,7 +23,6 @@ mkfifo "$PANEL_FIFO"
 
 bspc config top_padding $PANEL_HEIGHT
 
-bspc subscribe > "$PANEL_FIFO" &
 xtitle -sf 'T%s\n' > "$PANEL_FIFO" &
 
 while [[ true ]]; do
@@ -36,6 +34,8 @@ while [[ true ]]; do
     sleep 15s;
     fi
 done &
+
+bspc subscribe report > "$PANEL_FIFO" &
 
 while [[ true ]]; do
     cur_battery="$(acpi | awk '{gsub(",",""); print $4+0}')"
@@ -59,7 +59,8 @@ done &
 
 while [[ true ]]; do
     #add 0 to $2 to make int
-    cur_temp="$(sensors | grep -i 'Package' | awk '{print $4+0}')"
+#    cur_temp="$(sensors | grep -i 'Package' | awk '{print $4+0}')"
+    cur_temp="$(acpi -t | grep -i 'Thermal 1' | awk '{print $4+0}')"
     if [[ cur_temp -ge 75 ]]; then
         printf "HIGHTEMP: %2s°C\n" "$cur_temp" > "$PANEL_FIFO"
     else
@@ -130,7 +131,7 @@ done &
 
 cat "$PANEL_FIFO" \
 | \
-$HOME/.bin/panel/panel-dzen2 \
+$realpath/panel-dzen2 \
     -f "$PANEL_FONT_FAMILY" \
     -s "$PANEL_FONT_SIZE" \
 | \

@@ -9,7 +9,7 @@ echo "Volume"
 echo -e "^ca(1,amixer -c 0 set Master 3%- unmute) - ^ca() ^ca(1,amixer -c 0 set Master toggle)${DUALPADDING}${DUALPADDING}${DUALPADDING} x ${DUALPADDING}${DUALPADDING}${DUALPADDING}^ca() ^ca(1,amixer -c 0 set Master 3%+ unmute) + ^ca()"
  ) | dzen2 \
     -p "5" \
-    -x "1110" \
+    -x "1030" \
     -y "27" \
     -w "120" \
     -l "2" \

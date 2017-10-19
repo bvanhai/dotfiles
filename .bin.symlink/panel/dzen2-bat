@@ -82,7 +82,7 @@ echo "State:"
 echo $BATT_STATE
  ) | dzen2 \
     -p "4" \
-    -x "1340" \
+    -x "1190" \
     -y "25" \
     -w "170" \
     -l "4" \

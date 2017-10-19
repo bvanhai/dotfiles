@@ -19,7 +19,7 @@ if [[ $IP_LINK == $SYS_WLAN_INTERFACE ]]; then
 fi
  ) | dzen2 \
     -p "4" \
-    -x "1150" \
+    -x "1060" \
     -y "27" \
     -w "170" \
     -l "3" \

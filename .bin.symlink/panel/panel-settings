@@ -53,7 +53,7 @@ DUALPADDING='  '
 
 # To get the value for this setting run
 # echo "MUSIC:              Stopped   NET: 80%  CPU: 20%  BAT: 99%  TEMP:35c    06/08 20:30" | xargs -0 txtw -f "your font" -s "your font size" then subtract that value from your screen width
-COMPUTED_INDENT=1120
+COMPUTED_INDENT=1062
 
 # Dont change these unless you have a reason to
 PANEL_FIFO=/tmp/panel-fifo

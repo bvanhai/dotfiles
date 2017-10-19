@@ -6,10 +6,9 @@ realpath=$(cd `dirname "${BASH_SOURCE[0]}"` && pwd)
 
  (
  echo "Processor"
-urxvt -e htop
  ) | dzen2 \
     -p "1" \
-    -x "1200" \
+    -x "1130" \
     -y "25" \
     -w "170" \
     -l "0" \
