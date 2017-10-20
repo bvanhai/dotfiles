@@ -13,7 +13,7 @@
 # ______________
 
 # Enable 256 colors in the terminal emulator
-set -g default-terminal 'tmux-256color'
+set -g default-terminal 'xterm-256color'
 
 # Needs this line also to overrides the default color, so that the neovim color
 # themes work correctly
@@ -95,11 +95,11 @@ bind -r M-k resizep -U 5
 bind -r M-l resizep -R 5
 
 # Pane splitting
-bind | splitw -h -c '#{pane_current_path}'
+bind \ splitw -h -c '#{pane_current_path}'
 bind - splitw -v -c '#{pane_current_path}'
 unbind '"'
 unbind %
-bind '"' splitw -h -p 35 -c '#{pane_current_path}'
+bind '|' splitw -h -p 35 -c '#{pane_current_path}'
 bind '_' splitw -v -p 35 -c '#{pane_current_path}'
 
 # Create a new window starting in the current working directory rather than in
