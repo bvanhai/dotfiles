@@ -12,7 +12,7 @@ if [ $? != 0 ]; then
     # Create window#2
     tmux neww -t $SESSION: -n 'misc'
     tmux splitw -h -p 32 -t $SESSION        # horizontal split
-    tmux send -t $SESSION 'ncmpcpp' C-m     # process in pane#2
+    tmux send -t $SESSION 'ncmpcpp -s clock' C-m     # process in pane#2
     tmux splitw -v -p 58 -t $SESSION        # vertical split
     tmux send -t $SESSION 'htop' C-m        # process in pane#3
     tmux splitw -v -p 74 -t $SESSION        # vertical split
