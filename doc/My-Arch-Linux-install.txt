@@ -11,7 +11,7 @@
 fdisk -l
 fdisk /dev/sda
 mkfs.ext4 -L "<label>" /dev/sdaX
-mkfs.ext4 -L "<label>" /dev/sdaX && swapon /dev/sdaX
+mkswap -L "<label>" /dev/sdaX && swapon /dev/sdaX
 mount /dev/sdaX /mnt
 mkdir /mnt/boot && mount /dev/sdaX /mnt/boot
 mkdir /mnt/home && mount /dev/sdaX /mnt/home
@@ -66,7 +66,7 @@ wifi-menu
     #systemctl enable dhcpcd@enp0s25.service
 pacman -S xorg
 pacman -S xorg-drivers
-pacman -S xorg-xinit xterm
+pacman -S xorg-xinit
 pacman -S bspwm sxhkd
 nano ~/.xinitrc
     sxhkd &
