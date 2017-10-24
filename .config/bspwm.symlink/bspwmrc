@@ -64,6 +64,7 @@ bspc rule -a URxvt:ncmpcpp desktop='^5' follow=on
 bspc rule -a URxvt:htop desktop='^6' follow=on
 bspc rule -a URxvt:alsamixer desktop='^6' follow=on
 bspc rule -a Firefox desktop='^7' follow=on
+bspc rule -a Opera desktop='^7' follow=on
 bspc rule -a Lxappearance desktop='^8' follow=on
 bspc rule -a Gimp desktop='^8' state=floating follow=on
 bspc rule -a VirtualBox desktop='^9' follow=on
