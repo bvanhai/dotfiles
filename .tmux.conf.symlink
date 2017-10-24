@@ -13,7 +13,7 @@
 # ______________
 
 # Enable 256 colors in the terminal emulator
-set -g default-terminal 'xterm-256color'
+set -g default-terminal 'tmux-256color'
 
 # Needs this line also to overrides the default color, so that the neovim color
 # themes work correctly
@@ -52,7 +52,6 @@ setw -g mode-keys vi
 set -g set-titles on
 set -g set-titles-string '#W'
 setw -g automatic-rename on
-set -g allow-rename off
 
 # Automatically renumber windows after one of them is closed
 #set -g renumber-windows on
