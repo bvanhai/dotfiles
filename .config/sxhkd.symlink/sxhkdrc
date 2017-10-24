@@ -295,6 +295,9 @@ super + q
 super + shift + q
     firefox
 
+super + alt + q
+    opera
+
 super + a
     music.sh
 
