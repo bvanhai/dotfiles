@@ -21,6 +21,8 @@ Xft.lcdfilter:lcddefault
 ! Font default
 URxvt.font:xft:DejaVu Sans Mono:pixelsize=13
 URxvt.boldFont:xft:DejaVu Sans Mono:pixelsize=13
+URxvt.italicFont:xft:Consolas:italic:pixelsize=13
+URxvt.boldItalicFont:xft:Consolas:italic:pixelsize=13
 URxvt.letterSpace:-1
 
 ! Scrollback
