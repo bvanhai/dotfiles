@@ -9,6 +9,10 @@
 
 
 
+# Make .Xresources reload its configuration files:
+super + F2
+    xrdb -merge ~/.Xresources
+
 # Kill all active background programs that started with user bvanhai
 ctrl + alt + Escape
      killall -u bvanhai
