@@ -247,6 +247,9 @@ ctrl + alt + Delete
 super + Return
     urxvt -name main
 
+super + alt + Return
+    lxterminal
+
 super + shift + Return
     urxvt -name tmux1 -e tmux-utility1.sh
 
@@ -264,9 +267,6 @@ super + alt + w
 
 super + shift + w
     tmux kill-session -t tmux3
-
-super + alt + w
-    lxterminal
 
 super + d
     subl
