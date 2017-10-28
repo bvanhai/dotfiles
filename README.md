@@ -65,7 +65,7 @@
 <br>
 
 ![Version3a](/.scrot.symlink/v3a.png)
-![Version3b](/.scrot.symlink/v3b.png) 
+![Version3b](/.scrot.symlink/v3b.png)
 ![Version3c](/.scrot.symlink/v3c.png)
 
 <br>
@@ -174,7 +174,7 @@ I use `OMG-Dark` along with the `Azenis Icons` icon theme and `Pulse-Glass-Sapph
 
 #### Font
 
-I use default font is `Droid Sans`, `Inconsolata-g` for text editor or terminal emulator and `Dejavu Sans Mono` for panel.
+I use default font is `Droid Sans` and terminal emulator font is `DejaVu Sans Mono`.
 
 ### Configuration
 
