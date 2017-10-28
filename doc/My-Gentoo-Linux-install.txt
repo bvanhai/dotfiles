@@ -104,12 +104,12 @@ genkernel --install initramfs
 
 nano -w /etc/fstab
 # ================
-# <fs>         <mountpoint>   <type>    <opts>         <dump/pass>
-LABEL=gentoo   /              ext4      noatime            0 1
-LABEL=boot     /boot          ext4      defaults,noatime   0 2
-LABEL=home     /home          ext4      noatime            0 1
-LABEL=Data     /home/Data     ntfs-3g   defaults           0 0
-LABEL=swap     none           swap      sw                 0 0
+# <fs>         <mountpoint>            <type>     <opts>         <dump/pass>
+LABEL=gentoo   /                        ext4      noatime            0 1
+LABEL=boot     /boot                    ext4      defaults,noatime   0 2
+LABEL=home     /home/bvanhai/dev        ext4      noatime            0 1
+LABEL=Data     /home/bvanhai/dev/Data   ntfs-3g   defaults           0 0
+LABEL=swap     none                     swap      sw                 0 0
 # ================
 
 emerge -av sys-boot/grub:2 sys-boot/os-prober
