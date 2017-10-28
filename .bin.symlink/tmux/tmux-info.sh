@@ -58,7 +58,7 @@ IP=$(ifconfig -a | awk '/broadcast/ {print $2; exit}')
 today=$(date +%Y.%m.%d)
 
 root="$(df -h / | sed '1d' | awk '{print $3}') / $(df -h / | sed '1d' | awk '{print $2}')"
-home="$(df -h /home | sed '1d' | awk '{print $3}') / $(df -h /home | sed '1d' | awk '{print $2}')"
+home="$(df -h ~/dev | sed '1d' | awk '{print $3}') / $(df -h ~/dev | sed '1d' | awk '{print $2}')"
 
 # Shell
 shell+="$("$SHELL" --version)"

@@ -7,15 +7,14 @@ realpath=$(cd `dirname "${BASH_SOURCE[0]}"` && pwd)
  (
 echo "Disk"
 echo "root: $(df -h / | sed '1d' | awk '{print $3}') / $(df -h / | sed '1d' | awk '{print $2}')"
-echo "home: $(df -h /home | sed '1d' | awk '{print $3}') / $(df -h /home | sed '1d' | awk '{print $2}')"
-echo "OS: $(df -h /home/OS | sed '1d' | awk '{print $3}') / $(df -h /home/OS | sed '1d' | awk '{print $2}')"
-echo "Data: $(df -h /home/Data | sed '1d' | awk '{print $3}') / $(df -h /home/Data | sed '1d' | awk '{print $2}')"
+echo "home: $(df -h $HOME/dev | sed '1d' | awk '{print $3}') / $(df -h $HOME/dev | sed '1d' | awk '{print $2}')"
+echo "Data: $(df -h $HOME/dev/Data | sed '1d' | awk '{print $3}') / $(df -h $HOME/dev/Data | sed '1d' | awk '{print $2}')"
  ) | dzen2 \
     -p "5" \
     -x "1310" \
     -y "27" \
-    -w "200" \
-    -l "5" \
+    -w "180" \
+    -l "4" \
     -h "18" \
     -sa "c" \
     -ta "c" \
