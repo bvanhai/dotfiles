@@ -47,7 +47,7 @@
 .ncmpcpp
 bspwm
 dunst
-gtk-3.0
+#gtk-3.0
 htop
 openbox
 #sublime-text-2
