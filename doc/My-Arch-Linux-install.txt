@@ -10,11 +10,11 @@
 
 fdisk -l
 fdisk /dev/sda
-mkfs.ext4 -L "<label>" /dev/sdaX
-mkswap -L "<label>" /dev/sdaX && swapon /dev/sdaX
-mount /dev/sdaX /mnt
-mkdir /mnt/boot && mount /dev/sdaX /mnt/boot
-mkdir /mnt/home && mount /dev/sdaX /mnt/home
+mkfs.ext4 -L <label> /dev/sdaX
+mkswap -L swap /dev/sdaX && swapon -L swap
+mount -L arch /mnt
+mkdir /mnt/boot && mount -L boot /mnt/boot
+mkdir /mnt/home/bvanhai/dev && mount -L home /mnt/home/bvanhai/dev
 
 nano /etc/pacman.d/mirrorlist
 wifi-menu
