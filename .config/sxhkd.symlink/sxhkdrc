@@ -466,19 +466,19 @@ ctrl + F12
 
 # Take screenshot
 Print
-    cd $HOME/.scrot/screenshot/; \
+    cd $HOME/dev/media/screenshot/; \
     scrot; \
     aplay $HOME/.scrot/sound/camera-shutter-click-01.wav
 
 # Take screenshot after 5 second
 ctrl + Print
-    cd $HOME/.scrot/screenshot/; \
+    cd $HOME/dev/media/screenshot/; \
     aplay $HOME/.scrot/sound/camera-focusing-02.wav; \
     scrot -d 1; \
     aplay $HOME/.scrot/sound/camera-shutter-click-01.wav
 
 # Take screenshot of window
 shift + @Print
-    cd $HOME/.scrot/screenshot/; \
+    cd $HOME/dev/media/screenshot/; \
     scrot -s; \
     aplay $HOME/.scrot/sound/camera-shutter-click-02.wav
