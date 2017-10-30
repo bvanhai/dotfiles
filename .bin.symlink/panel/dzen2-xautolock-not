@@ -17,6 +17,6 @@ echo "☼"
     -ta "c" \
     -title-name "dzen2-xautolock-not" \
     -e "onstart=uncollapse" \
-    -fn "${PANEL_FONT_FAMILY_2}:pixelsize=44" \
+    -fn "Dejavu Sans Mono:pixelsize=44" \
     -bg "$PANEL_COLOR_BACKGROUND" \
     -fg "$PANEL_COLOR_FOREGROUND" &

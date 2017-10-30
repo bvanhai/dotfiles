@@ -33,6 +33,6 @@ cal \
     -ta "c" \
     -title-name "dzen2-cal" \
     -e "onstart=uncollapse;button1=exit;button3=exit" \
-    -fn "${PANEL_FONT_FAMILY_2}:pixelsize=${PANEL_FONT_SIZE}" \
+    -fn "Dejavu Sans Mono:pixelsize=${PANEL_FONT_SIZE}" \
     -fg "$PANEL_COLOR_FOREGROUND" \
     -bg "$PANEL_COLOR_BACKGROUND" \
