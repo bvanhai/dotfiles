@@ -1,8 +1,6 @@
-#!/bin/bash
-
-# https://github.com/tmux-plugins/tmux-battery
-
+#!/bin/sh
 # Script used by tmux to display the battery state
+# Make sure 'acpi' is installed
 
 command_exists() {
     local command="$1"
@@ -10,19 +8,14 @@ command_exists() {
 }
 
 print_battery_state() {
-    if command_exists "upower"; then
-        for battery in $(upower -e | grep battery); do
-            state=$(upower -i $battery | grep state | awk '{print $2}')
-        done
-    fi
+    if command_exists "acpi"; then
+        state=$(acpi -b | awk '{gsub(",",""); print $3}')
 
-    if [ "$state" == 'charging' ] || [ "$state" == 'fully-charged' ]; then
-        echo -n ""
-    else
-        #notify-send "Using battery"
-        echo -n "#[fg=colour83]▼ "
-        if command_exists "acpi"; then
-            acpi -b | grep -m 1 -Eo "[0-9]+%"
+        if [ "$state" == 'Charging' ] || [ "$state" == 'Full' ] || [ "$state" == 'Unknown' ]; then
+            echo -n ""
+        elif [ "$state" == 'Discharging' ]; then
+            echo -n "#[fg=colour83]▼ "
+            acpi -b | awk '{gsub(",",""); print $4}'
         fi
     fi
 }
