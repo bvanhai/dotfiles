@@ -220,8 +220,8 @@ ctrl + shift + bracket{right}
 # PROGRAM LAUNCHER
 # ______________
 
-#super + BackSpace
-#    dmenu-running-apps.sh
+super + BackSpace
+    dmenu-running-apps-finder.sh
 
 #super + shift + BackSpace
 #    dmenu-recent.sh
