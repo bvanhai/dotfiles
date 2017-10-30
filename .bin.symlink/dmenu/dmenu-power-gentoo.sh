@@ -1,7 +1,7 @@
 #!/bin/sh
 # https://bbs.archlinux.org/viewtopic.php?id=80145&p=7
 
-FONT="Inconsolata-g:pixelsize=13:antialias=true:rgba=rgb"
+FONT="DejaVu Sans Mono:pixelsize=13:antialias=true:rgba=rgb"
 BGCOL="#000000"
 FGCOL="#9999CC"
 SELBGCOL="#000066"
