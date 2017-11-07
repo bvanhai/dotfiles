@@ -471,10 +471,10 @@ Print
     aplay $HOME/.scrot/sound/camera-shutter-click-01.wav
 
 # Take screenshot after 5 second
-ctrl + Print
+alt + Print
     cd $HOME/dev/media/screenshot/; \
-    aplay $HOME/.scrot/sound/camera-focusing-02.wav; \
-    scrot -d 1; \
+    aplay $HOME/.scrot/sound/camera-focusing.wav; \
+    scrot; \
     aplay $HOME/.scrot/sound/camera-shutter-click-01.wav
 
 # Take screenshot of window
@@ -482,3 +482,8 @@ shift + @Print
     cd $HOME/dev/media/screenshot/; \
     scrot -s; \
     aplay $HOME/.scrot/sound/camera-shutter-click-02.wav
+
+# Delete last screenshot
+ctrl + Print
+    rm ~/dev/media/screenshot/$(ls ~/dev/media/screenshot -c | head -n 1); \
+    aplay $HOME/.scrot/sound/emptying-water.wav
