@@ -84,6 +84,19 @@ alias chord='chmod 644'
 # Force tmux to use 256 colors
 alias tmux='tmux -2'
 
+# Download and save youtube video as m4a audio file in /tmp`
+alias youtube_dl_audio="youtube-dl -f 'bestaudio[ext=m4a]'"
+
+# Youtube play
+function youtube_play {
+    youtube-dl --default-search=ytsearch: \
+               --youtube-skip-dash-manifest \
+               --output="${TMPDIR:-/tmp/}%(title)-s%(id)s.%(ext)s" \
+               --restrict-filenames \
+               --format="bestaudio[ext!=webm]" \
+               --exec=mpv "$*"
+}
+
 # Make offline mirror of a site using `wget`
 alias wwget='wget --mirror --convert-links --adjust-extension --page-requisites --no-parent'
 
