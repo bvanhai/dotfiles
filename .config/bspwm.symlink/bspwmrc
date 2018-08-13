@@ -22,7 +22,6 @@ bspc config active_border_color           $COLOR_BACKGROUND
 bspc config split_ratio                   0.52
 bspc config borderless_monocle            true
 bspc config gapless_monocle               true
-bspc config click_to_focus                true
 bspc config remove_disabled_monitors      true
 bspc config remove_unplugged_monitors     true
 bspc config merge_overlapping_monitors    true
@@ -58,13 +57,14 @@ bspc rule -a URxvt:tmux3 desktop='^1' follow=on
 #bspc rule -a sublime_text desktop='^2' follow=on
 #bspc rule -a Subl desktop='^2' follow=on
 bspc rule -a Chromium desktop='^3' follow=on
-bspc rule -a Chromium-browser-chromium desktop='^3' follow=on
+bspc rule -a Google-chrome desktop='^3' follow=on
 bspc rule -a mpv desktop='^5' follow=on
 bspc rule -a URxvt:ncmpcpp desktop='^5' follow=on
 bspc rule -a URxvt:htop desktop='^6' follow=on
 bspc rule -a URxvt:alsamixer desktop='^6' follow=on
-bspc rule -a Firefox desktop='^7' follow=on
 bspc rule -a Opera desktop='^7' follow=on
+bspc rule -a Firefox desktop='^7' follow=on
+bspc rule -a Thunderbird desktop='^7' follow=on
 bspc rule -a Lxappearance desktop='^8' follow=on
 bspc rule -a Gimp desktop='^8' state=floating follow=on
 bspc rule -a VirtualBox desktop='^9' follow=on
