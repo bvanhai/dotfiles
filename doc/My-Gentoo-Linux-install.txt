@@ -11,18 +11,19 @@
 
 fdisk -l
 fdisk /dev/sda
-mkfs.ext4 -L "<label>" /dev/sdaX
-mkswap -L "swap"/dev/sdaX && swapon /dev/sdaX
-mount /dev/sdaX /mnt/gentoo
-mkdir /mnt/gentoo/boot && mount /dev/sdaX /mnt/gentoo/boot
-mkdir /mnt/gentoo/home && mount /dev/sdaX /mnt/gentoo/home
+mkfs.ext4 -L "gentoo" /dev/sdaX
+mkfs.ext4 -L "boot" /dev/sdaX
+mkswap -L "swap" /dev/sdaX && swapon /dev/sdaX
+mount -L "gentoo" /mnt/gentoo
+mkdir /mnt/gentoo/boot && mount -L boot /mnt/gentoo/boot
+mkdir /mnt/gentoo/home && mount -L home /mnt/gentoo/home
 
 date <Mon Oct  3 13:16:22 PDT 2016>
 date 100313162016
 
 cd /mnt/gentoo
 links gentoo.org
-tar xvjpf stage3-*.tar.bz2
+tar xpf stage3-*.tar.{bz2,xz} --xattrs-include='*.*' --numeric-owner
 cp -L /etc/resolv.conf /mnt/gentoo/etc/resolv.conf
 
 mount -t proc /proc /mnt/gentoo/proc
@@ -48,7 +49,7 @@ L10N="en en-GB"
 
 DOUSE="alsa icu infinality python vaapi xft"
 NOUSE="-bindinst -ipv6 -llvm"
-USE="${DOUSE} ${NOUSE}" 
+USE="${DOUSE} ${NOUSE}"
 
 CPU_FLAGS_X86="mmx sse sse2 mmxext sse3 sse4_1 ssse3"
 
@@ -72,6 +73,7 @@ emerge-webrsync
 eselect profile list
 eselect profile set 3
     desktop
+emerge -avuDN @world
 
 ls /usr/share/zoneinfo
 cp /usr/share/zoneinfo/Asia/Ho_Chi_Minh /etc/localtime
@@ -92,7 +94,7 @@ emerge -av sys-kernel/genkernel
 emerge -av app-arch/lz4 app-arch/lzop
 cd /usr/src/linux
 
-emerge -av sys-libs/ncurses
+    #emerge -av sys-libs/ncurses
 make nconfig
 
 cp <link .config file> .config
@@ -145,7 +147,7 @@ rc-update add sshd default
     #rc-update add net.enp0s25 default
 
 
-emerge -av net-misc/dhcpcd net-wireless/wpa_supplicant
+emerge -av net-wireless/iw net-misc/dhcpcd net-wireless/wpa_supplicant
 
 nano -w /etc/wpa_supplicant/wpa_supplicant.conf
 # =============================================
@@ -172,7 +174,6 @@ network={
 
 nano -w /etc/conf.d/wpa_supplicant
     wpa_supplicant_args="-B -M -c/etc/wpa_supplicant/wpa_supplicant.conf"
-
 nano -w /etc/conf.d/net
     modules_wlan0="wpa_supplicant"
     config_wlan0="dhcp"

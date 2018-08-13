@@ -14,7 +14,7 @@ mkfs.ext4 -L <label> /dev/sdaX
 mkswap -L swap /dev/sdaX && swapon -L swap
 mount -L arch /mnt
 mkdir /mnt/boot && mount -L boot /mnt/boot
-mkdir /mnt/home/bvanhai/dev && mount -L home /mnt/home/bvanhai/dev
+mkdir /mnt/home && mount -L home /mnt/home
 
 nano /etc/pacman.d/mirrorlist
 wifi-menu

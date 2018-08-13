@@ -70,9 +70,9 @@
        [
          [local]
          SigLevel = Never
-         Server = file:///home/bvanhai/work/local
+         Server = file:///home/$USER/work/local
        ]
-  2) Create Local Directory /home/bvanhai/work/local
+  2) Create Local Directory /home/$USER/work/local
       a) Download AUR Tarballs and build the packages in this directory.
       b) Then Open Terminal and CD into this directory and execute this
          following command to make it a database.
@@ -87,9 +87,9 @@
   + Arrange Mirrors by speed (run as root with SU command):
       cd /etc/pacman.d
       for repo in *; do
-      echo "Processing $repo..."
-      mv $repo $repo.b4.rankmirrors
-      rankmirrors -v $repo.b4.rankmirrors > $repo
+        echo "Processing $repo..."
+        mv $repo $repo.b4.rankmirrors
+        rankmirrors -v $repo.b4.rankmirrors > $repo
       done
       exit
   + Obtain and refresh new Authentication keys:
@@ -204,6 +204,8 @@
       sudo emerge -av x11-drivers/xf86-video-intel
 
 
+
+
 **** USERS AND GROUPS
 - Add new user: 
     useradd -m -g [initial_group] -G [additional_groups] -s [login_shell] [username]
@@ -243,16 +245,15 @@
     sudo emerge -av sxhkd
 - Panel:
     sudo pacman -S dzen2
-    yaourt -S acpi xtitle lm_sensors bind-tools dunst bc wireless_tools
-    sudo emerge -av dzen
-    sudo emerge -av xtitle lm_sensors
+    yaourt -S acpi xtitle bind-tools dunst bc wireless_tools lm_sensors
+    sudo emerge -av dzen lm_sensors
       acpi              # battery
       xtitle-git        # window title
-      lm_sensors        # cpu temp
       bind-tools        # network external ip
       dunst             # notification-daemon
       bc                # various math
       wireless_tools    # network essid
+      lm_sensors        # cpu temp
 - Systray:
     sudo pacman -S trayer
 - Menu:
@@ -260,11 +261,13 @@
     sudo emerge -av dmenu
 - For script auto suspend:
     sudo pacman -S xautolock
+    sudo emerge -av xautolock
 - Simple screen locker utility for X:
     yaourt -S sxlock-git
       sudo systemctl enable suspend@user.service
 - Clipboard Manager:
     sudo pacman -S xclip
+    sudo emerge -av x11-misc/xclip
 - Command-line X11 automation tool:
     sudo pacman -S xdotool
 - Running X apps as root:
@@ -392,20 +395,19 @@
 
 
 
-**** SHELLS
-- The GNU Bourne Again shell:
-    sudo pacman -S bash
+**** SHELLS - ZSH
 - Advanced and programmable command interpreter (shell), including some
   features of bash, ksh, and tcsh:
     sudo pacman -S zsh
     sudo emerge -av zsh
-    yaourt -S oh-my-zsh-git
     sudo emerge -av app-shells/gentoo-zsh-completions
 - Changing your default shell:
   + To list all installed shells, run:
       chsh -l
   + To set one as default for your user do:
       chsh -s /bin/zsh
+- Error: "zsh compinit: insecure directories, run compaudit for list...":
+      chmod -R 755 <zsh-folder>
 
 
 
@@ -429,12 +431,14 @@
       yaourt -S fontconfig-ttf-ms-fonts
       yaourt -S ttf-google-fonts-git
       sudo pacman -S ttf-dejavu
-  + Manually install TTF fonts:
-    1) Copy fonts (Consolas font) to ~/.fonts
-    2) Run:
+  + Manually install fonts:
+    1) Copy fonts to ~/.fonts
+    2) Update cache:
          fc-cache -fv
+  + View all fonts installed:
+         fc-list
   + Fine tuning font:
-      yaourt -S fontconfig-infinality freetype2-infinality
+      yaourt -S freetype2
   + Merge multi file font to one:
     1) Install:
          sudo pacman -S fontforge
@@ -474,11 +478,13 @@
 - Pcmanfm:
   + Install:
       sudo pacman -S pcmanfm
+      xdg-mime default pcmanfm.desktop inode/directory
   + Show desktop icon:
       pcmanfm --desktop-pref
 - Ranger:
   + Install:
       sudo pacman -S ranger python-chardet libcaca highlight atool w3m lynx elinks poppler transmission-cli mediainfo perl-image-exiftool
+      sudo emerge -av ranger highlight atool w3m
         python-chardet: in case of encoding detection problems
         libcaca: for ASCII-art image previews
         highlight: for syntax highlighting of code
@@ -495,6 +501,7 @@
   + Map delete key to delete files to trash, enable delete file from CLI to
     trash:
       yaourt -S trash-cli
+      sudo emerge -av app-misc/trash-cli
       nano ~/.config/ranger/rc.conf
         [
           map <DELETE>  shell trash-put %s
@@ -504,8 +511,8 @@
       sudo pacman -S engrampa
       sudo emerge -av engrampa
   + Method:
-      sudo pacman -S bzip2 cdrkit cpio gzip lha lrzip lz4 lzop p7zip pixz tar unace unace unrar unzip xz zip zlib zziplib
-      sudo emerge -av app-arch/p7zip app-arch/lzop app-arch/lz4 emerge app-cdr/cdrtools
+      sudo pacman -S cdrkit cpio gzip lha lrzip lz4 lzop p7zip pixz unace unace unrar unzip zip zlib zziplib
+      sudo emerge -av app-arch/p7zip app-arch/lzop app-arch/lz4 emerge app-cdr/cdrtools app-arch/unrar zip unzip
 - A directory listing program displaying a depth indented list of files:
     sudo pacman -S tree
 
@@ -527,6 +534,8 @@
     sudo pacman -S gimp
 - Screenshot:
     sudo pacman -S scrot
+    sudo emerge -av media-gfx/scrot
+
 
 
 
@@ -557,7 +566,7 @@
 - Sound is muted by default, so need to unmuted it:
     sudo pacman -S alsa-utils
     sudo emerge -av alsa-utils
-      rc-update add alsasound boot
+      sudo rc-update add alsasound boot
 - Sound is muted by default, so need to unmuted it:
     amixer sset Master unmute
 - Control volume
@@ -626,7 +635,7 @@
 - Neovim:
   + Install:
       sudo pacman -S neovim
-      yaourt -S ruby-neovim
+      yaourt -S ruby-neovim python-neovim python2-neovim
       sudo emerge -av neovim
   + To use your vim configuration in neovim execute the following commands
     which will create the appropriate symlinks:
@@ -637,7 +646,7 @@
   + Python plugin support:
       sudo pacman -S python python2-neovim python-neovim
 - Sublime text:
-    yaourt -S sublime-text
+    yaourt -S sublime-text-dev
     sudo emerge -av sublime-text
 - Leafpad:
     sudo pacman -S leafpad
@@ -648,8 +657,8 @@
 **** INTERNET
 - Web Browsers:
   + Chromium:
-      sudo pacman -S chromium
-      sudo emerge -av chromium
+      sudo pacman -S chromium pepper-flash
+      sudo emerge -av chromium adobe-flash
   + Google Chrome:
       yaourt -S google-chrome
       sudo emerge -av google-chrome
@@ -668,6 +677,7 @@
       sudo pacman -S transmission-gtk
   + Aria2c;
       sudo pacman -S aria2
+      sudo emerge -av aria2
   + Jdownload:
       sudo pacman -S jdownload
       sudo pacman -S jre
@@ -785,9 +795,9 @@
   + To unmount a drive use umount:
       umount /dev/sdx1
   + Creating a bootable USB (Drive Needs to be unmounted):
-      sudo dd bs=4M if=/path/to/file.iso of=/dev/sdx status=progress && sync
+      sudo dd bs=4M if=/path/to/file.iso of=/dev/sdb status=progress && sync
   + Formatting USB Drive back to factory state (Drive Needs to be unmounted):
-      sudo mkfs.vfat /dev/sdx -I
+      sudo mkfs.vfat /dev/sdb -I
   + To copy a CD/DVD to a .iso:
       cd /dev; ls -ld sr* cdr* dvd*
       dd if=/dev/cdrom of=~/dvdcopy.iso
@@ -916,12 +926,13 @@
       virtualbox-host-dkms: Build kernel modules with DKMS
       net-tools: Host-only or bridged networking support
 -Install - Gentoo Linux:
-    sudo emerge -av virtualbox
+    sudo emerge -av virtualbox virtualbox-modules
       sudo gpasswd -a bvanhai vboxusers
       nano /etc/conf.d/modules
         modules="vboxdrv vboxnetadp vboxnetflt vboxpci"
     sudo emerge -av virtualbox-additions
     sudo emerge -av virtualbox-guest-additions
+    sudo emerge -av app-emulation/virtualbox-extpack-oracle
       sudo gpasswd -a bvanhai vboxguest
       sudo rc-update add /etc/init.d/virtualbox-guest-additions default
 - Oracle VM VirtualBox Extension Pack:
@@ -1427,10 +1438,10 @@
 - Compilation and installation:
     make -j2
     sudo make modules_install
-    sudo cp -v arch/x86_64/boot/bzImage /boot/vmlinuz-4.13.5-ARCH
-    sudo mkinitcpio -k 4.13.5-ARCH -g /boot/initramfs-4.13.5-ARCH.img
-    sudo cp System.map /boot/System.map-4.13.5-ARCH
-    sudo ln -sf /boot/System.map-4.13.5-ARCH /boot/System.map
+    sudo cp -v arch/x86_64/boot/bzImage /boot/vmlinuz-4.13.9-ARCH
+    sudo mkinitcpio -k 4.13.9-ARCH -g /boot/initramfs-4.13.9-ARCH.img
+    sudo cp System.map /boot/System.map-4.13.9-ARCH
+    sudo ln -sf /boot/System.map-4.13.9-ARCH /boot/System.map
 - Bootloader configuration:
     sudo grub-mkconfig -o /boot/grub/grub.cfg
 - Keeps track of EVERY kernel module ever used - useful for those of us who make
@@ -1465,7 +1476,7 @@
 - Select all modules currently loaded by the LiveCD:
     make localyesconfig
 - Compilation and installation:
-    time make -j2
+    time make -j5
     make modules_install && make install
     genkernel --install initramfs
 
@@ -1562,4 +1573,4 @@ sudo pacman -Q                # display package in the local database
 sudo pacman -Qi               # display information about a given package in the local database
 sudo pacman -Qs               # search for package(s) in the local database
 sudo pacman -Ql xyz           # show all files installed by the package xyz
-sudo pacman -Qo /path         # find the package which installed the file at /pat
+sudo pacman -Qo /path         # find the package which installed the file at /path
