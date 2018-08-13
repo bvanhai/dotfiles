@@ -10,7 +10,7 @@
 
 
 # Make .Xresources reload its configuration files:
-super + F2
+alt + F2
     xrdb -merge ~/.Xresources
 
 # Kill all active background programs that started with user bvanhai
@@ -261,7 +261,7 @@ super + ctrl + Return
     tmux kill-session -t tmux1
 
 super + w
-    urxvt -name tmux3 -e tmux-utility2.sh
+    urxvt -name tmux2 -e tmux-utility2.sh
 
 super + ctrl + w
     tmux kill-session -t tmux2
@@ -431,7 +431,8 @@ super + shift + XF86Battery
 super + alt + XF86Battery
     xset dpms 3 6 9
 
-XF86Sleep
+# Turn off LCD
+super + F2
     xset dpms force off
 
 
