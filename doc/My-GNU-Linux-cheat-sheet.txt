@@ -635,7 +635,7 @@
 - Neovim:
   + Install:
       sudo pacman -S neovim
-      yaourt -S ruby-neovim python-neovim python2-neovim
+      yaourt -S ruby-neovim python-neovim
       sudo emerge -av neovim
   + To use your vim configuration in neovim execute the following commands
     which will create the appropriate symlinks:
@@ -644,7 +644,7 @@
       ln -s ~/.vim ~/.config/nvim
       ln -s ~/.vimrc ~/.config/nvim/init.vim
   + Python plugin support:
-      sudo pacman -S python python2-neovim python-neovim
+      sudo pacman -S python python-neovim
 - Sublime text:
     yaourt -S sublime-text-dev
     sudo emerge -av sublime-text
@@ -905,9 +905,10 @@
     cd gtop
     npm install gtop -g
 - Terminal hack (display beautiful Arch Linux logo on terminal):
-    sudo pacman -S perl-data-dump alsi
+    sudo pacman -S perl-data-dump 
+    yaourt -S alsi
     sudo emerge -av dev-perl/Data-Dump
-    sudo pacman -S i-nex
+    yaourt i-nex
     sudo pacman -S tlp
     sudo pacman -S acpi
       acpi -t
@@ -1000,7 +1001,7 @@
 
 **** SUSPEND: pm-suspend
 - Install:
-    sudo pacman -S pm-utils
+    yaourt -S pm-utils
     sudo emerge -av sys-power/suspend
         sudo s2ram
 - Locking the screen saver on hibernate or suspend: 
