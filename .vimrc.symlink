@@ -13,7 +13,7 @@
 " ==============================================================================
 
 " Directory default
-autocmd VimEnter * :cd ~/mylinux/dotfiles
+autocmd VimEnter * :cd ~/dev/mylinux/dotfiles
 
 " Enable mouse usage
 set mouse=a
