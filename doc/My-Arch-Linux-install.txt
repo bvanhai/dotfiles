@@ -20,7 +20,7 @@ nano /etc/pacman.d/mirrorlist
 wifi-menu
 ping -c 3 google.com
 
-pacstrap -i /mnt base base-devel
+pacstrap -i /mnt base base-devel linux linux-firmware
 genfstab -U /mnt >> /mnt/etc/fstab
 
 
@@ -42,9 +42,13 @@ grub-mkconfig -o /boot/grub/grub.cfg
 
 echo arch > /etc/hostname
 nano /etc/hosts
-    arch
+    127.0.0.1   localhost
+    ::1         localhost
+    127.0.1.1   arch.localdomain  arch
 
-pacman -S iw wpa_supplicant dialog
+
+
+pacman -S netctl iw wpa_supplicant dialog
 passwd
 exit
 umount -R /mnt
