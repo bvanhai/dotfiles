@@ -1,30 +1,5 @@
 #compdef emulator
 # ------------------------------------------------------------------------------
-# Copyright (c) 2011 Github zsh-users - http://github.com/zsh-users
-# All rights reserved.
-#
-# Redistribution and use in source and binary forms, with or without
-# modification, are permitted provided that the following conditions are met:
-#     * Redistributions of source code must retain the above copyright
-#       notice, this list of conditions and the following disclaimer.
-#     * Redistributions in binary form must reproduce the above copyright
-#       notice, this list of conditions and the following disclaimer in the
-#       documentation and/or other materials provided with the distribution.
-#     * Neither the name of the zsh-users nor the
-#       names of its contributors may be used to endorse or promote products
-#       derived from this software without specific prior written permission.
-#
-# THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
-# ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
-# WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
-# DISCLAIMED. IN NO EVENT SHALL ZSH-USERS BE LIABLE FOR ANY
-# DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
-# (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
-# LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
-# ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
-# (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
-# SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-# ------------------------------------------------------------------------------
 # Description
 # -----------
 #
@@ -43,11 +18,15 @@
 typeset -A opt_args
 local context state line curcontext="$curcontext"
 
+_list_avds() {
+  local -a _avds=($HOME/.android/avd/*.ini(N.:t:r))
+  echo "${_avds[@]}"
+}
+
 # TODO All image options are contextual to -sysdir value
 # TODO All skin options are contextual to -skindir value
 # TODO snapshot options are mutually exclusive
 # TODO Use '-snapshot-list' output for snapshot names
-# TODO Complete -avd with avd names ?
 # TODO -logcat: use completer from _adb
 # TODO Complete options with device values
 # TODO Complete -prop
@@ -64,9 +43,11 @@ _arguments \
   '(- : *)-help-sdk-images[about disk images when using the SDK]' \
   '(- : *)-help-build-images[about disk images when building Android]' \
   '(- : *)-help-all[prints all help content]' \
-  '(- : *)-help-'{version,sysdir,system,image,datadir,kernel,ramdisk,initdata,data,partition-size,cache,no-cache,nocache,sdcard,snapstorage,no-snapstorage,snapshot,no-snapshot,no-snapshot-save,no-snapshot-load,snapshot-list,no-snapshot-update-time,wipe-data,avd,skindir,skin,noskin,no-skin,memory,netspeed,netdelay,netfast,trace,show-kernel,shell,no-jni,nojni,logcat,noaudio,no-audio,audio,raw-keys,radio,port,ports,onion,onion-alpha,onion-rotation,scale,dpi-device,http-proxy,timezone,dns-server,cpu-delay,no-boot-anim,no-window,report-console,gps,keyset,shell-serial,tcpdump,bootchart,charmap,prop,shared-net-id,nand-limits,memcheck,qemu,verbose}'[print option-specific help]' \
+  '(- : *)-help-'{version,list-avds,sysdir,system,writable-system,image,datadir,kernel,ramdisk,initdata,data,partition-size,cache,no-cache,nocache,sdcard,snapstorage,no-snapstorage,snapshot,no-snapshot,no-snapshot-save,no-snapshot-load,snapshot-list,no-snapshot-update-time,wipe-data,avd,skindir,skin,noskin,no-skin,memory,cores,accel,no-accel,netspeed,netdelay,netfast,trace,show-kernel,shell,no-jni,nojni,logcat,noaudio,no-audio,audio,raw-keys,radio,port,ports,onion,onion-alpha,onion-rotation,scale,dpi-device,http-proxy,timezone,dns-server,cpu-delay,no-boot-anim,no-window,report-console,gps,keyset,shell-serial,tcpdump,bootchart,charmap,prop,shared-net-id,nand-limits,memcheck,qemu,verbose}'[print option-specific help]' \
+  '-list-avds[list available AVDs]' \
   '-sysdir[search for system disk images in the directory]: :_files -/' \
   '(-system -image)'{-system,-image}'[read initial system image from the file]: :_files -g "*.img"' \
+  '-writable-system[make system image writable after '\''adb remount'\'']' \
   '-datadir[write user data into the directory]: :_files -/' \
   '-kernel[use specific emulated kernel]: :_files' \
   '-ramdisk[ramdisk image (default <system>/ramdisk.img]: :_files -g "*.img"' \
@@ -85,11 +66,14 @@ _arguments \
   '-snapshot-list[show a list of available snapshots]' \
   '-no-snapshot-update-time[do not do try to correct snapshot time on restore]' \
   '-wipe-data[reset the user data image (copy it from initdata)]' \
-  '-avd[use a specific android virtual device]:android virtual device name' \
+  '-avd[use a specific android virtual device]:android virtual device name:($(_list_avds))' \
   '-skindir[search skins in <dir> (default <system>/skins)]: :_files -/' \
   '-skin[select a given skin]' \
   '(-noskin -no-skin)'{-noskin,-no-skin}'[don'\''t use any emulator skin]' \
   '-memory[physical RAM size in MBs]:size (in MBs)' \
+  '-cores[Set number of CPU cores to emulator]:number' \
+  '(-no-accel)-accel[Configure emulation acceleration]:mode' \
+  '(-accel)-no-accel[Same as '\''-accel off'\'']' \
   '-netspeed[maximum network download/upload speeds]:speed' \
   '-netdelay[network latency emulation]:delay' \
   '-netfast[disable network shaping]' \
@@ -128,7 +112,21 @@ _arguments \
   '-memcheck[enable memory access checking]:flags' \
   '-qemu[pass arguments to qemu]:arguments' \
   '-verbose[same as '\''-debug-init'\'']' \
-  '*'{-debug,-debug-,-debug-no-}'[enable/disable specific debug messages]:tag'
+  '*'{-debug,-debug-,-debug-no-}'[enable/disable specific debug messages]:tag' \
+  '1: :->cmds' \
+  '*:: :->args' && ret=0
+
+case $state in
+  cmds)
+    local -a _avds=($(_list_avds))
+    for ((i=1; i<=${#_avds[@]}; i++)); do
+      _avds[i]="@${_avds[i]}"
+    done
+    _values 'avds' "${_avds[@]}"
+    ;;
+esac
+
+return ret
 
 # Local Variables:
 # mode: Shell-Script

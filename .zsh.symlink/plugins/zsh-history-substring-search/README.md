@@ -33,7 +33,7 @@ Using [Oh-my-zsh](https://github.com/robbyrussell/oh-my-zsh):
 
 2. Activate the plugin in `~/.zshrc`:
 
-        plugins=( [plugins...] zsh-history-substring-search)
+        plugins=( [plugins...] history-substring-search)
 
 3. Source `~/.zshrc`  to take changes into account:
 
@@ -67,6 +67,11 @@ Usage
 
           bindkey '^[[A' history-substring-search-up
           bindkey '^[[B' history-substring-search-down
+
+      However, if the observed values don't work, you can try using terminfo:
+
+          bindkey "$terminfo[kcuu1]" history-substring-search-up
+          bindkey "$terminfo[kcud1]" history-substring-search-down
 
       You might also want to bind the Control-P/N keys for use in EMACS mode:
 

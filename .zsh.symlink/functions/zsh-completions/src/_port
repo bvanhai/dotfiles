@@ -54,6 +54,7 @@ _port() {
     'archive\:Archive\ the\ given\ ports,\ i.e.\ install\ the\ port\ image\ but\ do\ not\ activate'
     'archivefetch\:Fetch\ archive\ for\ the\ given\ ports'
     'build\:Build\ the\ given\ ports'
+    'bump\:Update\ the\ outdated\ checksums\ of\ a\ Portfile'
     'cat\:Writes\ the\ Portfiles\ of\ the\ given\ ports\ to\ stdout'
     'checksum\:Compares\ the\ checksums\ for\ the\ downloaded\ files\ of\ the\ given\ ports'
     'clean\:Removes\ files\ associated\ with\ the\ given\ ports'
@@ -63,6 +64,7 @@ _port() {
     'dependents\:Returns\ a\ list\ of\ installed\ dependents\ for\ each\ of\ the\ given\ ports'
     'deps\:Display\ a\ dependency\ listing\ for\ the\ given\ ports'
     'destroot\:Destroot\ the\ given\ ports'
+    'diagnose\:Detects\ common\ issues'
     'dir\:Returns\ the\ directories\ of\ the\ given\ ports'
     'distcheck\:Checks\ if\ the\ given\ ports\ can\ be\ fetched\ from\ all\ of\ its\ master_sites'
     'distfiles\:Returns\ a\ list\ of\ distfiles\ for\ the\ given\ port'
@@ -96,6 +98,7 @@ _port() {
     'provides\:Return\ which\ port\ provides\ each\ of\ the\ files\ given'
     'rdependents\:Recursive\ version\ of\ dependents'
     'rdeps\:Display\ a\ recursive\ dependency\ listing\ for\ the\ given\ ports'
+    'reclaim\:Reclaims\ disk\ space'
     'rev-upgrade\:Scan\ for\ broken\ binaries\ in\ the\ installed\ ports\ and\ rebuild\ them\ as\ needed'
     'rpm\:Creates\ a\ rpm\ for\ each\ of\ the\ given\ ports'
     'search\:Search\ for\ a\ port'
@@ -119,7 +122,7 @@ _port() {
   )
 
   pseudo_common=(all current active inactive actinact installed uninstalled outdated
-  obsolete requested unrequested leaves)
+  obsolete requested unrequested leaves rleaves)
 
   pseudo_advanced=('variants:' 'variant:' 'description:' 'depends:'
   'depends_lib:' 'depends_run:' 'depends_build:' 'depends_fetch:' 'depends_extract:'
@@ -127,6 +130,7 @@ _port() {
   'maintainers:' 'maintainer:' 'categories:' 'category:' 'version:' 'revision:' 'license:')
 
   select_options=(
+  '--summary:Display summary of selected options'
   '--list:List available versions for the group'
   '--set:Select the given version for the group'
   '--show:Show which version is currently selected for the group (default if none given)'
@@ -157,7 +161,7 @@ _port() {
     '-F[Read and process the file of commands specified by the argument.]' \
     '-p[Despite any errors encountered, proceed to process multiple ports and commands.]' \
     '-y[Perform a dry run.]' \
-    '-t[Enable trace mode debug facilities on platforms that support it (Mac OS X).]' \
+    '-t[Enable trace mode debug facilities on platforms that support it (macOS).]' \
     "1:Port actions:(($actions))" \
     '::Per-action arguments:_port_dispatch' \
     && return 0

@@ -92,15 +92,15 @@ _ghc_compiler ()
         '-c[Stop after generating object files]' \
         '-eventlog[Enable runtime event tracing]' \
         '-debug[Use the debugging runtime]' \
-        "-dylib-install-name[On Darwin/OS X only, set the install name]" \
+        "-dylib-install-name[On Darwin/macOS only, set the install name]" \
         '-dynamic[Use dynamic Haskell libraries]' \
         '-dynamic-too[Build dynamic object files as well as static object files during compilation]' \
         '-dynosuf[Set the output suffix for dynamic object files]' \
         '-dynload[Select one of a number of modes for finding shared libraries at runtime]' \
         '--mk-dll[DLL-creation mode (Windows only)]' \
-        '-framework-path[On Darwin/OS X/iOS only, add dir to the list of directories searched for frameworks]' \
+        '-framework-path[On Darwin/macOS/iOS only, add dir to the list of directories searched for frameworks]' \
         '-shared[Generate a shared library (as opposed to an executable)]' \
-        '-staticlib[On Darwin/OS X/iOS only, generate a standalone static library (as opposed to an executable)]' \
+        '-staticlib[On Darwin/macOS/iOS only, generate a standalone static library (as opposed to an executable)]' \
         '-e[Evaluate expression]' \
         '-hide-all-packages[Hide all packages by default]' \
         '-hpcdir[Directory to deposit .mix files during compilation (default is .hpc)]' \
@@ -136,11 +136,11 @@ _ghc_compiler ()
         '-pgms[Use cmd as the splitter]' \
         '-pgml[Use cmd as the linker]' \
         '-pgmdll[Use cmd as the DLL generator]' \
-        '-pgmF[Use cmd as the pre-proecessor (with -F only)]' \
+        '-pgmF[Use cmd as the pre-processor (with -F only)]' \
         '-pgmwindres[Use cmd as the program for embedding manifests on Windows]' \
         '-pgmlibtool[Use cmd as the command for libtool (with -staticlib only)]' \
         '-rtsopts[Only a minimum of safe options can be given to RTS]' \
-        '-rtsopts=[Control whether the RTS behavior can be tweaked via command-line flags and the GHCRTS environment varaible (none, som, or all)]' \
+        '-rtsopts=[Control whether the RTS behavior can be tweaked via command-line flags and the GHCRTS environment variable (none, some, or all)]' \
         '-with-rtsopts=[Set the default RTS options]' \
         '-threaded[Use the threaded runtime]' \
         '-ticky[Turn on ticky-ticky profiling]' \
