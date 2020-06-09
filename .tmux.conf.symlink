@@ -16,6 +16,7 @@
 set -g default-terminal 'xterm-256color'
 
 # Needs this line also to overrides the default color, so that the neovim color
+
 # themes work correctly
 set -ga terminal-overrides ',xterm-256color:Tc'
 
@@ -94,10 +95,10 @@ bind -r M-k resizep -U 5
 bind -r M-l resizep -R 5
 
 # Pane splitting
-bind \ splitw -h -c '#{pane_current_path}'
-bind - splitw -v -c '#{pane_current_path}'
 unbind '"'
-unbind %
+unbind '%'
+bind '\' splitw -h -c '#{pane_current_path}'
+bind '-' splitw -v -c '#{pane_current_path}'
 bind '|' splitw -h -p 35 -c '#{pane_current_path}'
 bind '_' splitw -v -p 35 -c '#{pane_current_path}'
 
@@ -174,9 +175,9 @@ bind p pasteb
 # ______________
 
 # Pane
-set -g pane-border-fg default
-set -g pane-active-border-fg blue
-set -g pane-active-border-bg default
+#set -g pane-border-fg default
+#set -g pane-active-border-fg blue
+#set -g pane-active-border-bg default
 
 # Status line
 set -g status-bg default
