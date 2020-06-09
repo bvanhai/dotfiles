@@ -147,8 +147,9 @@ fi
 bindkey '^[[Z' reverse-menu-complete
 
 # Allow Up, Down for history search based on what already entered
-bindkey '^[[A' history-beginning-search-backward
-bindkey '^[[B' history-beginning-search-forward
+# Compatible hash doesn't work in tmux
+#bindkey '^[[A' history-beginning-search-backward
+#bindkey '^[[B' history-beginning-search-forward
 
 # Allow Ctrl+h, Ctrl+w, Ctrl+? for char and word deletion (standard behaviour)
 bindkey '^?' backward-delete-char
@@ -230,6 +231,18 @@ for plugin ($plugins); do
         . $HOME/.zsh/plugins/$plugin/*.sh
     fi
 done
+
+
+# may need to force rebuild zcompdump: `rm -f ~/.zcompdump; compinit`
+fpath=(~/.zplugins/zsh-completions/src $fpath)
+
+
+# history-substring-search
+bindkey '^P' history-substring-search-up
+bindkey '^N' history-substring-search-down
+
+# use Ctrl+space to accept the current suggestion
+bindkey '^ ' autosuggest-accept
 
 # Load profile
 if [ -f $HOME/.profile ]; then
