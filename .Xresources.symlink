@@ -10,7 +10,7 @@
 #include ".colors/current-xr"
 
 ! Rendering settings
-Xft.dpi:96
+Xft.dpi:120
 Xft.antialias:true
 Xft.rgba:rgb
 Xft.hinting:true
@@ -19,11 +19,11 @@ Xft.autohint:false
 Xft.lcdfilter:lcddefault
 
 ! Font default
-URxvt.font:xft:DejaVu Sans Mono:pixelsize=13
-URxvt.boldFont:xft:DejaVu Sans Mono:pixelsize=13
-URxvt.italicFont:xft:Consolas:italic:pixelsize=13
-URxvt.boldItalicFont:xft:Consolas:italic:pixelsize=13
-URxvt.letterSpace:-1
+URxvt.font:xft:DejaVu Sans Mono:pixelsize=17
+URxvt.boldFont:xft:DejaVu Sans Mono:pixelsize=17
+URxvt.italicFont:xft:Consolas:italic:pixelsize=17
+URxvt.boldItalicFont:xft:Consolas:italic:pixelsize=17
+URxvt.letterSpace:0
 
 ! Scrollback
 URxvt.scrollTtyOutput:false
