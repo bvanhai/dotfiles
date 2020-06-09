@@ -273,10 +273,10 @@ super + shift + w
     tmux kill-session -t tmux3
 
 super + d
-    subl
+    subl3
 
 super + shift + d
-    sudo subl
+    sudo subl3
 
 super + c
     urxvt -e nvim
