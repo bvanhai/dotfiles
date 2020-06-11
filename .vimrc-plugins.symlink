@@ -452,6 +452,8 @@ let g:airline#extensions#tabline#left_alt_sep = '|'
 " Just show the filename (no path) in the tab
 let g:airline#extensions#tabline#fnamemod = ':t'
 
+let g:airline#extensions#tabline#tabs_label = ''
+
 " Show tab number in tabline status
 let g:airline#extensions#tabline#tab_nr_type = 1
 
@@ -1236,7 +1238,8 @@ nmap <silent> <leader>tv :TestVisit<CR>
 " ==============================================================================
 "--- begin neoterm {{{
 if has("nvim")
-  let g:neoterm_position = 'vertical'
+  " DEPRECATED - See |g:neoterm_default_mod|.
+  " let g:neoterm_position = 'vertical'
   let g:neoterm_automap_keys = ',tt'
 
   " nnoremap <silent> <f10> :TREPLSendFile<cr>
