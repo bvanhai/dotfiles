@@ -156,9 +156,6 @@ bindkey '^?' backward-delete-char
 bindkey '^h' backward-delete-char
 bindkey '^w' backward-kill-word
 
-# Allow alt-q, alt-p for zaw-history, zaw-process
-bindkey '^[q' zaw-history
-bindkey '^[p' zaw-process
 
 
 
@@ -167,6 +164,8 @@ bindkey '^[p' zaw-process
 # ________________
 
 # Prompt with git status
+source $HOME/.zsh/plugins/zsh-git-prompt/zshrc.sh
+
 PS1=$'%{\e[1;34m%}%n %{\e[0m%}at %{\e[0;33m%}%M %{\e[0m%}in %{\e[1;32m%}%~ %b$(git_super_status) $prompt_newline%{\e[1;30m%}>>> %{\e[0m%}'
 
 # Ensure that the prompt is redrawn when the terminal size changes
@@ -182,8 +181,8 @@ COMMAND_PROMPT=gray
 set_prompt_color() {
     if [[ $TERM = "linux" ]]; then
         # nothing
-    elif [[ $TMUX != '' ]]; then
-        printf '\033Ptmux;\033\033]12;%b\007\033\\' "$1"
+#    elif [[ $TMUX != '' && "${TERM}" == 'xterm-256color' ]]; then
+#        printf '\033Ptmux;\033\033]12;%b\007\033\\' "$1"
     else
         echo -ne '\033]12;$1\007'
     fi
@@ -219,30 +218,30 @@ zle -N zle-line-init
 
 # Load plugins
 # Note: zsh-syntax-highlighting must load before zsh-history-substring-search
-plugins=(archlinux dirhistory sudo tmux z zaw zsh-autosuggestions zsh-git-prompt zsh-syntax-highlighting zsh-history-substring-search)
-for plugin ($plugins); do
-    if [ -f $HOME/.zsh/plugins/$plugin/$plugin.plugin.zsh ]; then
-        . $HOME/.zsh/plugins/$plugin/$plugin.plugin.zsh
-    elif [ -f $HOME/.zsh/plugins/$plugin/$plugin.zsh ]; then
-        . $HOME/.zsh/plugins/$plugin/$plugin.zsh
-    elif [ -f $HOME/.zsh/plugins/$plugin/$plugin.sh ]; then
-        . $HOME/.zsh/plugins/$plugin/$plugin.sh
-    elif [ -f $HOME/.zsh/plugins/$plugin/*.sh ]; then
-        . $HOME/.zsh/plugins/$plugin/*.sh
-    fi
-done
 
+source $HOME/.zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.plugin.zsh
+source $HOME/.zsh/plugins/zsh-history-substring-search/zsh-history-substring-search.plugin.zsh
+source $HOME/.zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.plugin.zsh
 
-# may need to force rebuild zcompdump: `rm -f ~/.zcompdump; compinit`
-fpath=(~/.zplugins/zsh-completions/src $fpath)
+source $HOME/.zsh/plugins/z/z.plugin.zsh
+source $HOME/.zsh/plugins/zaw/zaw.plugin.zsh
 
+source $HOME/.zsh/plugins/sudo/sudo.plugin.zsh
+source $HOME/.zsh/plugins/archlinux/archlinux.plugin.zsh
+source $HOME/.zsh/plugins/dirhistory/dirhistory.plugin.zsh
+source $HOME/.zsh/plugins/tmux/tmux.plugin.zsh
 
-# history-substring-search
+# Use Ctrl +P and Ctrl +N in history-substring-search
 bindkey '^P' history-substring-search-up
 bindkey '^N' history-substring-search-down
 
-# use Ctrl+space to accept the current suggestion
+# Use Ctrl+space to accept the current suggestion
 bindkey '^ ' autosuggest-accept
+
+
+# Allow alt-q, alt-p for zaw-history, zaw-process
+bindkey '^[q' zaw-history
+bindkey '^[p' zaw-process
 
 # Load profile
 if [ -f $HOME/.profile ]; then
