@@ -174,11 +174,6 @@ bind p pasteb
 # STYLING
 # ______________
 
-# Pane
-#set -g pane-border-fg default
-#set -g pane-active-border-fg blue
-#set -g pane-active-border-bg default
-
 # Status line
 set -g status-bg default
 set -g status-left ''
