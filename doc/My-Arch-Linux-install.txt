@@ -17,6 +17,8 @@ mkdir /mnt/boot && mount -L boot /mnt/boot
 mkdir /mnt/home && mount -L home /mnt/home
 
 nano /etc/pacman.d/mirrorlist
+ip addr
+ip link set wlan0 down
 wifi-menu
 ping -c 3 google.com
 
@@ -25,7 +27,8 @@ genfstab -U /mnt >> /mnt/etc/fstab
 
 
 
-arch-chroot /mnt /bin/bash
+arch-chroot /mnt /bin/zsh
+pacman -S nano
 nano /etc/locale.gen
     en_US.UTF-8 UTF-8
 locale-gen
@@ -36,7 +39,7 @@ ln -sf /usr/share/zoneinfo/Asia/Ho_Chi_Minh /etc/localtime
 hwclock --systohc --utc
     #timedatectl set-ntp true
 
-pacman -S grub os-prober
+pacman -S grub os-prober ntfs-3g
 grub-install --target=i386-pc --recheck /dev/sda
 grub-mkconfig -o /boot/grub/grub.cfg
 
@@ -48,7 +51,7 @@ nano /etc/hosts
 
 
 
-pacman -S netctl iw wpa_supplicant dialog
+pacman -S iw wpa_supplicant dialog netctl dhcpcd
 passwd
 exit
 umount -R /mnt
