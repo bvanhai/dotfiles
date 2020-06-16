@@ -239,7 +239,8 @@ bindkey '^N' history-substring-search-down
 bindkey '^ ' autosuggest-accept
 
 
-# Allow alt-q, alt-p for zaw-history, zaw-process
+# Allow alt +z, alt-q, alt-p for zaw zaw-history, zaw-process
+bindkey '^[z' zaw
 bindkey '^[q' zaw-history
 bindkey '^[p' zaw-process
 
