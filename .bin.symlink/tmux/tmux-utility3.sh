@@ -14,7 +14,7 @@ if [ $? != 0 ]; then
     tmux splitw -h -p 20 -t $SESSION               # horizontal split
     tmux send -t $SESSION 'gtop' C-m               # process in pane#2
     tmux selectp -t $SESSION:2.1                   # select pane#1 of window#2
-    tmux splitw -v -p 30 -t $SESSION               # vertical split
+    tmux splitw -v -p 32 -t $SESSION               # vertical split
     tmux send -t $SESSION 'clear' C-m              # clear screen
 
     tmux selectp -t $SESSION:2.1                   # select pane#1 of window#2

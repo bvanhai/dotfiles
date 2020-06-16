@@ -13,9 +13,10 @@ if [ $? != 0 ]; then
     tmux neww -t $SESSION: -n 'misc'
     tmux splitw -h -p 32 -t $SESSION               # horizontal split
     tmux send -t $SESSION 'ncmpcpp -s clock' C-m   # process in pane#2
-    tmux splitw -v -p 58 -t $SESSION               # vertical split
+    tmux splitw -v -p 56 -t $SESSION               # vertical split
     tmux send -t $SESSION 'htop' C-m               # process in pane#3
-    tmux splitw -v -p 74 -t $SESSION               # vertical split
+    tmux splitw -v -p 76 -t $SESSION               # vertical split
+    tmux send -t $SESSION 'clear' C-m              # clear screen
     tmux send -t $SESSION 'tmux-info.sh && sleep infinity' C-m
                                                    # process in pane#4
 

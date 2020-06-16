@@ -261,16 +261,16 @@ super + ctrl + Return
     tmux kill-session -t tmux1
 
 super + w
-    urxvt -name tmux2 -e tmux-utility2.sh
-
-super + ctrl + w
-    tmux kill-session -t tmux2
-
-super + alt + w
     urxvt -name tmux3 -e tmux-utility3.sh
 
-super + shift + w
+super + ctrl + w
     tmux kill-session -t tmux3
+
+super + alt + w
+    urxvt -name tmux2 -e tmux-utility2.sh
+
+super + shift + w
+    tmux kill-session -t tmux2
 
 super + d
     subl3
