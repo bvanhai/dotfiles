@@ -7,41 +7,44 @@
 # ==============================================================================
 
 
-
+cfdisk
 fdisk -l
-fdisk /dev/sda
-mkfs.ext4 -L <label> /dev/sdaX
-mkswap -L swap /dev/sdaX && swapon -L swap
+# fdisk /dev/sda
+mkfs.fat -F 32 -n EFI /dev/sda1
+mkfs.ext4 -L arch /dev/sda2
+# mkswap -L swap /dev/sdaX && swapon -L swap
 mount -L arch /mnt
-mkdir /mnt/boot && mount -L boot /mnt/boot
-mkdir /mnt/home && mount -L home /mnt/home
+# mkdir /mnt/boot && mount -L boot /mnt/boot
+# mkdir /mnt/home && mount -L home /mnt/home
+mount --mkdir -L EFI /mnt/boot
 
 nano /etc/pacman.d/mirrorlist
-ip addr
-ip link set wlan0 down
-wifi-menu
-ping -c 3 google.com
+# ip addr
+# ip link set wlan0 down
+# wifi-menu
+# ping -c 3 google.com
 
-pacstrap -i /mnt base base-devel linux linux-firmware
+# pacstrap -i /mnt base base-devel linux linux-firmware
+pacstrap -K /mnt base base-devel linux linux-firmware intel-ucode zsh
 genfstab -U /mnt >> /mnt/etc/fstab
 
 
+# arch-chroot /mnt /bin/zsh
+arch-chroot -S /mnt
+zsh
 
-arch-chroot /mnt /bin/zsh
+# tzselect
+ln -sf /usr/share/zoneinfo/Asia/Ho_Chi_Minh /etc/localtime
+# hwclock --systohc --utc
+hwclock --systohc
+    #timedatectl set-ntp true
+
 pacman -S nano
 nano /etc/locale.gen
     en_US.UTF-8 UTF-8
 locale-gen
 echo LANG=en_US.UTF-8 > /etc/locale.conf
 
-tzselect
-ln -sf /usr/share/zoneinfo/Asia/Ho_Chi_Minh /etc/localtime
-hwclock --systohc --utc
-    #timedatectl set-ntp true
-
-pacman -S grub os-prober ntfs-3g
-grub-install --target=i386-pc --recheck /dev/sda
-grub-mkconfig -o /boot/grub/grub.cfg
 
 echo arch > /etc/hostname
 nano /etc/hosts
@@ -49,32 +52,40 @@ nano /etc/hosts
     ::1         localhost
     127.0.1.1   arch.localdomain  arch
 
+# pacman -S grub os-prober ntfs-3g
+# grub-install --target=i386-pc --recheck /dev/sda
+# grub-mkconfig -o /boot/grub/grub.cfg
+
+pacman -S grub efibootmgr os-prober
+grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=GRUB
+grub-mkconfig -o /boot/grub/grub.cfg
+
+pacman -S networkmanager 
+systemctl enable NetworkManager.service
 
 
-pacman -S iw wpa_supplicant dialog netctl dhcpcd
+# pacman -S iw wpa_supplicant dialog netctl dhcpcd
 passwd
 exit
 umount -R /mnt
 reboot
 
-
-
-useradd -m -G wheel -s /bin/bash bvanhai
+useradd -m -G wheel -s /bin/zsh bvanhai
 passwd bvanhai
 nano /etc/sudoers
     bvanhai ALL = (All) ALL
 exit
 
 
-
 wifi-menu
     #ip addr
     #systemctl start dhcpcd@enp0s25.service
     #systemctl enable dhcpcd@enp0s25.service
-pacman -S xorg
-pacman -S xorg-drivers
-pacman -S xorg-xinit
-pacman -S bspwm sxhkd
+# pacman -S xorg
+# pacman -S xorg-drivers
+# pacman -S xorg-xinit
+# pacman -S bspwm sxhkd
+sudo pacman -S xorg-server xorg-xinit bspwm sxhkd
 nano ~/.xinitrc
     sxhkd &
     exec bspwm
